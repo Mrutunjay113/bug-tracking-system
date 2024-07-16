@@ -7,15 +7,26 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Icons } from "@/components/icons";
+import { signIn } from "@/lib/actions/action";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const LoginPage = () => {
+  const router = useRouter();
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = useForm();
-  const onSubmit = (data) => {
-    console.log(data); // Handle your sign-in logic here
+  const onSubmit = async (data) => {
+    const response = await signIn(data);
+    if (response.error === "Invalid credentials") {
+      toast.error(response.error);
+      return;
+    }
+    // console.log(`response`, response);
+    toast.success("Sign in successful");
+    router.push("/dashboard");
   };
 
   return (
@@ -26,7 +37,6 @@ const LoginPage = () => {
           <h1 className="text-2xl font-semibold tracking-tight">
             Sign in to your account
           </h1>
-
 
           <Link
             className={buttonVariants({
