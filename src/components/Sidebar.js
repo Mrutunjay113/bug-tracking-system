@@ -20,14 +20,14 @@ const SidebarItem = ({ href, icon, text, showText }) => {
   const isActive = pathname === href;
 
   return (
-    <li>
+    <li className=" ">
       <Link
         href={href}
         // className={`flex items-center px-4 py-3 rounded-md hover:bg-[#f1f5ff]
         //     ${isActive ? "bg-[#f1f5ff]" : ""}
         //   `}
         className={`
-            relative flex items-center py-2 px-3 my-1
+            relative flex items-center flex  py-2 px-3
             font-medium rounded-md cursor-pointer
             transition-colors group
             ${
@@ -35,6 +35,7 @@ const SidebarItem = ({ href, icon, text, showText }) => {
                 ? "bg-[#1f66ff] text-white"
                 : "hover:bg-[#f1f5ff] text-gray-600"
             }
+            ${showText ? "" : "justify-center"}
         `}
       >
         {icon && (

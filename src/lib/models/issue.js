@@ -3,16 +3,13 @@ const mongoose = require("mongoose");
 const IssueSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
   },
   description: {
     type: String,
-    required: true,
   },
   priority: {
     type: String,
-    enum: ["Low", "Medium", "High"],
-    required: true,
+    enum: ["low", "medium", "high"],
   },
   image: {
     type: String, // URL or path to the image
@@ -30,22 +27,22 @@ const IssueSchema = new mongoose.Schema({
     enum: ["Open", "In Progress", "Completed"],
     default: "Open",
   },
-  comments: [
-    {
-      user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-      comment: {
-        type: String,
-        required: true,
-      },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-    },
-  ],
+  // comments: [
+  //   {
+  //     user: {
+  //       type: mongoose.Schema.Types.ObjectId,
+  //       ref: "User",
+  //     },
+  //     comment: {
+  //       type: String,
+  //       required: true,
+  //     },
+  //     createdAt: {
+  //       type: Date,
+  //       default: Date.now,
+  //     },
+  //   },
+  // ],
   createdAt: {
     type: Date,
     default: Date.now,
@@ -56,4 +53,7 @@ const IssueSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.models.Issue || mongoose.model("Issue", userSchema);
+const IssueModel =
+  mongoose.models.Issue || mongoose.model("Issue", IssueSchema);
+
+module.exports = IssueModel;

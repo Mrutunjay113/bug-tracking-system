@@ -1,28 +1,34 @@
 // components/Navbar.js
-
+"use client";
+import { Bell, User } from "lucide-react";
 import Link from "next/link";
+import { Icons } from "./icons";
 
 const Navbar = () => {
+  // Assuming you are using next-auth for session management
+
   return (
-    <nav className="bg-gray-900 text-white p-4 flex justify-between">
-      <div>
-        <Link href="/" className="text-xl font-bold">
-          Project Name
-        </Link>
+    <nav className="flex justify-between items-center h-20  bg-white shadow">
+      {/* Left Side */}
+      <div className="flex items-center ml-5">
+        <p className="text-lg font-semibold">Hi, Mrutunjay</p>
       </div>
-      <div>
-        <ul className="flex space-x-4">
-          <li>
-            <Link href="/profile" className="hover:underline">
-              Profile
-            </Link>
-          </li>
-          <li>
-            <Link href="/logout" className="hover:underline">
-              Logout
-            </Link>
-          </li>
-        </ul>
+
+      {/* Right Side */}
+      <div className="flex items-center space-x-4 mr-8">
+        {/* Notification Bell Icon */}
+        <Link href="/notifications" className="relative">
+          <Bell className="h-6 w-6 text-gray-600 hover:text-gray-900" />
+
+          <span className="absolute top-0 right-0 -mt-1 -mr-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">
+            3
+          </span>
+        </Link>
+
+        {/* Profile Icon */}
+        <Link href="/profile">
+          <User className="h-6 w-6 text-gray-600 hover:text-gray-900" />
+        </Link>
       </div>
     </nav>
   );
