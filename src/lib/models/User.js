@@ -11,6 +11,7 @@ const userSchema = new Schema({
   lastName: { type: String },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
+  image: { type: String },
   roles: [{ type: String }],
   isActive: { type: Boolean, default: true },
   verification: {
