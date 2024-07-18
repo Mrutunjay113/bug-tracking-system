@@ -36,6 +36,7 @@ export const addUser = async (data) => {
   }
 };
 
+
 export const signIn = async (data) => {
   const { email, password } = data;
   console.log(`data`, data);
