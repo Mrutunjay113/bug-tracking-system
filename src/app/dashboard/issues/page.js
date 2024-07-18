@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import Card from "@/components/Card";
 import { toast } from "sonner";
+import IssueColumn from "@/components/issueComp/IssueColumn";
 
 const IssuesPage = async () => {
   const cookiesstore = cookies();
@@ -26,22 +27,19 @@ const IssuesPage = async () => {
   if (issues.success === false) {
     toast.error(issues.error);
   }
-
-  console.log(issues);
+  const addIssue = issues.filter((issue) => issue.status === "Open");
+  const inProgress = issues.filter((issue) => issue.status === "In Progress");
+  const inReview = issues.filter((issue) => issue.status === "In Review");
+  const done = issues.filter((issue) => issue.status === "Completed");
+  // console.log(issues);
   return (
-    <div className="">
-      <h1 className="text-xl font-bold my-4">All Issues</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {issues &&
-          issues?.map((issue) => (
-            <Card
-              key={issue.id}
-              title={issue.title}
-              description={issue.description}
-              assignedBy={issue.assignedBy}
-              createdAt={issue.createdAt}
-            />
-          ))}
+    <div className="container mx-auto max-w-screen-2xl mt-8">
+      <h1 className="text-2xl font-bold my-4">All Issues</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
+        <IssueColumn title="In Progress" issues={inProgress} />
+        <IssueColumn title="In Review" issues={inReview} />
+        <IssueColumn title="Done" issues={done} />
       </div>
     </div>
   );
