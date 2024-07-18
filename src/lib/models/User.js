@@ -1,5 +1,5 @@
-// models/User.js
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const { Schema } = mongoose;
 
@@ -7,8 +7,8 @@ const userSchema = new Schema({
   username: { type: String, unique: true, default: null },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  firstName: { type: String },
-  lastName: { type: String },
+  firstName: { type: String, default: null },
+  lastName: { type: String, default: null },
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date, default: Date.now },
   image: { type: String },
@@ -21,6 +21,10 @@ const userSchema = new Schema({
   resetPassword: {
     token: { type: String },
     expires: { type: Date },
+  },
+  team: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Team",
   },
 });
 

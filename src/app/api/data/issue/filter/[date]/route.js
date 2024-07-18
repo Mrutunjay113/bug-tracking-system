@@ -26,7 +26,10 @@ export async function GET(req, { params }) {
       },
     }).sort({ createdAt: -1 });
 
-    return NextResponse.json(issues);
+    return NextResponse.json({
+      success: true,
+      issues,
+    });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Something went wrong" });

@@ -1,12 +1,15 @@
 // pages/issues.js (or any issues page component)
 
+import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
+import Card from "@/components/Card";
+import { toast } from "sonner";
 
 const IssuesPage = async () => {
   const cookiesstore = cookies();
   const token = cookiesstore.get("token")?.value;
   if (!token) {
-    throw new Error("No token found");
+    toast.error("Unauthorized access. Please login first.");
   }
   const date = "2024-07-17"; // Replace with your desired date filter
 
@@ -17,20 +20,28 @@ const IssuesPage = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-
-  const issues = await res.json();
+  const issue = await res.json();
+  const issues = issue.issues;
+  // console.log(issues.issues);
+  if (issues.success === false) {
+    toast.error(issues.error);
+  }
 
   console.log(issues);
   return (
-    <div className="container mx-auto">
-      <h1 className="text-2xl font-bold my-4">All Issues {token.value}</h1>
+    <div className="">
+      <h1 className="text-xl font-bold my-4">All Issues</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {issues?.map((issue) => (
-          <div key={issue._id} className="bg-white shadow-md p-4 rounded-md">
-            <h2 className="text-xl font-bold">{issue.title}</h2>
-            <p className="text-sm text-muted-foreground">{issue.description}</p>
-          </div>
-        ))}
+        {issues &&
+          issues?.map((issue) => (
+            <Card
+              key={issue.id}
+              title={issue.title}
+              description={issue.description}
+              assignedBy={issue.assignedBy}
+              createdAt={issue.createdAt}
+            />
+          ))}
       </div>
     </div>
   );
