@@ -1,8 +1,13 @@
 "use client";
 import {
+  ArrowDown,
   ArrowLeftFromLine,
   ArrowRightToLine,
+  ArrowRightToLineIcon,
+  ArrowUpIcon,
   BarChartBig,
+  CircleChevronDown,
+  CircleChevronUpIcon,
   Home,
   SquareGanttChart,
   Users,
@@ -12,6 +17,7 @@ import { usePathname } from "next/navigation";
 import { Icons } from "./icons";
 import { useState } from "react";
 import { HiOutlineUserGroup } from "react-icons/hi2";
+import { cn } from "@/lib/utils";
 
 const SidebarItem = ({
   href,
@@ -21,9 +27,12 @@ const SidebarItem = ({
   isActive,
   onClick,
   children,
+  showDownArrow,
+  className,
+  isTeamDropdownOpen,
 }) => {
   return (
-    <li className="relative">
+    <li className={cn("relative", className)}>
       <Link
         href={href}
         onClick={onClick}
@@ -31,11 +40,12 @@ const SidebarItem = ({
           isActive
             ? "bg-[#1f66ff] text-white"
             : "hover:bg-[#f1f5ff] text-gray-600"
-        } ${showText ? "" : "justify-center"}`}
+        } ${showText ? "" : "justify-center"}
+        `}
       >
         {icon && (
           <span
-            className={`group${isActive ? "text-blue-500 " : "text-gray-500"}`}
+            className={`group${isActive ? "text-blue-500 " : "text-gray-500"} `}
           >
             {icon}
           </span>
@@ -48,8 +58,20 @@ const SidebarItem = ({
           </div>
         )}
         {showText && (
-          <p className={`ml-4 font-semibold ${isActive ? "text-white" : ""}`}>
+          <p
+            className={`ml-4 font-semibold items-center${
+              isActive ? "text-white" : ""
+            } ${showDownArrow ? "flex justify-end " : ""}`}
+          >
             {text}
+            <span className={`text-gray-600 ${showDownArrow ? "ml-2" : ""}`}>
+              {showDownArrow &&
+                (isTeamDropdownOpen ? (
+                  <CircleChevronUpIcon className="w-5 h-5" />
+                ) : (
+                  <CircleChevronDown className="w-5 h-5" />
+                ))}
+            </span>
           </p>
         )}
       </Link>
@@ -117,6 +139,9 @@ const Sidebar = () => {
             text="Team & Member"
             isActive={pathname === "/dashboard/team"}
             showText={isExpanded}
+            showDownArrow={true}
+            isTeamDropdownOpen={isTeamDropdownOpen}
+            className="transition delay-150 duration-300 ease-in-out"
             onClick={(e) => {
               e.preventDefault();
               toggleTeamDropdown();
