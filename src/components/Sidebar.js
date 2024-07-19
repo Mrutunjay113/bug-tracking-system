@@ -1,58 +1,48 @@
-// components/Sidebar.js
 "use client";
 import {
-  ArrowBigRight,
   ArrowLeftFromLine,
   ArrowRightToLine,
-  BarChart,
+  BarChartBig,
   Home,
   SquareGanttChart,
-  SquareGanttChartIcon,
-  User,
+  Users,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Icons } from "./icons";
 import { useState } from "react";
+import { HiOutlineUserGroup } from "react-icons/hi2";
 
-const SidebarItem = ({ href, icon, text, showText }) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
+const SidebarItem = ({
+  href,
+  icon,
+  text,
+  showText,
+  isActive,
+  onClick,
+  children,
+}) => {
   return (
-    <li className=" ">
+    <li className="relative">
       <Link
         href={href}
-        // className={`flex items-center px-4 py-3 rounded-md hover:bg-[#f1f5ff]
-        //     ${isActive ? "bg-[#f1f5ff]" : ""}
-        //   `}
-        className={`
-            relative flex items-center flex  py-2 px-3
-            font-medium rounded-md cursor-pointer
-            transition-colors group
-            ${
-              isActive
-                ? "bg-[#1f66ff] text-white"
-                : "hover:bg-[#f1f5ff] text-gray-600"
-            }
-            ${showText ? "" : "justify-center"}
-        `}
+        onClick={onClick}
+        className={`relative flex items-center py-2 px-3 font-medium rounded-md cursor-pointer transition-colors group ${
+          isActive
+            ? "bg-[#1f66ff] text-white"
+            : "hover:bg-[#f1f5ff] text-gray-600"
+        } ${showText ? "" : "justify-center"}`}
       >
         {icon && (
           <span
-            className={`group${isActive ? "text-blue-500" : "text-gray-500"}`}
+            className={`group${isActive ? "text-blue-500 " : "text-gray-500"}`}
           >
             {icon}
           </span>
         )}
         {!showText && (
           <div
-            className={`
-          absolute left-full rounded-md px-2 border py-1 ml-6
-          bg-white text-[#1f66ff] text-sm
-          invisible opacity-20 -translate-x-3 transition-all
-          group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
-      `}
+            className={`absolute left-full rounded-md px-2 border py-1 ml-6 bg-white text-[#1f66ff] text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
           >
             {text}
           </div>
@@ -63,12 +53,16 @@ const SidebarItem = ({ href, icon, text, showText }) => {
           </p>
         )}
       </Link>
+      {children}
     </li>
   );
 };
+
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true); // State to manage sidebar expand/collapse
+  const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false); // State to manage Team dropdown visibility
   const toggleSidebar = () => setIsExpanded(!isExpanded);
+  const toggleTeamDropdown = () => setIsTeamDropdownOpen(!isTeamDropdownOpen);
 
   const pathname = usePathname();
 
@@ -112,18 +106,41 @@ const Sidebar = () => {
           />
           <SidebarItem
             href="/dashboard/analytics"
-            icon={<BarChart className="h-6 w-6" />}
+            icon={<BarChartBig className="h-6 w-6" />}
             text="Analytics"
             isActive={pathname === "/dashboard/analytics"}
             showText={isExpanded}
           />
           <SidebarItem
-            href="/dashboard/profile"
-            icon={<User className="h-6 w-6" />}
-            text="Profile"
-            isActive={pathname === "/dashboard/profile"}
+            href="#"
+            icon={<HiOutlineUserGroup className="h-6 w-6" />}
+            text="Team & Member"
+            isActive={pathname === "/dashboard/team"}
             showText={isExpanded}
-          />
+            onClick={(e) => {
+              e.preventDefault();
+              toggleTeamDropdown();
+            }}
+          >
+            {isTeamDropdownOpen && (
+              <ul className={`pl-4 mt-2 space-y-2`}>
+                <SidebarItem
+                  icon={<Users className="h-6 w-6" />}
+                  href="/dashboard/teams"
+                  text="Teams"
+                  isActive={pathname === "/dashboard/teams"}
+                  showText={isExpanded}
+                />
+                <SidebarItem
+                  icon={<Users className="h-6 w-6" />}
+                  href="/dashboard/members"
+                  text="Members"
+                  isActive={pathname === "/dashboard/members"}
+                  showText={isExpanded}
+                />
+              </ul>
+            )}
+          </SidebarItem>
         </ul>
       </nav>
     </div>

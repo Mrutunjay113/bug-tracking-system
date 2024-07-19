@@ -14,7 +14,7 @@ const TeamSchema = new mongoose.Schema({
   ],
   TeamRole: {
     type: String,
-    enum: ["Developer", "QA", "UI/UX", "Other"],
+    enum: ["Developer", "QA", "UI/UX"],
     required: true,
   },
   description: {

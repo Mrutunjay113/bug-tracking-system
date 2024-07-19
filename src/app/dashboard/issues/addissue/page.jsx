@@ -141,11 +141,9 @@ const AddIssueForm = () => {
             className="mt-1 block w-full border rounded-md p-2"
             onChange={onIssueTypeChange}
           >
-            <option value="Bug">Bug</option>
             <option value="UI/UX">UI/UX</option>
             <option value="Developer">Developer</option>
             <option value="QA">QA</option>
-            <option value="Other">Other</option>
           </select>
           {errors.issueType && (
             <p className="text-red-500 text-sm mt-1">

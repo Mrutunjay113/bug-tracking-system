@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 import { VerifyJwtToken } from "@/lib/utils";
 import TeamModel from "@/lib/models/Team";
 import User from "@/lib/models/User";
+import Member from "@/lib/models/Member";
 
 export const createIssue = async (formData) => {
   try {
@@ -62,7 +63,7 @@ export const getIssueById = async (id) => {
 
     // Fetch teams and users
     const teams = await TeamModel.find({ _id: { $in: teamIds } });
-    const users = await User.find({ _id: { $in: assignedToIds } });
+    const users = await Member.find({ _id: { $in: assignedToIds } });
 
     // Create a map for easy lookup
     const teamMap = teams.reduce((acc, team) => {
