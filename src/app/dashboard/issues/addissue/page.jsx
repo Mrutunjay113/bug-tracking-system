@@ -24,21 +24,24 @@ const AddIssueForm = () => {
 
   const fetchTeams = async (TeamRole) => {
     try {
+      console.log(`TeamRole`, TeamRole);
       const response = await getTeam(TeamRole); // Adjust the endpoint as needed
-      console.log(response);
+      console.log(`response`, response);
       setTeams(response?.team);
-      if (response?.team.length > 0) {
-        fetchTeamMembers(response?.team[0]._id);
-      }
+      setValue("team", response?.team[0]?._id);
     } catch (error) {
       console.error("Error fetching teams:", error);
     }
   };
 
   const fetchTeamMembers = async (teamId) => {
+    console.log(`teamId`, teamId);
     try {
+      if (!teamId) {
+        return;
+      }
       const response = await getTeamMembers(teamId); // Adjust the endpoint as needed
-      console.log(response);
+      console.log(`response`, response);
 
       setMembers(response?.members);
       const showMembers = response?.members.map((member) => member.firstName);
@@ -55,6 +58,7 @@ const AddIssueForm = () => {
 
   const onIssueTypeChange = (event) => {
     const issueType = event.target.value;
+    console.log(issueType);
     fetchTeams(issueType);
     setValue("issueType", issueType);
   };
@@ -141,6 +145,7 @@ const AddIssueForm = () => {
             className="mt-1 block w-full border rounded-md p-2"
             onChange={onIssueTypeChange}
           >
+            <option value="">Select Issue Type</option>
             <option value="UI/UX">UI/UX</option>
             <option value="Developer">Developer</option>
             <option value="QA">QA</option>
@@ -173,6 +178,7 @@ const AddIssueForm = () => {
             className="mt-1 block w-full border rounded-md p-2"
             onChange={onTeamChange}
           >
+            <option value="">Select Team</option>
             {teams?.map((team) => (
               <option key={team._id} value={team._id}>
                 {team.name}

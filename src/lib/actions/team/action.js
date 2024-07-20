@@ -1,21 +1,38 @@
 "use server";
+import Member from "@/lib/models/Member";
 import TeamModel from "@/lib/models/Team";
 import User from "@/lib/models/User";
 import ConnectMongoDb from "@/lib/mongoConnect";
 import { NextResponse } from "next/server";
 
 export const getTeamMembers = async (teamId) => {
+  console.log("teamId sr", teamId);
   try {
     await ConnectMongoDb();
-    const team = await TeamModel.findById(teamId).populate("members");
+    const team = await TeamModel.findById(teamId);
+    console.log("team", team);
+    // Fetch members using Promise.all and map
+    const members = await Promise.all(
+      team.members.map(async (memberId) => {
+        const member = await Member.findById({ _id: memberId._id });
+        return member;
+      })
+    );
+
+    // Filter out any null values in case some members were not found
+    const filteredMembers = members.filter((member) => member !== null);
+    if (filteredMembers.length === 0) {
+      return {
+        success: false,
+        error: "No members found",
+      };
+    }
     if (!team) {
       return res.status(404).json({ message: "Team not found" });
     }
-    const users = team.members.map((member) => member.user);
-    const members = await User.find({ _id: { $in: users } });
+
     return {
       success: true,
-      team: JSON.parse(JSON.stringify(team)),
       members: JSON.parse(JSON.stringify(members)),
     };
   } catch (error) {
@@ -24,6 +41,7 @@ export const getTeamMembers = async (teamId) => {
   }
 };
 export const getTeam = async (TeamRole) => {
+  console.log("TeamRole", TeamRole);
   try {
     await ConnectMongoDb();
     const team = await TeamModel.find({ TeamRole: TeamRole });

@@ -1,8 +1,8 @@
 import React from "react";
 import { Separator } from "../ui/separator";
-import Card from "./Issue_Card";
 import { Button, buttonVariants } from "../ui/button";
 import Link from "next/link";
+import IssueCard from "./Issue_Card";
 
 const IssueColumn = ({ title, issues, addissue }) => {
   return (
@@ -28,9 +28,9 @@ const IssueColumn = ({ title, issues, addissue }) => {
         </div>
       )}
       <Separator />
-      <div className="">
+      <div className="my-4 ">
         {issues.map((issue) => (
-          <Card key={issue._id} issue={issue} />
+          <IssueCard key={issue._id} issue={issue} />
         ))}
       </div>
     </div>

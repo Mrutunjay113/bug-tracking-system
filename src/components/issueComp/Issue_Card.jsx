@@ -1,21 +1,26 @@
+"use client ";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
+import { Image } from "@nextui-org/image";
 import { MessageSquareText } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const Card = ({ issue }) => {
+const IssueCard = ({ issue }) => {
   const {
     title,
     description,
     priority,
     issueType,
+    image,
     assignedTo,
     status,
     createdAt,
   } = issue;
 
+  console.log(issue);
   return (
     <div
-      className={`mt-4 flex-row  p-2  ${
+      className={`mt-4 flex-row  p-2   ${
         priority === "high"
           ? "border-l-2 border-red-500 bg-red-100"
           : priority === "medium"
@@ -73,4 +78,4 @@ const Card = ({ issue }) => {
   );
 };
 
-export default Card;
+export default IssueCard;
