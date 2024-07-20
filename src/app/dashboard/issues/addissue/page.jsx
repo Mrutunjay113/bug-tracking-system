@@ -9,12 +9,15 @@ import { Textarea } from "@/components/ui/textarea";
 import { createIssue } from "@/lib/actions/issue/action";
 import { getTeam, getTeamMembers } from "@/lib/actions/team/action";
 import { toast } from "sonner";
+import Image from "next/image";
+import { Cross, SquareX, X } from "lucide-react";
 
 const AddIssueForm = () => {
   const router = useRouter();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
     setValue,
   } = useForm();
@@ -62,13 +65,34 @@ const AddIssueForm = () => {
     fetchTeams(issueType);
     setValue("issueType", issueType);
   };
+  const handleFileChange = (e) => {
+    if (e.target.files[0]) {
+      const file = e.target.files[0];
+      // setProfilePicture(URL.createObjectURL(file));
+      setValue("issueImage", file);
+    }
+  };
 
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
       console.log(formData);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      const res = await createIssue(formData);
+      // await new Promise((resolve) => setTimeout(resolve, 1000));
+      // const res = await createIssue(formData);
+      const data = new FormData();
+
+      data.append("title", formData.title);
+      data.append("priority", formData.priority);
+      data.append("issueType", formData.issueType);
+      data.append("description", formData.description);
+      data.append("team", formData.team);
+      data.append("assignedTo", formData.assignedTo);
+      if (formData.image) {
+        data.append("image", formData.image[0]);
+      }
+
+      const res = await createIssue(data);
+
       if (res.success) {
         toast.success("Issue created successfully");
         // router.push("/dashboard/issues");
@@ -82,13 +106,37 @@ const AddIssueForm = () => {
     } catch (error) {
       console.error("Error creating issue:", error);
       setLoading(false);
+    } finally {
+      setLoading(false);
+      reset();
     }
   };
 
   return (
-    <div className="container mx-auto max-w-screen-lg mt-8">
+    <div className=" mx-auto max-w-4xl md:mt-8">
       <h1 className="text-2xl font-bold mb-4">Add New Issue</h1>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+        <div className="relative">
+          <Label htmlFor="image">Image</Label>
+          <Input
+            id="image"
+            {...register("image")}
+            type="file"
+            accept="image/*"
+            className="mt-1 block w-full"
+            onChange={handleFileChange}
+          />
+          <div>
+            <X
+              className="w-5 h-5 absolute right-5 top-9 pt-1 text-gray-500 hover:text-gray-600 cursor-pointer"
+              onClick={() => setValue("image", "")}
+            />
+          </div>
+
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+          )}
+        </div>
         <div>
           <Label htmlFor="title">Title</Label>
           <Input
@@ -99,22 +147,6 @@ const AddIssueForm = () => {
           />
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
-          )}
-        </div>
-
-        <div>
-          <Label htmlFor="description">Description</Label>
-          <Textarea
-            id="description"
-            {...register("description", {
-              required: "Description is required",
-            })}
-            placeholder="Enter description"
-          />
-          {errors.description && (
-            <p className="text-red-500 text-sm mt-1">
-              {errors.description.message}
-            </p>
           )}
         </div>
 
@@ -158,15 +190,18 @@ const AddIssueForm = () => {
         </div>
 
         <div>
-          <Label htmlFor="image">Image</Label>
-          <Input
-            id="image"
-            {...register("image")}
-            type="file"
-            className="mt-1 block w-full"
+          <Label htmlFor="description">Description</Label>
+          <Textarea
+            id="description"
+            {...register("description", {
+              required: "Description is required",
+            })}
+            placeholder="Enter description"
           />
-          {errors.image && (
-            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.description.message}
+            </p>
           )}
         </div>
 
@@ -194,6 +229,7 @@ const AddIssueForm = () => {
             {...register("assignedTo", { required: "Assignee is required" })}
             className="mt-1 block w-full border rounded-md p-2"
           >
+            <option value="">Select Assignee</option>
             {members?.map((member) => (
               <option key={member._id} value={member._id}>
                 {member.firstName} {member.lastName}

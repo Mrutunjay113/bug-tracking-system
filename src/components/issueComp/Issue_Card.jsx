@@ -20,7 +20,7 @@ const IssueCard = ({ issue }) => {
   console.log(issue);
   return (
     <div
-      className={`mt-4 flex-row  p-2   ${
+      className={`mt-4 flex-row  p-2  ${
         priority === "high"
           ? "border-l-2 border-red-500 bg-red-100"
           : priority === "medium"

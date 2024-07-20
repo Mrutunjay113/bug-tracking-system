@@ -11,36 +11,74 @@ import Member from "@/lib/models/Member";
 export const createIssue = async (formData) => {
   try {
     await ConnectMongoDb();
-    const {
-      title,
-      description,
-      priority,
-      assignedTo,
-      assignedBy,
-      team,
-      image,
-      issueType,
-    } = formData;
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value || null || "";
+    });
+    console.log(`data`, data);
 
     // Handle cases where 'image' might be an array or undefined
-    const imageField =
-      Array.isArray(image) && image.length > 0 ? image[0].path : "";
+    // const imageField =
+    //   Array.isArray(image) && image.length > 0 ? image[0].path : "";
+
+    // const newIssue = new IssueModel({
+    //   title,
+    //   description,
+    //   priority,
+    //   image,
+    //   assignedTo,
+    //   assignedBy,
+    //   image: imageField,
+    //   team,
+    //   issueType,
+    // });
+
+    // await newIssue.save();
+
+    // return { success: true, issue: JSON.parse(JSON.stringify(newIssue)) };
+    const issueFile = data?.image;
+    let issueImgUrl = "";
+    // console.log(`profilePictureFile`, issueFile);
+    const dataform = new FormData();
+    dataform.append("file", issueFile);
+    dataform.append("upload_preset", "issuepresent");
+
+    try {
+      const uplodimage = await fetch(
+        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
+        {
+          method: "POST",
+          body: dataform,
+        }
+      );
+      const image = await uplodimage.json();
+      // console.log(`image`, image);
+      // console.log(`image`, image.secure_url);
+      issueImgUrl = image.secure_url;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      return { success: false, error: error.message };
+    }
+    // console.log(`profilePictureUrl`, profilePictureUrl);
 
     const newIssue = new IssueModel({
-      title,
-      description,
-      priority,
-      image,
-      assignedTo,
-      assignedBy,
-      image: imageField,
-      team,
-      issueType,
+      title: data.title,
+      description: data.description,
+      priority: data.priority,
+      issueType: data.issueType,
+      image: issueImgUrl,
+      assignedTo: data.assignedTo,
+      team: data.team,
     });
 
     await newIssue.save();
 
     return { success: true, issue: JSON.parse(JSON.stringify(newIssue)) };
+
+    // Save the member to the database
+    // await newMember.save();
+
+    return { success: true };
   } catch (error) {
     console.error(error);
     return { success: false, error: error.message };

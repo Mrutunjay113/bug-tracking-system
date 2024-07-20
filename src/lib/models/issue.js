@@ -18,10 +18,12 @@ const IssueSchema = new mongoose.Schema({
     type: String, // URL or path to the image
     default: "",
   },
-  assignedTo: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  assignedTo: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  ],
   assignedBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",

@@ -34,7 +34,7 @@ export async function GET(req, { params }) {
 
     // Fetch teams and users
     const teams = await TeamModel.find({ _id: { $in: teamIds } });
-    const users = await User.find({ _id: { $in: assignedToIds } });
+    const users = await Member.find({ _id: { $in: assignedToIds } });
 
     // Create a map for easy lookup
     const teamMap = teams.reduce((acc, team) => {

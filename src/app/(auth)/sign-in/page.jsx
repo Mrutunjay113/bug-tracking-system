@@ -10,9 +10,12 @@ import { Icons } from "@/components/icons";
 import { signIn } from "@/lib/actions/action";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { getCookie, getCookies } from "cookies-next";
+import { useToken } from "@/app/context/usercontext";
 
 const LoginPage = () => {
   const router = useRouter();
+  const { token, saveToken, removeToken } = useToken();
   const {
     handleSubmit,
     register,
@@ -25,11 +28,13 @@ const LoginPage = () => {
       return;
     }
     // console.log(`response`, response);
+    const gettoken = getCookie("token");
+    saveToken(gettoken);
+
     toast.success("Sign in successful");
     router.push("/dashboard");
   };
- 
-  
+
   return (
     <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">

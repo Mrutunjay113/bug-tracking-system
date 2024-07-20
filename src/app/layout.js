@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { TokenProvider } from "./context/usercontext";
 
 export const metadata = {
   title: "Create Next App",
@@ -16,7 +17,9 @@ export default function RootLayout({ children }) {
         className={cn("relative h-full font-sans antialiased", inter.className)}
       >
         <main className="relative flex flex-col min-h-screen">
-          <div className="flex-grow flex-1">{children}</div>
+          <div className="flex-grow flex-1">
+            <TokenProvider>{children}</TokenProvider>
+          </div>
         </main>
         <Toaster position="bottom-right" richColors />
       </body>

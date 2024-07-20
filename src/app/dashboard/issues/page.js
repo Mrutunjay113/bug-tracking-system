@@ -33,9 +33,9 @@ const IssuesPage = async () => {
   const done = issues.filter((issue) => issue.status === "Completed");
   // console.log(issues);
   return (
-    <div className="container mx-auto max-w-screen-2xl mt-8">
+    <div className="md:container mx-auto max-w-screen-2xl md:mt-8">
       <h1 className="text-2xl font-bold my-4">All Issues</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-8 ">
         <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
         <IssueColumn title="In Progress" issues={inProgress} />
         <IssueColumn title="In Review" issues={inReview} />
