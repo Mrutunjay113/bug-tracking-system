@@ -20,7 +20,7 @@ const Page = async () => {
   return (
     <main>
       <div>
-        <Heading headingTitle="Dashboard" size="lg" className="my-5" />
+        <Heading headingTitle="Dashboard" size="lg" className="mb-5" />
 
         <div className="md:grid md:grid-cols-6 gap-6 md:space-y-0 space-y-4">
           <HomeCard
@@ -89,7 +89,7 @@ const Page = async () => {
           />
         </div>
       </div>
-      <div className="mt-10 bg-white p-5  rounded-md">
+      <div className="mt-10  py-5  rounded-md">
         <Heading headingTitle="Charts" size="md" className="uppercase" />
         <div className="md:flex py-5 md:space-y-0 space-y-4 gap-4 w-full">
           <div className="md:w-2/6 ">

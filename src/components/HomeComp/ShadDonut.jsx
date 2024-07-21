@@ -15,6 +15,8 @@ import {
 import {
   ChartConfig,
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
@@ -69,6 +71,7 @@ export function ShadDonut() {
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
+            <ChartLegend content={<ChartLegendContent />} />
             <Pie
               data={chartData}
               dataKey="issues"

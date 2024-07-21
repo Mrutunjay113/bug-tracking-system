@@ -122,16 +122,16 @@ const chartData = [
 ];
 
 const chartConfig = {
-  visitors: {
-    label: "Visitors",
+  Counts: {
+    label: "counts",
   },
-  desktop: {
-    label: "Desktop",
+  Created: {
+    label: "Created",
     color: "#60a5fa",
   },
   Resolved: {
     label: "Resolved",
-    color: "#1565C0",
+    color: "#0D47A1",
   },
 };
 
@@ -186,15 +186,15 @@ export function LineChartComp() {
           >
             <AreaChart data={filteredData}>
               <defs>
-                <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="fillCreated" x1="0" y1="0" x2="0" y2="1">
                   <stop
                     offset="5%"
-                    stopColor="var(--color-desktop)"
+                    stopColor="var(--color-Created)"
                     stopOpacity={0.8}
                   />
                   <stop
                     offset="95%"
-                    stopColor="var(--color-desktop)"
+                    stopColor="var(--color-Created)"
                     stopOpacity={0.1}
                   />
                 </linearGradient>
@@ -211,7 +211,6 @@ export function LineChartComp() {
                   />
                 </linearGradient>
               </defs>
-              <CartesianGrid vertical={false} />
               <XAxis
                 dataKey="date"
                 tickLine={false}
@@ -226,6 +225,7 @@ export function LineChartComp() {
                   });
                 }}
               />
+
               <ChartTooltip
                 cursor={false}
                 content={
@@ -250,22 +250,14 @@ export function LineChartComp() {
               <Area
                 type="monotone"
                 dataKey="Created"
-                fill="url(#fillDesktop)"
-                stroke="var(--color-desktop)"
+                fill="url(#fillCreated)"
+                stroke="var(--color-Created)"
                 stackId="a"
               />
               <ChartLegend content={<ChartLegendContent />} />
             </AreaChart>
           </ChartContainer>
         </CardContent>
-        <CardFooter className="flex-col items-start gap-2 text-sm">
-          {/* <div className="flex gap-2 font-medium leading-none">
-            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-          <div className="leading-none text-muted-foreground">
-            Showing total visitors for the last 6 months
-          </div> */}
-        </CardFooter>
       </Card>
     </div>
   );
@@ -293,7 +285,7 @@ const chartConfig2 = {
   },
   mobile: {
     label: "Mobile",
-    color: "#156580",
+    color: "#3B82F6",
   },
 };
 
@@ -321,6 +313,7 @@ export function LineChart2() {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
             />
+            <ChartLegend content={<ChartLegendContent />} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             <Line
               dataKey="desktop"
@@ -339,18 +332,6 @@ export function LineChart2() {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter>
-        {/* <div className="flex w-full items-start gap-2 text-sm">
-          <div className="grid gap-2">
-            <div className="flex items-center gap-2 font-medium leading-none">
-              Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-            </div>
-            <div className="flex items-center gap-2 leading-none text-muted-foreground">
-              Showing total visitors for the last 6 months
-            </div>
-          </div>
-        </div> */}
-      </CardFooter>
     </Card>
   );
 }

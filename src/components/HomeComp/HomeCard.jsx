@@ -41,7 +41,7 @@ const HomeCard = ({
     : null;
 
   return (
-    <div className="flex rounded-md  w-f shadow-md bg-white justify-between  relative p-4 ">
+    <div className="flex rounded-md  w-f border bg-white justify-between  relative p-4 ">
       <div className=" items-center gap-4">
         <div className="flex justify-between items-center">
           <h2 className="text-sm font-normal">{title}</h2>
