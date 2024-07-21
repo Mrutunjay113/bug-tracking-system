@@ -11,7 +11,8 @@ const IssuesPage = async () => {
   const cookiesstore = cookies();
   const token = cookiesstore.get("token")?.value;
   if (!token) {
-    toast.error("Unauthorized access. Please login first.");
+    redirect("/sign-in");
+    toast.error("Unauthorized");
   }
   const date = "2024-07-17"; // Replace with your desired date filter
 

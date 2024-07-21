@@ -11,12 +11,11 @@ import { signIn } from "@/lib/actions/action";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getCookie, getCookies } from "cookies-next";
-import { useToken } from "@/app/context/usercontext";
 import { Button } from "@nextui-org/button";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { token, saveToken, removeToken } = useToken();
+
   const {
     handleSubmit,
     register,
@@ -31,8 +30,6 @@ const LoginPage = () => {
       return;
     }
     // console.log(`response`, response);
-    const gettoken = getCookie("token");
-    saveToken(gettoken);
 
     toast.success("Sign in successful");
     router.push("/dashboard");
@@ -59,7 +56,7 @@ const LoginPage = () => {
           </Link>
         </div>
 
-        <div className="grid gap-6">
+        <div className="grid gap-4">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="grid gap-2">
               <div className="grid gap-2 py-2">
@@ -105,6 +102,7 @@ const LoginPage = () => {
                 type="submit"
                 color="primary"
                 radius="sm"
+                className="mt-4"
                 isDisabled={isSubmitting}
                 isLoading={isSubmitting}
               >
@@ -112,30 +110,6 @@ const LoginPage = () => {
               </Button>
             </div>
           </form>
-          <div className="relative">
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 flex items-center"
-            >
-              <span className="w-full border-t border-gray-200 my-4"></span>
-            </div>
-            <div className="relative flex justify-center text-sm uppercase">
-              <span className="px-2 bg-background text-muted-foreground">
-                Or
-              </span>
-            </div>
-          </div>
-          <div className="relative">
-            <Link
-              href="/sign-up"
-              className={buttonVariants({
-                variant: "secondary",
-                className: "gap-1.5 w-full",
-              })}
-            >
-              Sign up
-            </Link>
-          </div>
         </div>
       </div>
     </div>

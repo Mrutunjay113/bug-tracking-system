@@ -71,7 +71,7 @@ export function MemberTable({ data }) {
         return (
           <div>
             <p className="text-sm font-semibold text-gray-700">{name}</p>
-            <p className="text-sm text-gray-400">{description}</p>
+            <p className="text-xs text-gray-400">{description}</p>
           </div>
         );
       default:
@@ -102,7 +102,9 @@ export function MemberTable({ data }) {
           <Table radius="sm" aria-label="Member table">
             <TableHeader>
               {fieldsToDisplay.map((key) => (
-                <TableColumn key={key}>{fieldNameMapping[key]}</TableColumn>
+                <TableColumn className="text-sm" key={key}>
+                  {fieldNameMapping[key]}
+                </TableColumn>
               ))}
             </TableHeader>
             <TableBody>
