@@ -16,7 +16,7 @@ export default function RootLayout({ children }) {
       <body
         className={cn("relative h-full font-sans antialiased", inter.className)}
       >
-        <main className="relative flex flex-col min-h-screen">
+        <main className="relative flex flex-col bg-[#f8f8f8] min-h-screen">
           <div className="flex-grow flex-1">
             <TokenProvider>{children}</TokenProvider>
           </div>

@@ -16,7 +16,7 @@ export default async function Page() {
 
   return (
     <main>
-      <Heading headingTitle="Members" size="lg" className="" />
+      <Heading headingTitle="Members" size="lg" className="mb-4" />
       <Suspense fallback="loading...">
         <MemberTable data={data} />
       </Suspense>

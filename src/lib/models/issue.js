@@ -46,6 +46,11 @@ const IssueSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  type: {
+    type: String,
+    enum: ["feature", "bug", "improvement"],
+    default: "bug",
+  },
   updatedAt: {
     type: Date,
     default: Date.now,

@@ -35,8 +35,8 @@ const IssuesPage = async () => {
   const done = issues.filter((issue) => issue.status === "Closed");
   // console.log(issues);
   return (
-    <div className="md:container mx-auto max-w-screen-2xl md:mt-8">
-      <Heading headingTitle="All Issues" size="lg" />
+    <div className=" mx-auto max-w-screen-2xl ">
+      <Heading headingTitle="All Issues" size="lg" className="mb-4" />
       <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-8 ">
         <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
         <IssueColumn title="In Progress" issues={inProgress} />

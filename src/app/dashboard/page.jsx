@@ -1,6 +1,9 @@
 import Heading from "@/components/Heading";
+import { Barchart } from "@/components/HomeComp/BarChart";
 import HomeCard from "@/components/HomeComp/HomeCard";
 import HomeCardCol from "@/components/HomeComp/HomeCardCol";
+import { LineChart2, LineChartComp } from "@/components/HomeComp/LineChart";
+import { ShadDonut } from "@/components/HomeComp/ShadDonut";
 import { Button } from "@/components/ui/button";
 import { getDashboardCounts } from "@/lib/actions/dashboard/DashboardCount";
 import { Toaster } from "sonner";
@@ -17,9 +20,7 @@ const Page = async () => {
   return (
     <main>
       <div>
-        <div>
-          <Heading headingTitle="Dashboard" size="lg" className="" />
-        </div>
+        <Heading headingTitle="Dashboard" size="lg" className="my-5" />
 
         <div className="md:grid md:grid-cols-6 gap-6 md:space-y-0 space-y-4">
           <HomeCard
@@ -86,6 +87,23 @@ const Page = async () => {
                 : [{ name: "", value: 0 }]
             }
           />
+        </div>
+      </div>
+      <div className="mt-10 bg-white p-5  rounded-md">
+        <Heading headingTitle="Charts" size="md" className="uppercase" />
+        <div className="md:flex py-5 md:space-y-0 space-y-4 gap-4 w-full">
+          <div className="w-2/6 ">
+            <Barchart />
+          </div>
+          {/* <div className="w-full ">
+            <LineChartComp />
+          </div> */}
+          <div className="w-2/6 ">
+            <LineChart2 />{" "}
+          </div>
+          <div className="w-2/6">
+            <ShadDonut />
+          </div>
         </div>
       </div>
     </main>

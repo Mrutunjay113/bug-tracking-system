@@ -50,6 +50,7 @@ export const createIssue = async (formData) => {
       image: issueImgUrl,
       assignedTo: data.assignedTo,
       team: data.team,
+      type: data.type,
     });
 
     await newIssue.save();

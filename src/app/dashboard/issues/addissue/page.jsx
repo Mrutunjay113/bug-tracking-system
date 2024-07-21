@@ -10,8 +10,8 @@ import { getTeam, getTeamMembers } from "@/lib/actions/team/action";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Cross, SquareX, X } from "lucide-react";
-import Heading from "@/components/Heading";
 import { Button } from "@nextui-org/button";
+import Heading from "@/components/Heading";
 
 const AddIssueForm = () => {
   const router = useRouter();
@@ -85,6 +85,8 @@ const AddIssueForm = () => {
       data.append("issueType", formData.issueType);
       data.append("description", formData.description);
       data.append("team", formData.team);
+      data.append("type", formData.type);
+
       data.append("assignedTo", formData.assignedTo);
       if (formData.image) {
         data.append("image", formData.image[0]);
@@ -112,7 +114,7 @@ const AddIssueForm = () => {
 
   return (
     <div className=" mx-auto max-w-4xl md:mt-8">
-      <Heading heading="Add issue" size="lg" />
+      <Heading heading="Add issue" size="lg" className="mb-5" />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="relative">
           <Label htmlFor="image">Image</Label>
@@ -148,6 +150,24 @@ const AddIssueForm = () => {
           />
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          )}
+        </div>
+        <div>
+          <Label htmlFor="type">Type</Label>
+          <select
+            {...register("type", { required: "type is required" })}
+            id="type"
+            className="mt-1 block w-full border rounded-md p-2"
+          >
+            <option value="">Select Type</option>
+            <option value="bug">Bug</option>
+            <option value="feature">Feature</option>
+            <option value="improvement">Improvement</option>
+          </select>
+          {errors.priority && (
+            <p className="text-red-500 text-sm mt-1">
+              {errors.priority.message}
+            </p>
           )}
         </div>
 

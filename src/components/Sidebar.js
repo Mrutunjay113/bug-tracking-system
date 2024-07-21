@@ -90,7 +90,7 @@ const Sidebar = () => {
 
   return (
     <div
-      className={`h-screen w-${
+      className={`h-screen bg-white w-${
         isExpanded ? "64" : "16"
       } flex flex-col p-2 border-r`}
     >

@@ -10,7 +10,7 @@ const IssueDetailsPage = async ({ params }) => {
 
   return (
     <main className=" p-6 relative">
-      <Heading headingTitle="Issue Details" size="lg" className="" />
+      <Heading headingTitle="Issue Details" size="lg" className="mb-8" />
       <Suspense fallback={<div>Loading...</div>}>
         <IssueDetailComp id={id} />
       </Suspense>
