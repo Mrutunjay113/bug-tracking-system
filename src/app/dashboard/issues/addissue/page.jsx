@@ -11,6 +11,7 @@ import { getTeam, getTeamMembers } from "@/lib/actions/team/action";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Cross, SquareX, X } from "lucide-react";
+import Heading from "@/components/Heading";
 
 const AddIssueForm = () => {
   const router = useRouter();
@@ -114,7 +115,7 @@ const AddIssueForm = () => {
 
   return (
     <div className=" mx-auto max-w-4xl md:mt-8">
-      <h1 className="text-2xl font-bold mb-4">Add New Issue</h1>
+      <Heading heading="Add issue" size="lg" />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="relative">
           <Label htmlFor="image">Image</Label>

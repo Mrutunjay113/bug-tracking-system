@@ -8,7 +8,7 @@ const Navbar = () => {
   // Assuming you are using next-auth for session management
 
   return (
-    <nav className="flex justify-between items-center h-20  bg-white shadow">
+    <nav className="flex justify-between items-center h-20 border-b bg-white shadow">
       {/* Left Side */}
       <div className="flex items-center ml-5">
         <p className="text-lg font-semibold">Hi, Mrutunjay</p>

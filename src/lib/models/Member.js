@@ -28,7 +28,7 @@ const MemberSchema = new mongoose.Schema({
   },
   designation: {
     type: String,
-    enum: ["Developer", "QA", "UI/UX", "Software Engineer"],
+    enum: ["Developer", "QA", "UI/UX", "Software Engineer", "Tester"],
     required: true,
   },
   profileImg: {

@@ -7,7 +7,9 @@ const Layout = ({ children }) => {
       <Sidebar />
       <div className="flex-1">
         <Navbar />
-        <main className="p-5">{children}</main>
+        <main className="md:p-8 p-3 bg-slate-50 w-full h-[calc(100vh-100px)] overflow-auto">
+          {children}
+        </main>
       </div>
     </div>
   );

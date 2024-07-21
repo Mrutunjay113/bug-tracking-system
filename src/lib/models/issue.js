@@ -34,12 +34,12 @@ const IssueSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["Open", "In Progress", "Completed", "In Review"],
+    enum: ["Open", "In Progress", "Closed", "In Review"],
     default: "Open",
   },
   issueType: {
     type: String,
-    enum: ["UI/UX", "Developer", "QA", "Other"],
+    enum: ["UI/UX", "Developer", "QA", "Tester"],
     required: true,
   },
   createdAt: {
