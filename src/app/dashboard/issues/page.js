@@ -5,6 +5,7 @@ import { cookies } from "next/headers";
 import Card from "@/components/Card";
 import { toast } from "sonner";
 import IssueColumn from "@/components/issueComp/IssueColumn";
+import Heading from "@/components/Heading";
 
 const IssuesPage = async () => {
   const cookiesstore = cookies();
@@ -23,6 +24,7 @@ const IssuesPage = async () => {
   });
   const issue = await res.json();
   const issues = issue.issues;
+  console.log(issues);
   // console.log(issues.issues);
   if (issues.success === false) {
     toast.error(issues.error);
@@ -30,11 +32,11 @@ const IssuesPage = async () => {
   const addIssue = issues.filter((issue) => issue.status === "Open");
   const inProgress = issues.filter((issue) => issue.status === "In Progress");
   const inReview = issues.filter((issue) => issue.status === "In Review");
-  const done = issues.filter((issue) => issue.status === "Completed");
+  const done = issues.filter((issue) => issue.status === "Closed");
   // console.log(issues);
   return (
     <div className="md:container mx-auto max-w-screen-2xl md:mt-8">
-      <h1 className="text-2xl font-bold my-4">All Issues</h1>
+      <Heading headingTitle="All Issues" size="lg" />
       <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-8 ">
         <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
         <IssueColumn title="In Progress" issues={inProgress} />

@@ -17,25 +17,6 @@ export const createIssue = async (formData) => {
     });
     console.log(`data`, data);
 
-    // Handle cases where 'image' might be an array or undefined
-    // const imageField =
-    //   Array.isArray(image) && image.length > 0 ? image[0].path : "";
-
-    // const newIssue = new IssueModel({
-    //   title,
-    //   description,
-    //   priority,
-    //   image,
-    //   assignedTo,
-    //   assignedBy,
-    //   image: imageField,
-    //   team,
-    //   issueType,
-    // });
-
-    // await newIssue.save();
-
-    // return { success: true, issue: JSON.parse(JSON.stringify(newIssue)) };
     const issueFile = data?.image;
     let issueImgUrl = "";
     // console.log(`profilePictureFile`, issueFile);
@@ -72,6 +53,12 @@ export const createIssue = async (formData) => {
     });
 
     await newIssue.save();
+
+    const setProjectMember = await Member.findOneAndUpdate(
+      { _id: data.assignedTo },
+      { $push: { projects: newIssue._id } }
+    );
+    await setProjectMember.save();
 
     return { success: true, issue: JSON.parse(JSON.stringify(newIssue)) };
 
