@@ -54,7 +54,7 @@ export function ShadDonut() {
   }, []);
 
   return (
-    <Card className="flex flex-col w-full min-h-[200px]  h-[378px]">
+    <Card className="flex flex-col w-full min-h-[200px]  h-full">
       <CardHeader className=" pb-0">
         <CardTitle>Pie Chart - Donut (type)</CardTitle>
         <CardDescription>This month</CardDescription>

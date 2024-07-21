@@ -92,16 +92,16 @@ const Page = async () => {
       <div className="mt-10 bg-white p-5  rounded-md">
         <Heading headingTitle="Charts" size="md" className="uppercase" />
         <div className="md:flex py-5 md:space-y-0 space-y-4 gap-4 w-full">
-          <div className="w-2/6 ">
+          <div className="md:w-2/6 ">
             <Barchart />
           </div>
           {/* <div className="w-full ">
             <LineChartComp />
           </div> */}
-          <div className="w-2/6 ">
+          <div className="md:w-2/6 ">
             <LineChart2 />{" "}
           </div>
-          <div className="w-2/6">
+          <div className="md:w-2/6">
             <ShadDonut />
           </div>
         </div>

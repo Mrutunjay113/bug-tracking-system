@@ -163,6 +163,7 @@ const AddIssueForm = () => {
             <option value="bug">Bug</option>
             <option value="feature">Feature</option>
             <option value="improvement">Improvement</option>
+            <option value="other">Other</option>
           </select>
           {errors.priority && (
             <p className="text-red-500 text-sm mt-1">
