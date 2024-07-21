@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { createIssue } from "@/lib/actions/issue/action";
 import { getTeam, getTeamMembers } from "@/lib/actions/team/action";
@@ -12,6 +11,7 @@ import { toast } from "sonner";
 import Image from "next/image";
 import { Cross, SquareX, X } from "lucide-react";
 import Heading from "@/components/Heading";
+import { Button } from "@nextui-org/button";
 
 const AddIssueForm = () => {
   const router = useRouter();
@@ -19,10 +19,9 @@ const AddIssueForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     setValue,
   } = useForm();
-  const [loading, setLoading] = useState(false);
   const [teams, setTeams] = useState([]);
   const [members, setMembers] = useState([]);
 
@@ -75,7 +74,6 @@ const AddIssueForm = () => {
   };
 
   const onSubmit = async (formData) => {
-    setLoading(true);
     try {
       console.log(formData);
       // await new Promise((resolve) => setTimeout(resolve, 1000));
@@ -92,6 +90,11 @@ const AddIssueForm = () => {
         data.append("image", formData.image[0]);
       }
 
+      if (!data.image) {
+        setError("image", {
+          message: "Image is required",
+        });
+      }
       const res = await createIssue(data);
 
       if (res.success) {
@@ -100,15 +103,9 @@ const AddIssueForm = () => {
       } else {
         toast.error("Failed to create issue");
       }
-
-      // console.log(res);
-      setLoading(false);
-      // router.push("/dashboard/issues");
     } catch (error) {
-      console.error("Error creating issue:", error);
-      setLoading(false);
+      toast.error("Failed to create issue");
     } finally {
-      setLoading(false);
       reset();
     }
   };
@@ -127,6 +124,9 @@ const AddIssueForm = () => {
             className="mt-1 block w-full"
             onChange={handleFileChange}
           />
+          {errors.image && (
+            <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
+          )}
           <div>
             <X
               className="w-5 h-5 absolute right-5 top-9 pt-1 text-gray-500 hover:text-gray-600 cursor-pointer"
@@ -243,11 +243,17 @@ const AddIssueForm = () => {
             </p>
           )}
         </div>
-        <div>
-          <Button type="submit" className="mt-5 w-full " disabled={loading}>
-            {loading ? "Submitting..." : "Submit"}
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          className="w-full"
+          color="primary"
+          disableAnimation
+          radius="sm"
+          disabled={isSubmitting}
+          isLoading={isSubmitting}
+        >
+          Add Issue
+        </Button>
       </form>
     </div>
   );

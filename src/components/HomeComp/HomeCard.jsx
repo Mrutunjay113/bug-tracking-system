@@ -41,13 +41,13 @@ const HomeCard = ({
     : null;
 
   return (
-    <div className="flex rounded-md  w-f shadow-md bg-white  justify-between   p-4 ">
-      <div className="  gap-4">
+    <div className="flex rounded-md  w-f shadow-md bg-white justify-between   p-4 ">
+      <div className=" items-center gap-4">
         <div className="flex justify-between items-center">
           <h2 className="text-sm font-normal">{title}</h2>
         </div>
         <div className="flex items-center">
-          <span className="text-3xl font-bold">
+          <span className="text-4xl font-bold">
             {/* {users.toLocaleString()} */}
             {CardValue}
           </span>
@@ -66,13 +66,13 @@ const HomeCard = ({
         )}
       </div>
 
-      <div className="">
+      <div className=" my-auto">
         {chart ? (
           <div className="flex items-center justify-center">
             <DonutPie chartData={chartData} CustomChartType={CustomChartType} />
           </div>
         ) : (
-          <div className="flex items-center justify-center mt-6">{Icon}</div>
+          <div className="flex  justify-center mb-4">{Icon}</div>
         )}
       </div>
     </div>

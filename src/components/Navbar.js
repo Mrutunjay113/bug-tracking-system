@@ -19,10 +19,6 @@ const Navbar = () => {
         {/* Notification Bell Icon */}
         <Link href="/notifications" className="relative">
           <Bell className="h-6 w-6 text-gray-600 hover:text-gray-900" />
-
-          <span className="absolute top-0 right-0 -mt-1 -mr-1 px-2 py-1 bg-red-500 text-white text-xs font-bold rounded-full">
-            3
-          </span>
         </Link>
 
         {/* Profile Icon */}

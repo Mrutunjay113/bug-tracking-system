@@ -1,29 +1,34 @@
 "use client";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Icons } from "@/components/icons";
 import { addUser } from "@/lib/actions/action";
 import { toast } from "sonner";
+import { Button } from "@nextui-org/button";
+import { useRouter } from "next/navigation";
 
 const SignUpPage = () => {
+  const Router = useRouter();
   const {
     handleSubmit,
     register,
-    formState: { errors, isLoading },
+    formState: { errors, isSubmitting },
   } = useForm();
   const onSubmit = async (data) => {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     const user = await addUser(data);
 
     if (user.error) {
       toast.error(user.error);
     }
     toast.success("Account created successfully");
+    Router.push("/sign-in");
   };
 
   return (
@@ -85,7 +90,16 @@ const SignUpPage = () => {
             )}
           </div>
 
-          <Button type="submit">{isLoading ? "loading..." : `Sign Up`}</Button>
+          <Button
+            type="submit"
+            radius="sm"
+            color="primary"
+            s
+            isLoading={isSubmitting}
+            disabled={isSubmitting}
+          >
+            Sign Up
+          </Button>
         </form>
       </div>
     </div>

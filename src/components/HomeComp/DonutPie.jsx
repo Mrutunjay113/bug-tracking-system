@@ -38,7 +38,7 @@ const DonutPie = ({ chartData, CustomChartType }) => {
 
   const options = {
     responsive: true,
-    aspectRatio: 1.5,
+    aspectRatio: 1,
     plugins: {
       tooltip: {
         callbacks: {
@@ -59,7 +59,7 @@ const DonutPie = ({ chartData, CustomChartType }) => {
   };
 
   return (
-    <div className="h-24 w-24">
+    <div className="h-20 w-20">
       <Doughnut data={data} options={options} />
     </div>
   );

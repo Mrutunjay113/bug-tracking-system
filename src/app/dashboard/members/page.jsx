@@ -1,22 +1,25 @@
 // import AddMember from "@/components/Team&Member-Comp/addMember";
 
+import Heading from "@/components/Heading";
+import { MemberTable } from "@/components/Team&Member-Comp/MemberTable";
 import { buttonVariants } from "@/components/ui/button";
+import { getMembers } from "@/lib/actions/team/member/action";
 import Link from "next/link";
+import { Suspense } from "react";
 
-// `app/page.js` is the UI for the `/` URL
-export default function Page() {
+export default async function Page() {
+  const { error, members } = await getMembers();
+  if (error) {
+    return <div>error</div>;
+  }
+  const data = members;
+
   return (
-    <h1>
-      Hello, Member page!
-      <Link
-        className={buttonVariants({
-          variant: "",
-          className: "gap-1.5",
-        })}
-        href="/dashboard/members/add-member"
-      >
-        add member
-      </Link>
-    </h1>
+    <main>
+      <Heading headingTitle="Members" size="lg" className="" />
+      <Suspense fallback="loading...">
+        <MemberTable data={data} />
+      </Suspense>
+    </main>
   );
 }

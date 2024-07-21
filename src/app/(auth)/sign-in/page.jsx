@@ -1,8 +1,8 @@
 "use client";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getCookie, getCookies } from "cookies-next";
 import { useToken } from "@/app/context/usercontext";
+import { Button } from "@nextui-org/button";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -19,9 +20,11 @@ const LoginPage = () => {
   const {
     handleSubmit,
     register,
-    formState: { errors },
+
+    formState: { errors, isSubmitting },
   } = useForm();
   const onSubmit = async (data) => {
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
     const response = await signIn(data);
     if (response.error === "Invalid credentials") {
       toast.error(response.error);
@@ -98,7 +101,15 @@ const LoginPage = () => {
                 )}
               </div>
 
-              <Button>Sign in</Button>
+              <Button
+                type="submit"
+                color="primary"
+                radius="sm"
+                isDisabled={isSubmitting}
+                isLoading={isSubmitting}
+              >
+                Sign in
+              </Button>
             </div>
           </form>
           <div className="relative">

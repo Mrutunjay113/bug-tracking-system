@@ -1,5 +1,6 @@
 "use server";
 
+import IssueModel from "@/lib/models/issue";
 import Member from "@/lib/models/Member";
 // import Member from "@/lib/models/Member";
 import ConnectMongoDb from "@/lib/mongoConnect";
@@ -72,6 +73,22 @@ export const createMember = async (formData) => {
     // return { success: true, member: newMember };
   } catch (error) {
     console.error("Error creating member:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const getMembers = async () => {
+  try {
+    await ConnectMongoDb();
+    const members = await Member.find().populate("team");
+
+    console.log(`members`, members);
+    return {
+      success: true,
+      members: JSON.parse(JSON.stringify(members)),
+    };
+  } catch (error) {
+    console.error("Error getting members:", error);
     return { success: false, error: error.message };
   }
 };

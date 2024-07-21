@@ -40,7 +40,7 @@ const MemberSchema = new mongoose.Schema({
   },
   availabilityStatus: {
     type: String,
-    enum: ["Available", "Busy", "On Leave"],
+    enum: ["Available", "Busy", "Vacation", "OnLeave"],
     default: "Available",
   },
 
