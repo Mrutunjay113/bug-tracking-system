@@ -96,9 +96,7 @@ const Page = async () => {
           <div className="md:w-2/6 ">
             <Barchart />
           </div>
-          {/* <div className="w-full ">
-            <LineChartComp />
-          </div> */}
+          
           <div className="md:w-2/6 ">
             <LineChart2 />{" "}
           </div>
