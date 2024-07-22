@@ -9,6 +9,7 @@ import User from "@/lib/models/User";
 import Member from "@/lib/models/Member";
 
 export const createIssue = async (formData) => {
+  console.log(`formData`, formData);
   try {
     await ConnectMongoDb();
     const data = {};
@@ -17,13 +18,15 @@ export const createIssue = async (formData) => {
     });
     console.log(`data`, data);
 
-    const issueFile = data?.image;
+    const issueFile = data?.issueImage;
     let issueImgUrl = "";
-    // console.log(`profilePictureFile`, issueFile);
+    console.log(`profilePictureFile`, issueFile[0]);
     const dataform = new FormData();
     dataform.append("file", issueFile);
     dataform.append("upload_preset", "issuepresent");
-
+    if (!issueFile) {
+      return { success: false, error: "No image provided" };
+    }
     try {
       const uplodimage = await fetch(
         `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
@@ -34,7 +37,7 @@ export const createIssue = async (formData) => {
       );
       const image = await uplodimage.json();
       // console.log(`image`, image);
-      // console.log(`image`, image.secure_url);
+      console.log(`image`, image.secure_url);
       issueImgUrl = image.secure_url;
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -57,7 +60,7 @@ export const createIssue = async (formData) => {
 
     const setProjectMember = await Member.findOneAndUpdate(
       { _id: data.assignedTo },
-      { $push: { projects: newIssue._id } }
+      { $push: { tasks: newIssue._id } }
     );
     await setProjectMember.save();
 
@@ -65,8 +68,6 @@ export const createIssue = async (formData) => {
 
     // Save the member to the database
     // await newMember.save();
-
-    return { success: true };
   } catch (error) {
     console.error(error);
     return { success: false, error: error.message };

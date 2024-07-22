@@ -12,11 +12,12 @@ export default async function Page() {
   if (error) {
     return <div>error</div>;
   }
+  console
   const data = members;
 
   return (
     <main>
-      <Heading headingTitle="Members" size="lg" className="mb-4" />
+      <Heading headingTitle="Members" size="lg" className="mb-4 p-2" />
       <Suspense fallback="loading...">
         <MemberTable data={data} />
       </Suspense>

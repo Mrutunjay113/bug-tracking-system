@@ -24,15 +24,21 @@ const LoginPage = () => {
   } = useForm();
   const onSubmit = async (data) => {
     // await new Promise((resolve) => setTimeout(resolve, 3000));
-    const response = await signIn(data);
-    if (response.error === "Invalid credentials") {
-      toast.error(response.error);
+    const { error, success, user } = await signIn(data);
+
+    if (error) {
+      toast.error(error);
       return;
     }
     // console.log(`response`, response);
-
-    toast.success("Sign in successful");
-    router.push("/dashboard");
+    if (error) {
+      toast.error(response.error);
+      return;
+    }
+    if (success) {
+      toast.success("Sign in successfully");
+      router.push("/dashboard");
+    }
   };
 
   return (
@@ -106,7 +112,7 @@ const LoginPage = () => {
                 isDisabled={isSubmitting}
                 isLoading={isSubmitting}
               >
-                Sign in
+                {isSubmitting ? "" : "Sign in"}
               </Button>
             </div>
           </form>

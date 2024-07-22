@@ -44,7 +44,7 @@ const MemberSchema = new mongoose.Schema({
     default: "Available",
   },
 
-  projects: [
+  tasks: [
     {
       type: mongoose.Schema.Types.ObjectId || null,
       ref: "issue",

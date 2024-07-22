@@ -36,7 +36,6 @@ export const addUser = async (data) => {
   }
 };
 
-
 export const signIn = async (data) => {
   const { email, password } = data;
   console.log(`data`, data);
@@ -63,7 +62,7 @@ export const signIn = async (data) => {
     const token = jwt.sign({ rest }, JWT_SECRET);
     cookies().set("token", token);
 
-    return { user: token };
+    return { user: token, success: true };
   } catch (error) {
     console.error("Error signing in:", error);
     return {

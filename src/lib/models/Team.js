@@ -6,6 +6,11 @@ const TeamSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  teamleader: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User", // Reference to the Member collection
+  },
+
   members: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -14,7 +19,7 @@ const TeamSchema = new mongoose.Schema({
   ],
   TeamRole: {
     type: String,
-    enum: ["Developer", "QA", "UI/UX"],
+    enum: ["Developer", "QA", "UI/UX", "Tester"],
     required: true,
   },
   description: {

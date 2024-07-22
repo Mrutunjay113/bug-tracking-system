@@ -1,5 +1,4 @@
 "use client";
-
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
@@ -19,6 +18,10 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
+import { Toaster } from "sonner";
+import { getBarChartData } from "@/lib/actions/charts/barchartAction";
+
+import { set } from "mongoose";
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },

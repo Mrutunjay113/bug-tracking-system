@@ -15,6 +15,7 @@ import { Button } from "@nextui-org/button";
 import { Input } from "../ui/input";
 import Link from "next/link";
 import { Plus } from "lucide-react";
+import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
 // Define the fields to display and their order
 const fieldsToDisplay = [
@@ -41,7 +42,7 @@ export function MemberTable({ data }) {
     Available: "success",
     Busy: "primary",
     Vacation: "warning",
-    OnLeave: "secondary",
+    OnLeave: "danger",
   };
 
   const renderCell = useCallback((member, key) => {
@@ -51,7 +52,11 @@ export function MemberTable({ data }) {
       case "profileImg":
         return (
           <User
-            avatarProps={{ radius: "full", src: member.profileImg }}
+            // avatarProps={{ radius: "full", src: member.profileImg }}
+            avatarProps={{
+              radius: "full",
+              src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png",
+            }}
             description={member.email}
             name={`${member.firstName} ${member.lastName}`}
           />
@@ -80,12 +85,12 @@ export function MemberTable({ data }) {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className=" md:flex justify-start gap-5 ">
+    <div className="md:space-y-6">
+      <div className=" md:flex justify-start gap-5 p-2 ">
         <Input
           type="text"
           placeholder="Search"
-          className="w-80 border rounded-md p-2 md:mb-0 mb-2"
+          className="max-w-full w-60 border rounded-md p-2 md:mb-0 mb-2"
         />
 
         <Link href="/dashboard/members/add-member">
@@ -97,8 +102,9 @@ export function MemberTable({ data }) {
           </Button>
         </Link>
       </div>
-      <div className="">
-        <div className="">
+
+      <ScrollArea className="md:w-full max-w-64 w-max md:max-w-full">
+        <div className="p-2">
           <Table radius="sm" aria-label="Member table">
             <TableHeader>
               {fieldsToDisplay.map((key) => (
@@ -120,7 +126,8 @@ export function MemberTable({ data }) {
             </TableBody>
           </Table>
         </div>
-      </div>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 }

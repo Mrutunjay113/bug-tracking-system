@@ -92,3 +92,19 @@ export const getMembers = async () => {
     return { success: false, error: error.message };
   }
 };
+
+export const getMembersByDesignation = async (designation) => {
+  console.log(`designation`, designation);
+  try {
+    await ConnectMongoDb();
+    const members = await Member.find({ designation: designation });
+    console.log(`members`, members);
+    return {
+      success: true,
+      members: JSON.parse(JSON.stringify(members)),
+    };
+  } catch (error) {
+    console.error("Error getting members by designation:", error);
+    return { success: false, error: error.message };
+  }
+};

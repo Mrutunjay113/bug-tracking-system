@@ -18,13 +18,20 @@ const userSchema = new Schema({
     verified: { type: Boolean, default: false },
     token: { type: String },
   },
+  image: { type: String },
+  designation: {
+    type: String,
+    enum: ["Developer", "QA", "UI/UX", "Software Engineer", "Tester"],
+    required: true,
+  },
   resetPassword: {
     token: { type: String },
     expires: { type: Date },
   },
-  team: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Team",
+  status: {
+    type: String,
+    enum: ["onleave", "vacation", "active"],
+    default: "Active",
   },
 });
 

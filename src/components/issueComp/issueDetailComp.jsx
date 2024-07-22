@@ -79,6 +79,7 @@ const IssueDetailComp = async ({ id }) => {
           width={500}
           height={500}
           src={issue.image || "/images/placeholder.png"}
+          // src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
           alt={issue.title}
           className="rounded-lg w-full  object-cover"
         />

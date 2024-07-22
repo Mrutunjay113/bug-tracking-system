@@ -6,7 +6,11 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { createIssue } from "@/lib/actions/issue/action";
-import { getTeam, getTeamMembers } from "@/lib/actions/team/action";
+import {
+  getTeam,
+  getTeamMembers,
+  getTeamRole,
+} from "@/lib/actions/team/action";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Cross, SquareX, X } from "lucide-react";
@@ -28,7 +32,7 @@ const AddIssueForm = () => {
   const fetchTeams = async (TeamRole) => {
     try {
       console.log(`TeamRole`, TeamRole);
-      const response = await getTeam(TeamRole); // Adjust the endpoint as needed
+      const response = await getTeamRole(TeamRole); // Adjust the endpoint as needed
       console.log(`response`, response);
       setTeams(response?.team);
       setValue("team", response?.team[0]?._id);
@@ -71,6 +75,7 @@ const AddIssueForm = () => {
       // setProfilePicture(URL.createObjectURL(file));
       setValue("issueImage", file);
     }
+    console.log(`e`, e.target.files[0]);
   };
 
   const onSubmit = async (formData) => {
@@ -86,17 +91,13 @@ const AddIssueForm = () => {
       data.append("description", formData.description);
       data.append("team", formData.team);
       data.append("type", formData.type);
+      data.delete("issueImage");
 
       data.append("assignedTo", formData.assignedTo);
-      if (formData.image) {
-        data.append("image", formData.image[0]);
+      if (formData.issueImage) {
+        data.append("issueImage", formData.issueImage);
       }
-
-      if (!data.image) {
-        setError("image", {
-          message: "Image is required",
-        });
-      }
+      console.log(`data`, data);
       const res = await createIssue(data);
 
       if (res.success) {
@@ -108,7 +109,7 @@ const AddIssueForm = () => {
     } catch (error) {
       toast.error("Failed to create issue");
     } finally {
-      reset();
+      // reset();
     }
   };
 
@@ -117,10 +118,10 @@ const AddIssueForm = () => {
       <Heading heading="Add issue" size="lg" className="mb-5" />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="relative">
-          <Label htmlFor="image">Image</Label>
+          <Label htmlFor="imageissue">Image</Label>
           <Input
             id="image"
-            {...register("image")}
+            {...register("image", { required: "Image is required" })}
             type="file"
             accept="image/*"
             className="mt-1 block w-full"

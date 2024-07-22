@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import Image from "next/image";
-import { getTeam } from "@/lib/actions/team/action";
+import { getTeamRole } from "@/lib/actions/team/action";
 import { toast } from "sonner";
 import { createMember } from "@/lib/actions/team/member/action";
 
@@ -52,7 +52,7 @@ const AddMember = () => {
 
   const fetchTeams = async (TeamRole) => {
     try {
-      const response = await getTeam(TeamRole); // Adjust the endpoint as needed
+      const response = await getTeamRole(TeamRole); // Adjust the endpoint as needed
       console.log(response);
       if (response.success === false) {
         toast.error("No team found");
@@ -176,6 +176,7 @@ const AddMember = () => {
             <option value="QA">QA Engineer</option>
             <option value="UI/UX">UI/UX Designer</option>
             <option value="Developer">Developer</option>
+            <option value="Tester">Tester</option>
           </select>
           {errors.designation && (
             <p className="text-red-500">{errors.designation.message}</p>
@@ -225,7 +226,7 @@ const AddMember = () => {
             <option value="">Select Availability Status</option>
             <option value="Available">Available</option>
             <option value="Busy">Busy</option>
-            <option value="On Leave">On Leave</option>
+            <option value="OnLeave">On Leave</option>
           </select>
           {errors.availabilityStatus && (
             <p className="text-red-500">{errors.availabilityStatus.message}</p>

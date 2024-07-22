@@ -98,7 +98,7 @@ const SignUpPage = () => {
             isLoading={isSubmitting}
             disabled={isSubmitting}
           >
-            Sign Up
+            {isSubmitting ? "" : "Sign up"}
           </Button>
         </form>
       </div>

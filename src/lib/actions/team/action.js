@@ -40,7 +40,7 @@ export const getTeamMembers = async (teamId) => {
     return { success: false, error: error.message };
   }
 };
-export const getTeam = async (TeamRole) => {
+export const getTeamRole = async (TeamRole) => {
   console.log("TeamRole", TeamRole);
   try {
     await ConnectMongoDb();
@@ -60,29 +60,100 @@ export const getTeam = async (TeamRole) => {
   }
 };
 
-export const createTeam = async () => {
-  const teamdata = {
-    name: "Team 1",
-    description: "Team 1 description",
-    members: ["6698de47e6ee93e9aa7cbc3c"], // Ensure this ID matches an existing user
-  };
-
+export const createTeam = async (formData) => {
   try {
     await ConnectMongoDb(); // Ensure MongoDB connection is established
 
-    const { name, description, members } = teamdata;
+    console.log("formData", formData);
+    // Create a new team object
 
+    // Save the new team to MongoDB
     const newTeam = new TeamModel({
-      name,
-      description,
-      members,
+      name: formData.name,
+      description: formData.description,
+      TeamRole: formData.teamtype,
+      teamleader: formData.teamlead,
+      members: formData.members,
     });
+    await newTeam.save();
 
-    await newTeam.save(); // Save the new team to MongoDB
-
-    return { success: true, team: newTeam }; // Return success and the new team object
+    return { success: true }; // Return success and the new team object
   } catch (error) {
     console.error("Error creating team:", error);
     return { success: false, error: error.message }; // Handle and return error
+  }
+};
+export const getTeamsRole = async () => {
+  try {
+    await ConnectMongoDb();
+    const teams = await TeamModel.find().populate("members");
+
+    if (teams.length === 0) {
+      return {
+        success: false,
+        error: "No teams found",
+      };
+    }
+
+    const getTemInfo = await Promise.all(
+      teams.map(async (team) => {
+        const teamLeader = await User.findById(
+          { _id: team.teamleader },
+          {
+            firstName: 1,
+            lastName: 1,
+            email: 1,
+            username: 1,
+            status: 1,
+            image: 1,
+          }
+        );
+        return {
+          userinfo: teamLeader,
+        };
+      })
+    );
+    const formateTeam = teams.map((team, index) => {
+      return {
+        ...team._doc,
+        userInfo: getTemInfo[index].userinfo,
+      };
+    });
+    // console.log(`getTemInfo`, formateTeam);
+
+    return {
+      success: true,
+      teams: JSON.parse(JSON.stringify(formateTeam)),
+    };
+  } catch (error) {
+    console.error("Error fetching teams:", error);
+    return { success: false, error: error.message };
+  }
+};
+
+export const getTeamLeader = async (teamType) => {
+  console.log("teamType", teamType);
+  try {
+    await ConnectMongoDb();
+    const team = await User.find({
+      designation: teamType,
+    });
+    if (team.length === 0) {
+      return {
+        success: false,
+        error: "No team leader found",
+      };
+    }
+    // console.log("teamLeader", team);
+
+    // console.log("teamLeader");
+
+    return {
+      success: true,
+      teamLeaders: JSON.parse(JSON.stringify(team)),
+    };
+  } catch (error) {
+    console.error("Error fetching team leader:", error);
+    return { success: false, error: error.message };
   }
 };

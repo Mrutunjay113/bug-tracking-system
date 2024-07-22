@@ -5,6 +5,7 @@ import HomeCardCol from "@/components/HomeComp/HomeCardCol";
 import { LineChart2, LineChartComp } from "@/components/HomeComp/LineChart";
 import { ShadDonut } from "@/components/HomeComp/ShadDonut";
 import { Button } from "@/components/ui/button";
+import { getBarChartData } from "@/lib/actions/charts/barchartAction";
 import { getDashboardCounts } from "@/lib/actions/dashboard/DashboardCount";
 import { Toaster } from "sonner";
 

@@ -11,8 +11,8 @@ const IssuesPage = async () => {
   const cookiesstore = cookies();
   const token = cookiesstore.get("token")?.value;
   if (!token) {
-    redirect("/sign-in");
     toast.error("Unauthorized");
+    redirect("/sign-in");
   }
   const date = "2024-07-17"; // Replace with your desired date filter
 
@@ -36,8 +36,9 @@ const IssuesPage = async () => {
   const done = issues.filter((issue) => issue.status === "Closed");
   // console.log(issues);
   return (
-    <div className=" mx-auto max-w-screen-2xl ">
+    <div className=" mx-auto max-w-7xl ">
       <Heading headingTitle="All Issues" size="lg" className="mb-4" />
+
       <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-8 ">
         <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
         <IssueColumn title="In Progress" issues={inProgress} />
