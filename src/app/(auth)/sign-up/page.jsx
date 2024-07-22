@@ -52,55 +52,61 @@ const SignUpPage = () => {
           </Link>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} className="grid gap-4">
-          <div className="grid gap-2 py-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              {...register("email", {
-                required: "Email is required",
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address",
-                },
-              })}
-              className={cn({
-                " ": errors.email,
-              })}
-              placeholder="you@example.com"
-            />
-            {errors?.email && (
-              <p className="text-sm text-red-500">{errors.email.message}</p>
-            )}
-          </div>
+        <div className="grid gap-4">
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="grid gap-2">
+              <div className="grid gap-2 py-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                      message: "Invalid email address",
+                    },
+                  })}
+                  className={cn({
+                    "": errors.email,
+                  })}
+                  placeholder="you@example.com"
+                />
+                {errors?.email && (
+                  <p className="text-sm text-red-500">{errors.email.message}</p>
+                )}
+              </div>
 
-          <div className="grid gap-1 py-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              {...register("password", {
-                required: "Password is required",
-              })}
-              type="password"
-              className={cn({
-                "": errors.password,
-              })}
-              placeholder="Password"
-            />
-            {errors?.password && (
-              <p className="text-sm text-red-500">{errors.password.message}</p>
-            )}
-          </div>
+              <div className="grid gap-1 py-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  {...register("password", {
+                    required: "password is required",
+                  })}
+                  type="password"
+                  className={cn({
+                    "": errors.password,
+                  })}
+                  placeholder="Password"
+                />
+                {errors?.password && (
+                  <p className="text-sm text-red-500">
+                    {errors.password.message}
+                  </p>
+                )}
+              </div>
 
-          <Button
-            type="submit"
-            radius="sm"
-            color="primary"
-            s
-            isLoading={isSubmitting}
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "" : "Sign up"}
-          </Button>
-        </form>
+              <Button
+                type="submit"
+                color="primary"
+                radius="sm"
+                className="mt-4"
+                isDisabled={isSubmitting}
+                isLoading={isSubmitting}
+              >
+                {isSubmitting ? "" : "Sign up"}
+              </Button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );
