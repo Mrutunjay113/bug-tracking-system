@@ -2,7 +2,7 @@
 import IssueModel from "@/lib/models/issue";
 import ConnectMongoDb from "@/lib/mongoConnect";
 
-export const getBarChartData = async () => {
+export const getStackedBarChartData = async () => {
   try {
     await ConnectMongoDb();
 
@@ -10,7 +10,7 @@ export const getBarChartData = async () => {
     const lastMonth = new Date(today);
     lastMonth.setMonth(today.getMonth() - 1);
 
-    // Aggregating data by date
+    // Aggregating data by date, issueType, and status
     const issues = await IssueModel.aggregate([
       {
         $match: {
@@ -19,35 +19,47 @@ export const getBarChartData = async () => {
       },
       {
         $group: {
-          _id: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+          _id: {
+            date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
+            issueType: "$issueType",
+            status: "$status",
+          },
           issueCount: { $sum: 1 },
-          statusCount: {
-            $sum: {
-              $cond: [
-                { $eq: ["$status", "Open"] }, // Adjust this condition based on status you want to count
-                1,
-                0,
-              ],
+        },
+      },
+      {
+        $group: {
+          _id: { date: "$_id.date" },
+          types: {
+            $push: {
+              type: "$_id.issueType",
+              status: "$_id.status",
+              count: "$issueCount",
             },
           },
         },
       },
       {
-        $sort: { _id: 1 },
+        $sort: { "_id.date": 1 },
       },
     ]);
 
-    // Transforming the aggregated data
-    const chartData = issues.map((issue) => ({
-      date: issue._id,
-      Issue: issue.issueCount,
-      Status: issue.statusCount,
-    }));
+    // Transforming the aggregated data into the required format
+    const chartData = issues.map((issue) => {
+      const dataByDate = {
+        date: issue._id.date,
+      };
 
-    // Calculate total issue count
-    const totalIssues = chartData.reduce((acc, curr) => acc + curr.Issue, 0);
+      issue.types.forEach((type) => {
+        dataByDate[`${type.type}_${type.status}`] = type.count;
+      });
 
-    return { success: true, data: chartData, count: totalIssues };
+      return dataByDate;
+    });
+
+    // Example: { date: "2024-07-01", UIUX_Open: 5, UIUX_InProgress: 3, ... }
+
+    return { success: true, data: chartData };
   } catch (error) {
     console.error(error);
     return { success: false, error: error.message };

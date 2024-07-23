@@ -290,6 +290,8 @@ const chartConfig2 = {
 };
 
 export function LineChart2() {
+ 
+
   return (
     <Card>
       <CardHeader>

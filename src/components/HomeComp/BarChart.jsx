@@ -19,9 +19,13 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { Toaster } from "sonner";
-import { getBarChartData } from "@/lib/actions/charts/barchartAction";
+import {
+  getBarChartData,
+  getStackedBarChartData,
+} from "@/lib/actions/charts/barchartAction";
 
 import { set } from "mongoose";
+import { useEffect } from "react";
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
   { month: "February", desktop: 305, mobile: 200 },
@@ -48,7 +52,19 @@ const chartConfig = {
   },
 };
 
-export function Barchart() {
+export async function Barchart() {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await getStackedBarChartData();
+        console.log(`data`, data);
+      } catch (error) {
+        Toaster.error("Failed to fetch data");
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="min-w-40 w-full min-h-[200px]">
       <Card>

@@ -14,7 +14,7 @@ const IssuesPage = async () => {
     toast.error("Unauthorized");
     redirect("/sign-in");
   }
-  const date = "2024-07-17"; // Replace with your desired date filter
+  const date = "2024-07-01"; // Replace with your desired date filter
 
   const res = await fetch(`${process.env.URL}/api/data/issue/filter/${date}`, {
     method: "GET",
