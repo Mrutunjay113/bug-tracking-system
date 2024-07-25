@@ -76,7 +76,7 @@ const UserSelect = ({
                 className="flex-shrink-0"
                 size="sm"
                 // src={item.data.profileImg}
-                src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png"
+                src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
               />
               <div className="flex flex-col">
                 <span>

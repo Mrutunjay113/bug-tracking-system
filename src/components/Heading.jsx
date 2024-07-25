@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 const Heading = ({ headingTitle, size, className }) => {
   const headingClass = classNames(
-    "font-bold ",
+    "font-semibold tracking-tight",
     {
       "text-3xl": size === "lg",
       "text-xl": size === "md",

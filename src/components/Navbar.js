@@ -1,10 +1,38 @@
 // components/Navbar.js
 "use client";
-import { Bell, User } from "lucide-react";
+import {
+  BadgeInfo,
+  BarChartBig,
+  Bell,
+  LineChart,
+  LogOutIcon,
+  SquareGanttChart,
+  SquareUser,
+  User,
+  UserRound,
+} from "lucide-react";
 import Link from "next/link";
 import { Icons } from "./icons";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/dropdown";
+import { Avatar } from "@nextui-org/avatar";
+import { useState } from "react";
 
 const Navbar = () => {
+  const data = [
+    { id: 1, message: "New comment on your post" },
+    { id: 2, message: "Your task is due tomorrow" },
+    { id: 3, message: "New friend request" },
+  ];
+  const [notifications, setNotifications] = useState([]);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const iconClasses = "text-xl  pointer-events-none flex-shrink-0";
+
   // Assuming you are using next-auth for session management
 
   return (
@@ -17,14 +45,92 @@ const Navbar = () => {
       {/* Right Side */}
       <div className="flex items-center space-x-4 mr-8">
         {/* Notification Bell Icon */}
-        <Link href="/notifications" className="relative">
-          <Bell className="h-6 w-6 text-gray-600 hover:text-gray-900" />
-        </Link>
+        <Dropdown
+          placement="bottom-end"
+          isOpen={isDropdownOpen}
+          onOpenChange={(open) => setIsDropdownOpen(open)}
+        >
+          <DropdownTrigger>
+            <Bell className="h-6 w-6 text-gray-600 hover:text-gray-900 cursor-pointer" />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Notifications" variant="light">
+            {data.length > 0 ? (
+              data.map((notification) => (
+                <DropdownItem key={notification.id}>
+                  {notification.message}
+                </DropdownItem>
+              ))
+            ) : (
+              <DropdownItem>No new notifications</DropdownItem>
+            )}
+          </DropdownMenu>
+        </Dropdown>
 
         {/* Profile Icon */}
-        <Link href="/profile">
-          <User className="h-6 w-6 text-gray-600 hover:text-gray-900" />
-        </Link>
+        {/* <Link href="/profile"> */}
+        <Dropdown placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              isBordered
+              as="button"
+              size="sm"
+              className="transition-transform"
+              src={
+                User.image || "https://i.pravatar.cc/150?u=a042581f4e29026704d"
+              }
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="shadow">
+            <DropdownItem key="profile" className="h-14 gap-2" variant="light">
+              <p className="font-semibold">Signed in as</p>
+              <p className="font-semibold">
+                {User.username || "zoey@example.com"}
+              </p>
+            </DropdownItem>
+
+            <DropdownItem
+              key="prfile"
+              href="/dashboard/profile"
+              startContent={<UserRound className={iconClasses} size={16} />}
+            >
+              My Profile
+            </DropdownItem>
+
+            <DropdownItem
+              key="add_issue"
+              href="/dashboard/addissue"
+              startContent={
+                <SquareGanttChart className={iconClasses} size={16} />
+              }
+            >
+              Add Issue
+            </DropdownItem>
+            <DropdownItem
+              key="analytics"
+              href="/dashboard/analytics"
+              startContent={<BarChartBig className={iconClasses} size={16} />}
+            >
+              Analytics
+            </DropdownItem>
+            {/* <DropdownItem key="system">System</DropdownItem> */}
+            {/* <DropdownItem key="configurations">Configurations</DropdownItem> */}
+            <DropdownItem
+              key="help_and_feedback"
+              startContent={<BadgeInfo className={iconClasses} size={16} />}
+            >
+              Help & Feedback
+            </DropdownItem>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              startContent={<LogOutIcon className={iconClasses} size={16} />}
+            >
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        {/* <User className="h-6 w-6 text-gray-600 hover:text-gray-900" /> */}
+        {/* </Link> */}
       </div>
     </nav>
   );
