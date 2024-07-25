@@ -2,7 +2,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Loader } from "lucide-react";
+import { ArrowRight, EyeIcon, EyeOffIcon, Loader } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
@@ -12,9 +12,11 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getCookie, getCookies } from "cookies-next";
 import { Button } from "@nextui-org/button";
+import { useState } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
+  const [handlepassword, setHandlePassword] = useState(false);
 
   const {
     handleSubmit,
@@ -85,18 +87,28 @@ const LoginPage = () => {
                 )}
               </div>
 
-              <div className="grid gap-1 py-2">
+              <div className="grid gap-1 py-2 relative">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   {...register("password", {
                     required: "password is required",
                   })}
-                  type="password"
+                  type={handlepassword ? "text" : "password"}
                   className={cn({
                     "": errors.password,
                   })}
                   placeholder="Password"
                 />
+                <span
+                  className="absolute right-4 top-9 text-gray-500 cursor-pointer hover:text-gray-600"
+                  onClick={() => setHandlePassword(!handlepassword)}
+                >
+                  {handlepassword ? (
+                    <EyeIcon size={18} strokeWidth={1.4} />
+                  ) : (
+                    <EyeOffIcon size={18} strokeWidth={1.4} />
+                  )}
+                </span>
                 {errors?.password && (
                   <p className="text-sm text-red-500">
                     {errors.password.message}

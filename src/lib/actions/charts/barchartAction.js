@@ -6,60 +6,59 @@ export const getStackedBarChartData = async () => {
   try {
     await ConnectMongoDb();
 
-    const today = new Date();
-    const lastMonth = new Date(today);
-    lastMonth.setMonth(today.getMonth() - 1);
+    // Calculate the date for one month ago
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-    // Aggregating data by date, issueType, and status
-    const issues = await IssueModel.aggregate([
+    // Define the aggregation pipeline
+    const pipeline = [
       {
         $match: {
-          createdAt: { $gte: lastMonth, $lte: today },
+          createdAt: { $gte: oneMonthAgo },
         },
       },
       {
-        $group: {
-          _id: {
-            date: { $dateToString: { format: "%Y-%m-%d", date: "$createdAt" } },
-            issueType: "$issueType",
-            status: "$status",
+        $project: {
+          date: {
+            $dateToString: { format: "%Y-%m-%d", date: "$createdAt" },
           },
-          issueCount: { $sum: 1 },
+          type: "$type",
         },
       },
       {
         $group: {
-          _id: { date: "$_id.date" },
+          _id: { date: "$date", type: "$type" },
+          count: { $sum: 1 },
+        },
+      },
+      {
+        $group: {
+          _id: "$_id.date",
           types: {
             $push: {
-              type: "$_id.issueType",
-              status: "$_id.status",
-              count: "$issueCount",
+              k: "$_id.type",
+              v: "$count",
             },
           },
         },
       },
       {
-        $sort: { "_id.date": 1 },
+        $project: {
+          _id: 0,
+          month: "$_id",
+          type: { $arrayToObject: "$types" },
+        },
       },
-    ]);
+      {
+        $sort: { month: 1 },
+      },
+    ];
 
-    // Transforming the aggregated data into the required format
-    const chartData = issues.map((issue) => {
-      const dataByDate = {
-        date: issue._id.date,
-      };
+    // Execute the aggregation pipeline
+    const result = await IssueModel.aggregate(pipeline);
 
-      issue.types.forEach((type) => {
-        dataByDate[`${type.type}_${type.status}`] = type.count;
-      });
-
-      return dataByDate;
-    });
-
-    // Example: { date: "2024-07-01", UIUX_Open: 5, UIUX_InProgress: 3, ... }
-
-    return { success: true, data: chartData };
+    // Return the result as JSON
+    return { success: true, data: result };
   } catch (error) {
     console.error(error);
     return { success: false, error: error.message };

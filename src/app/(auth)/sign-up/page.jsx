@@ -4,7 +4,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowRight, Loader } from "lucide-react";
+import { ArrowRight, EyeIcon, EyeOffIcon, Loader } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Icons } from "@/components/icons";
@@ -12,9 +12,13 @@ import { addUser } from "@/lib/actions/action";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/button";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const SignUpPage = () => {
   const Router = useRouter();
+
+  const [handlepassword, setHandlePassword] = useState(false);
+
   const {
     handleSubmit,
     register,
@@ -75,18 +79,28 @@ const SignUpPage = () => {
                 )}
               </div>
 
-              <div className="grid gap-1 py-2">
+              <div className="grid gap-1 py-2 relative">
                 <Label htmlFor="password">Password</Label>
                 <Input
                   {...register("password", {
                     required: "password is required",
                   })}
-                  type="password"
+                  type={handlepassword ? "text" : "password"}
                   className={cn({
                     "": errors.password,
                   })}
                   placeholder="Password"
                 />
+                <span
+                  className="absolute right-4 top-9 text-gray-500 cursor-pointer hover:text-gray-600"
+                  onClick={() => setHandlePassword(!handlepassword)}
+                >
+                  {handlepassword ? (
+                    <EyeIcon size={18} strokeWidth={1.4} />
+                  ) : (
+                    <EyeOffIcon size={18} strokeWidth={1.4} />
+                  )}
+                </span>
                 {errors?.password && (
                   <p className="text-sm text-red-500">
                     {errors.password.message}

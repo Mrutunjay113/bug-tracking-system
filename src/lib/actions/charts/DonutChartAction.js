@@ -10,41 +10,37 @@ export const getDonutChartData = async () => {
     const oneMonthAgo = new Date();
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-    // Query the issues from the last month
+    // Fetch all issues
     const issues = await IssueModel.find({
       createdAt: { $gte: oneMonthAgo },
-    });
+    }).lean();
 
     // Initialize the data structure
-    const data = {
-      issueType: {},
-      Status: {},
-    };
+    const data = {};
 
-    // Process the issues to populate the data structure
+    // Process the issues
     issues.forEach((issue) => {
-      const dateKey = issue.createdAt.toISOString().split("T")[0];
+      const dateKey = new Date(issue.createdAt).toISOString().split("T")[0];
+      const type = issue.type;
 
-      // Update issueType
-      if (!data.issueType[dateKey]) {
-        data.issueType[dateKey] = {};
+      if (!data[dateKey]) {
+        data[dateKey] = { type: {} };
       }
-      if (!data.issueType[dateKey][issue.type]) {
-        data.issueType[dateKey][issue.type] = 0;
-      }
-      data.issueType[dateKey][issue.type]++;
 
-      // Update Status
-      if (!data.Status[dateKey]) {
-        data.Status[dateKey] = {};
+      if (!data[dateKey].type[type]) {
+        data[dateKey].type[type] = 0;
       }
-      if (!data.Status[dateKey][issue.status]) {
-        data.Status[dateKey][issue.status] = 0;
-      }
-      data.Status[dateKey][issue.status]++;
+
+      data[dateKey].type[type]++;
     });
 
-    return { success: true, data };
+    // Convert to array of objects
+    const result = Object.keys(data).map((date) => ({
+      month: date,
+      type: data[date].type,
+    }));
+
+    return { success: true, data: result };
   } catch (error) {
     console.error(error);
     return { success: false, error: error.message };

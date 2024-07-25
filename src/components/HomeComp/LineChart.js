@@ -290,50 +290,50 @@ const chartConfig2 = {
 };
 
 export function LineChart2() {
- 
-
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Line Chart</CardTitle>
-        <CardDescription>This month</CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig2}>
-          <LineChart
-            accessibilityLayer
-            data={chartData2}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
-            <XAxis
-              dataKey="month"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-              tickFormatter={(value) => value.slice(0, 3)}
-            />
-            <ChartLegend content={<ChartLegendContent />} />
-            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-            <Line
-              dataKey="desktop"
-              type="monotone"
-              stroke="var(--color-desktop)"
-              strokeWidth={2}
-              dot={false}
-            />
-            <Line
-              dataKey="mobile"
-              type="monotone"
-              stroke="var(--color-mobile)"
-              strokeWidth={2}
-              dot={false}
-            />
-          </LineChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <div className="min-w-40 w-full min-h-[200px]">
+      <Card>
+        <CardHeader>
+          <CardTitle>Line Chart</CardTitle>
+          <CardDescription>This month</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <ChartContainer config={chartConfig2}>
+            <LineChart
+              accessibilityLayer
+              data={chartData2}
+              margin={{
+                left: 12,
+                right: 12,
+              }}
+            >
+              <XAxis
+                dataKey="month"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => value.slice(0, 3)}
+              />
+              <ChartLegend content={<ChartLegendContent />} />
+              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+              <Line
+                dataKey="desktop"
+                type="monotone"
+                stroke="var(--color-desktop)"
+                strokeWidth={2}
+                dot={false}
+              />
+              <Line
+                dataKey="mobile"
+                type="monotone"
+                stroke="var(--color-mobile)"
+                strokeWidth={2}
+                dot={false}
+              />
+            </LineChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
