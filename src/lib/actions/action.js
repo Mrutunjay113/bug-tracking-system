@@ -55,12 +55,20 @@ export const signIn = async (data) => {
       return {
         error: "Invalid credentials",
       };
-    }
+    } // Remove password from user object
+    const { password: pass, ...rest } = user.toObject();
+    const token = jwt.sign({ user: rest }, JWT_SECRET, {
+      expiresIn: "1h",
+    });
 
     //remove password from user object
-    const { password: pass, ...rest } = user.toObject();
-    const token = jwt.sign({ rest }, JWT_SECRET);
-    cookies().set("token", token);
+    // Set the token in the cookies
+    cookies().set("token", token, {
+      httpOnly: true, // To prevent client-side access
+      secure: process.env.NODE_ENV === "production", // Ensure cookies are only sent over HTTPS in production
+      maxAge: 3600, // 1 hour
+      path: "/", // Set the cookie for the entire domain
+    });
 
     return { user: token, success: true };
   } catch (error) {

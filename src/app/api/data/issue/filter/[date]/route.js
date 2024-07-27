@@ -12,13 +12,7 @@ export async function GET(req, { params }) {
   const authHeader = req.headers.get("authorization");
   const token = authHeader && authHeader.split(" ")[1];
   console.log("token", token);
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorized" });
-  }
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  if (!decoded) {
-    return NextResponse.json({ error: "Unauthorized" });
-  }
+
   try {
     await ConnectMongoDb();
 
