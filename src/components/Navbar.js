@@ -21,6 +21,8 @@ import {
 } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { useState } from "react";
+import { signOut } from "@/lib/actions/action";
+import { toast } from "sonner";
 
 const Navbar = () => {
   const data = [
@@ -33,7 +35,12 @@ const Navbar = () => {
 
   const iconClasses = "text-xl  pointer-events-none flex-shrink-0";
 
-  // Assuming you are using next-auth for session management
+  const handleSignOut = async () => {
+    // Sign out the user
+    // Remove the token from the cookies
+    // Redirect to the sign-in page
+    const signout = await signOut();
+  };
 
   return (
     <nav className="flex justify-between items-center h-20 border-b bg-white shadow">
@@ -121,11 +128,12 @@ const Navbar = () => {
               Help & Feedback
             </DropdownItem>
             <DropdownItem
+              onClick={handleSignOut}
               key="logout"
               color="danger"
               startContent={<LogOutIcon className={iconClasses} size={16} />}
             >
-              Log Out
+              Sign Out
             </DropdownItem>
           </DropdownMenu>
         </Dropdown>

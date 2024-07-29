@@ -3,7 +3,7 @@ import { verifyJwtToken } from "./lib/utils"; // Ensure this is an async functio
 import { cookies } from "next/headers";
 
 export async function middleware(request) {
-  const token = cookies().get("token")?.value;
+  const token = cookies()?.get("token")?.value;
 
   if (token) {
     try {

@@ -79,3 +79,13 @@ export const signIn = async (data) => {
   } finally {
   }
 };
+export async function signOut() {
+  // Clear the token from the cookie
+  const Cookie = cookies();
+  const token = Cookie.get("token")?.value;
+  if (token) {
+    Cookie.delete("token");
+    revalidatePath("/");
+  }
+  // Redirect to the sign-in page
+}
