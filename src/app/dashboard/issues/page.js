@@ -36,14 +36,17 @@ const IssuesPage = async () => {
   const done = issues.filter((issue) => issue.status === "Closed");
   // console.log(issues);
   return (
-    <div className=" mx-auto max-w-7xl ">
-      <Heading headingTitle="All Issues" size="lg" className="mb-4" />
-
-      <div className="grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-8 ">
-        <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
-        <IssueColumn title="In Progress" issues={inProgress} />
-        <IssueColumn title="In Review" issues={inReview} />
-        <IssueColumn title="Done" issues={done} />
+    <div className="-m-8 ">
+      <div className="bg-[#fafafa] margin-5 py-8">
+        <Heading headingTitle="All Issues" size="lg" className=" ml-4" />
+      </div>
+      <div className="bg-white md:pt-4">
+        <div className=" mx-auto max-w-7xl grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-8 ">
+          <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
+          <IssueColumn title="In Progress" issues={inProgress} />
+          <IssueColumn title="In Review" issues={inReview} />
+          <IssueColumn title="Done" issues={done} />
+        </div>
       </div>
     </div>
   );

@@ -11,7 +11,10 @@ export async function middleware(request) {
       // Log the decoded token for debugging
 
       // If the token is valid and user is trying to access the sign-in page, redirect to dashboard
-      if (decoded && request.nextUrl.pathname.startsWith("/sign-in")) {
+      if (
+        (decoded && request.nextUrl.pathname.startsWith("/sign-in")) ||
+        request.nextUrl.pathname.startsWith("/sign-up")
+      ) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
 
@@ -23,13 +26,18 @@ export async function middleware(request) {
       console.error("Token verification failed:", error);
 
       // Clear the cookie on token verification failure
-      const response = NextResponse.redirect(new URL("/sign-in", request.url));
+      const response = NextResponse.redirect(
+        new URL("/sign-in", request.url) || new URL("/sign-up", request.url)
+      );
       response.cookies.delete("token"); // Remove the token cookie
       return response;
     }
   } else {
     // Redirect to sign-in if no token and user is not on the sign-in page
-    if (!request.nextUrl.pathname.startsWith("/sign-in")) {
+    if (
+      !request.nextUrl.pathname.startsWith("/sign-in") &&
+      !request.nextUrl.pathname.startsWith("/sign-up")
+    ) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
   }

@@ -1,5 +1,6 @@
 "use client";
 import { verifyJwtToken } from "@/lib/utils";
+import { image } from "@nextui-org/react";
 import { createContext, useContext, useState } from "react";
 
 const TokenContext = createContext();
@@ -8,14 +9,19 @@ export const TokenProvider = ({ children }) => {
   const [token, setToken] = useState({
     token: null,
   });
-  const [user, setUser] = useState({
-    user: null,
-  });
 
-  const saveToken = (newToken) => {
+  const [user, setUser] = useState(null);
+  const saveToken = async (newToken) => {
     setToken(newToken);
-    const decodedToken = verifyJwtToken(newToken);
-    setUser(decodedToken);
+    const decodedToken = await verifyJwtToken(newToken);
+    setUser({
+      id: decodedToken.id,
+      email: decodedToken.email,
+      firstName: decodedToken.firstName,
+      lastName: decodedToken.lastName,
+      role: decodedToken.role,
+      image: decodedToken.image,
+    });
   };
 
   const removeToken = () => {
@@ -23,7 +29,9 @@ export const TokenProvider = ({ children }) => {
   };
 
   return (
-    <TokenContext.Provider value={{ token, saveToken, removeToken }}>
+    <TokenContext.Provider
+      value={{ token, saveToken, removeToken, user, setUser }}
+    >
       {children}
     </TokenContext.Provider>
   );
@@ -32,3 +40,16 @@ export const TokenProvider = ({ children }) => {
 export const useToken = () => {
   return useContext(TokenContext);
 };
+
+// export const UserProvider = ({ children }) => {
+//   const [user, setUser] = useState(null);
+
+//   return (
+//     <UserContext.Provider value={{ user, setUser }}>
+//       {children}
+//     </UserContext.Provider>
+//   );
+// };
+// export const useUser = () => {
+//   return useContext(UserContext);
+// };

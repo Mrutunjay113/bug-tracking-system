@@ -48,6 +48,7 @@ export async function GET(req, { params }) {
       description: issue.description,
       priority: issue.priority,
       image: issue.image,
+      type: issue.type,
       status: issue.status,
       issueType: issue.issueType,
       createdAt: issue.createdAt,

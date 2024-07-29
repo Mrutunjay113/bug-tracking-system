@@ -1,6 +1,7 @@
 "use client ";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
+import classNames from "classnames";
 import { MessageSquareText } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -13,58 +14,61 @@ const IssueCard = ({ issue }) => {
     issueType,
     image,
     assignedTo,
+    type,
     status,
     createdAt,
   } = issue;
 
+  const classType = {
+    bug: "bg-red-400 ",
+    feature: "bg-green-500",
+    other: "bg-slate-500 ",
+    improvement: "bg-yellow-500 ",
+  };
+
+  const classPriority = {
+    low: "bg-green-200",
+    medium: "bg-yellow-200",
+    high: "bg-red-200",
+  };
   console.log(issue);
   return (
     <div
-      className={`mb-4 flex-row  p-2  ${
-        status === "Closed"
-          ? "bg-gray-100 border-l-2 border-gray-500"
-          : priority === "high"
-          ? "border-l-2 border-red-500 bg-red-100"
-          : priority === "medium"
-          ? "border-l-2 border-yellow-500 bg-yellow-100"
-          : "border-l-2 border-green-500 bg-green-100"
-      }
-    
-
+      className={`mb-4 flex-row  p-2 
+      bg-[#F4F6F7] rounded-md
+${status === "Closed" ? "opacity-60" : "opacity-100"}
       `}
     >
       <Link href={`/dashboard/issues/${issue._id}`} className="space-y-4">
         <div className="relative ">
-          <div className="flex justify-between ">
-            <h2 className="text-lg font-bold ">{title} </h2>
-            <span className="relative items-center">
-              {priority === "low" ? (
-                <span
-                  className={` px-2 rounded-lg  text-white bg-green-600
-                ${status === "Closed" ? "opacity-50" : "opacity-80"} `}
-                >
-                  Low
-                </span>
-              ) : priority === "medium" ? (
-                <span
-                  className={` px-2 rounded-lg  text-white bg-yellow-600
-                  ${status === "Closed" ? "opacity-50" : "opacity-80"} `}
-                >
-                  Medium
-                </span>
-              ) : (
-                <span
-                  className={` px-2 rounded-lg  text-white bg-red-600
-                  ${status === "Closed" ? "opacity-50" : "opacity-80"} `}
-                >
-                  High
-                </span>
+          <div className="flex justify-between items-center ">
+            <span
+              className={classNames(
+                "px-2 rounded-lg  text-gray-700",
+                classType[type]
               )}
+            >
+              {type}
+            </span>{" "}
+            <span className="relative items-center ml-4">
+              <span
+                className={classNames(
+                  "px-2 rounded-lg  text-gray-700",
+                  classPriority[priority]
+                )}
+              >
+                {priority}
+              </span>
             </span>
           </div>
+
+          <div className="flex justify-between items-center mt-4">
+            <h2 className="text-lg font-bold ">{title} </h2>
+          </div>
           <div className="text-muted-foreground flex text-sm  items-center">
-            <div>{assignedTo}, </div>
-            <div>{new Date(createdAt).toLocaleDateString()}</div>
+            <div>
+              {assignedTo} - {new Date(createdAt).toLocaleDateString()}
+            </div>
           </div>
         </div>
         <div>
@@ -83,13 +87,8 @@ const IssueCard = ({ issue }) => {
               <span className="text-red-500 ">#Other</span>
             )}
           </div>
-          <div
-            className={
-              status === "Closed"
-                ? "opacity-50"
-                : "opacity-90 hover:text-gray-600"
-            }
-          >
+
+          <div className={status === "Closed" ? "opacity-50" : "opacity-90 "}>
             <MessageSquareText />
           </div>
         </div>

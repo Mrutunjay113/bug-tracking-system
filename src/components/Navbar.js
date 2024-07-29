@@ -23,8 +23,14 @@ import { Avatar } from "@nextui-org/avatar";
 import { useState } from "react";
 import { signOut } from "@/lib/actions/action";
 import { toast } from "sonner";
+import { useToken } from "@/app/context/usercontext";
+import { verifyJwtToken } from "@/lib/utils";
+import { redirect } from "next/dist/server/api-utils";
 
 const Navbar = () => {
+  const { token } = useToken();
+  console.log(token);
+
   const data = [
     { id: 1, message: "New comment on your post" },
     { id: 2, message: "Your task is due tomorrow" },
@@ -40,6 +46,10 @@ const Navbar = () => {
     // Remove the token from the cookies
     // Redirect to the sign-in page
     const signout = await signOut();
+    if (signout.success) {
+      toast.success("Signed out successfully");
+      redirect(new URL("/sign-in").toString());
+    }
   };
 
   return (
@@ -105,7 +115,7 @@ const Navbar = () => {
 
             <DropdownItem
               key="add_issue"
-              href="/dashboard/addissue"
+              href="/dashboard/issues/addissue"
               startContent={
                 <SquareGanttChart className={iconClasses} size={16} />
               }

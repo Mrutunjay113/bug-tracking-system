@@ -75,12 +75,6 @@ export const createIssue = async (formData) => {
 };
 
 export const getIssueById = async (id) => {
-  const cookie = cookies();
-  const token = cookie.get("token");
-  console.log(token);
-  const auth = VerifyJwtToken(token.value);
-  if (!id) return { success: false, error: "No ID provided" };
-  if (!auth) return { success: false, error: "Unauthorized user" };
   // console.log(`id`, id);
   try {
     await ConnectMongoDb();
@@ -111,6 +105,7 @@ export const getIssueById = async (id) => {
       priority: issue.priority,
       image: issue.image,
       status: issue.status,
+      type: issue.type,
       issueType: issue.issueType,
       createdAt: issue.createdAt,
       updatedAt: issue.updatedAt,

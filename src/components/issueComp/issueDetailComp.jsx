@@ -14,6 +14,9 @@ const IssueDetailComp = async ({ id }) => {
             {issue.title}
           </h1>
           <p className="text-md text-blue-500">#{issue.issueType}</p>
+          <p className="text-md font-semibold font-mono text-white  px-4 rounded-full bg-blue-500 w-fit">
+            {issue.type}
+          </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4">
@@ -32,6 +35,7 @@ const IssueDetailComp = async ({ id }) => {
                 {issue.priority}
               </p>
             </div>
+
             <div className="flex items-center">
               <h3 className="text-md font-semibold text-gray-600 mr-2">
                 Status:
@@ -55,7 +59,8 @@ const IssueDetailComp = async ({ id }) => {
                 Created At:
               </h3>
               <p className="text-md text-gray-600">
-                {new Date(issue.createdAt).toLocaleDateString()}
+                {new Date(issue.createdAt).toLocaleDateString()} |{" "}
+                {new Date(issue.createdAt).toLocaleTimeString()}
               </p>
             </div>
             <div className="flex items-center">
@@ -63,7 +68,8 @@ const IssueDetailComp = async ({ id }) => {
                 Updated At:
               </h3>
               <p className="text-md text-gray-600">
-                {new Date(issue.updatedAt).toLocaleDateString()}
+                {new Date(issue.updatedAt).toLocaleDateString()} |{" "}
+                {new Date(issue.updatedAt).toLocaleTimeString()}
               </p>
             </div>
           </div>

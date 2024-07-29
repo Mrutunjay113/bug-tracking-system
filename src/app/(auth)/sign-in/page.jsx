@@ -13,9 +13,11 @@ import { toast } from "sonner";
 import { getCookie, getCookies } from "cookies-next";
 import { Button } from "@nextui-org/button";
 import { useState } from "react";
+import { useToken } from "@/app/context/usercontext";
 
 const LoginPage = () => {
   const router = useRouter();
+  const { saveToken } = useToken();
   const [handlepassword, setHandlePassword] = useState(false);
 
   const {
@@ -38,6 +40,7 @@ const LoginPage = () => {
       return;
     }
     if (success) {
+      saveToken(user);
       toast.success("Sign in successfully");
       router.push("/dashboard");
     }
