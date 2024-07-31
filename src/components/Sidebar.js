@@ -132,7 +132,7 @@ const Sidebar = () => {
     <div className=" flex h-full ">
       <div
         className={`bg-[color:var(--bg-primary)] w-${
-          isExpanded ? "64" : "16"
+          isExpanded ? "60" : "16"
         } flex flex-col p-2 border-r flex-1`}
       >
         <div className="p-4 mb-2 justify-start flex">

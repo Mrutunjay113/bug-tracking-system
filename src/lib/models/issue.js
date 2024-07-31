@@ -37,6 +37,10 @@ const IssueSchema = new mongoose.Schema({
     enum: ["Open", "In Progress", "Closed", "In Review"],
     default: "Open",
   },
+  dueDate: {
+    type: Date,
+    required: true,
+  },
   issueType: {
     type: String,
     enum: ["UI/UX", "Developer", "QA", "Tester"],

@@ -37,7 +37,13 @@ export async function GET(req, { params }) {
     }, {});
 
     const userMap = users.reduce((acc, user) => {
-      acc[user._id] = `${user.firstName} ${user.lastName}`;
+      console.log("user", user);
+      //get full name and image
+      acc[user._id] = {
+        name: `${user.firstName} ${user.lastName}`,
+        image: user.profileImg ? user.profileImg : "",
+      };
+
       return acc;
     }, {});
 
@@ -54,7 +60,7 @@ export async function GET(req, { params }) {
       createdAt: issue.createdAt,
       updatedAt: issue.updatedAt,
       team: teamMap[issue.team] || null, // Get team name
-      assignedTo: userMap[issue.assignedTo] || null, // Get full name of assignedTo
+      assignedTo: issue.assignedTo.map((userId) => userMap[userId] || null),
     }));
 
     return NextResponse.json({
