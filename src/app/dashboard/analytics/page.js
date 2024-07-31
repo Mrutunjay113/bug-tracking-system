@@ -5,9 +5,15 @@ import { ShadDonut } from "@/components/HomeComp/ShadDonut";
 
 const Page = () => {
   return (
-    <main>
-      <Heading headingTitle="Analytics" size="lg" className="mb-4" />
-      <div className="md:flex py-5 md:space-y-0 space-y-4 gap-4 w-full">
+    <main className="h-lvh">
+      <div className="bg-[color:var(--primary-2)] margin-5 py-10">
+        <Heading
+          headingTitle="Analytics"
+          size="lg"
+          className="text-white uppercase ml-4"
+        />
+      </div>
+      <div className="md:flex py-5 md:space-y-0 space-y-4 gap-4 w-full md:p-8 p-2">
         <div className="md:w-2/6 ">
           <Barchart />
         </div>
@@ -19,7 +25,7 @@ const Page = () => {
           <ShadDonut />
         </div>
       </div>
-      <div className="w-full ">
+      <div className="w-full md:p-8 p-2">
         <LineChartComp />
       </div>
     </main>

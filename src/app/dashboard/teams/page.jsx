@@ -15,7 +15,13 @@ export default async function Page() {
 
   return (
     <main>
-      <Heading headingTitle="Teams" size="lg" className="mb-4 p-2" />
+      <div className="bg-[color:var(--primary-2)] margin-5 py-10">
+        <Heading
+          headingTitle="Teams"
+          size="lg"
+          className="text-white uppercase ml-4"
+        />
+      </div>
       <Suspense fallback="loading...">
         <TeamTable data={teams} />
       </Suspense>

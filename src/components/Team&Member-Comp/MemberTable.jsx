@@ -85,7 +85,7 @@ export function MemberTable({ data }) {
   }, []);
 
   return (
-    <div className="md:space-y-6">
+    <div className="md:space-y-6 md:p-8 p-2">
       <div className=" md:flex justify-start gap-5 p-2 ">
         <Input
           type="text"

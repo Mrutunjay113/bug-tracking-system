@@ -9,6 +9,7 @@ export function cn(...inputs) {
 const JWT_SECRET = process.env.JWT_SECRET; // Your JWT secret key
 
 export async function verifyJwtToken(token) {
+  console.log("Token:", token);
   try {
     // Decode the JWT token using the jose library
     const { payload } = await jwtVerify(

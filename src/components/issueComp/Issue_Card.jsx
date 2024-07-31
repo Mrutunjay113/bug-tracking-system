@@ -88,7 +88,12 @@ ${status === "Closed" ? "opacity-60" : "opacity-100"}
             )}
           </div>
 
-          <div className={status === "Closed" ? "opacity-50" : "opacity-90 "}>
+          <div
+            className={`
+            text-[#ff8952]
+
+            status === "Closed" ? "opacity-50" : "opacity-90 "`}
+          >
             <MessageSquareText />
           </div>
         </div>

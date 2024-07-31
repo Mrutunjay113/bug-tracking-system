@@ -90,7 +90,7 @@ const Page = () => {
   };
 
   return (
-    <main className="max-w-2xl mx-auto">
+    <main className="max-w-2xl mx-auto  md:p-8 p-2">
       <Heading headingTitle="Add Team" size="lg" className="mb-4" />
       <div>
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>

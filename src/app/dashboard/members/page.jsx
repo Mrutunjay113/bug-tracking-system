@@ -12,12 +12,18 @@ export default async function Page() {
   if (error) {
     return <div>error</div>;
   }
-  console
+  console;
   const data = members;
 
   return (
     <main>
-      <Heading headingTitle="Members" size="lg" className="mb-4 p-2" />
+      <div className="bg-[color:var(--primary-2)] margin-5 py-10">
+        <Heading
+          headingTitle="Members"
+          size="lg"
+          className="text-white uppercase ml-4"
+        />
+      </div>
       <Suspense fallback="loading...">
         <MemberTable data={data} />
       </Suspense>

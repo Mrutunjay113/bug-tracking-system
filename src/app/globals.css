@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --primary-1: #1f66ff;
+  --primary-2: #053767;
+  --secondary-1: #ff8952;
+  --secondary-2: #f46717;
+  --accent-1: #434144;
+  --accent-2: #151415;
+  --gray-1: #e9eceb;
+  --bg-primary: #ffffff;
+}
+
 @layer base {
   @layer base {
     :root {
