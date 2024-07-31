@@ -3,7 +3,7 @@ import Search from "@/components/search";
 import { MemberTable } from "@/components/Team&Member-Comp/MemberTable";
 import { TeamTable } from "@/components/Team&Member-Comp/TeamTable";
 import { Input } from "@/components/ui/input";
-import { fetchTeams, getTeams, getTeamsRole } from "@/lib/actions/team/action";
+import { fetchTeams, getTeams } from "@/lib/actions/team/action";
 import { Button } from "@nextui-org/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
@@ -23,8 +23,6 @@ export default async function Page({ searchParams }) {
   console.log("userss", userss);
   console.log("response ", response.error);
 
-  if (response.error) {
-  }
   return (
     <main>
       <div className="bg-[color:var(--primary-2)]   py-10 flex justify-between">

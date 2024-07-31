@@ -27,12 +27,12 @@ const Search = ({ placeholder }) => {
     replace(`${pathname}?${params.toString()}`);
   };
   return (
-    <div className="flex p-2 w-fit items-center border gap-2 rounded-md">
+    <div className="flex p-2 w-fit items-center  bg-[#3d97ad]  gap-2 rounded-md">
       <MdSearch color="white" />
       <input
         type="search"
         placeholder={placeholder}
-        className={` text-white bg-transparent border-none focus:outline-none`}
+        className={` text-white bg-transparent placeholder-slate-200 border-none focus:outline-none`}
         onChange={handleSearch}
       />
     </div>

@@ -83,53 +83,53 @@ export const createTeam = async (formData) => {
     return { success: false, error: error.message }; // Handle and return error
   }
 };
-export const getTeamsRole = async () => {
-  try {
-    await ConnectMongoDb();
-    const teams = await TeamModel.find().populate("members");
+// export const getTeamsRole = async () => {
+//   try {
+//     await ConnectMongoDb();
+//     const teams = await TeamModel.find().populate("members");
 
-    if (teams.length === 0) {
-      return {
-        success: false,
-        error: "No teams found",
-      };
-    }
+//     if (teams.length === 0) {
+//       return {
+//         success: false,
+//         error: "No teams found",
+//       };
+//     }
 
-    const getTemInfo = await Promise.all(
-      teams.map(async (team) => {
-        const teamLeader = await User.findById(
-          { _id: team.teamleader },
-          {
-            firstName: 1,
-            lastName: 1,
-            email: 1,
-            username: 1,
-            status: 1,
-            image: 1,
-          }
-        );
-        return {
-          userinfo: teamLeader,
-        };
-      })
-    );
-    const formateTeam = teams.map((team, index) => {
-      return {
-        ...team._doc,
-        userInfo: getTemInfo[index].userinfo,
-      };
-    });
-    // console.log(`getTemInfo`, formateTeam);
+//     const getTemInfo = await Promise.all(
+//       teams.map(async (team) => {
+//         const teamLeader = await User.findById(
+//           { _id: team.teamleader },
+//           {
+//             firstName: 1,
+//             lastName: 1,
+//             email: 1,
+//             username: 1,
+//             status: 1,
+//             image: 1,
+//           }
+//         );
+//         return {
+//           userinfo: teamLeader,
+//         };
+//       })
+//     );
+//     const formateTeam = teams.map((team, index) => {
+//       return {
+//         ...team._doc,
+//         userInfo: getTemInfo[index].userinfo,
+//       };
+//     });
+//     // console.log(`getTemInfo`, formateTeam);
 
-    return {
-      success: true,
-      teams: JSON.parse(JSON.stringify(formateTeam)),
-    };
-  } catch (error) {
-    console.error("Error fetching teams:", error);
-    return { success: false, error: error.message };
-  }
-};
+//     return {
+//       success: true,
+//       teams: JSON.parse(JSON.stringify(formateTeam)),
+//     };
+//   } catch (error) {
+//     console.error("Error fetching teams:", error);
+//     return { success: false, error: error.message };
+//   }
+// };
 
 export const getTeamLeader = async (teamType) => {
   console.log("teamType", teamType);
@@ -156,13 +156,23 @@ export const getTeamLeader = async (teamType) => {
 };
 export const fetchTeams = async (q, page = 10) => {
   const regex = new RegExp(q, "i");
-  const ITEM_PER_PAGE = 5;
+  const ITEM_PER_PAGE = 10;
 
   try {
     const count = await TeamModel.find({
-      name: { $regex: regex },
+      $or: [
+        { name: { $regex: regex } },
+        { description: { $regex: regex } },
+        { TeamRole: { $regex: regex } },
+      ],
     }).countDocuments();
-    const teams = await TeamModel.find({ name: { $regex: regex } })
+    const teams = await TeamModel.find({
+      $or: [
+        { name: { $regex: regex } },
+        { description: { $regex: regex } },
+        { TeamRole: { $regex: regex } },
+      ],
+    })
       .limit(ITEM_PER_PAGE)
       .skip(ITEM_PER_PAGE * (page - 1));
     if (teams.length === 0) {

@@ -86,23 +86,6 @@ export function MemberTable({ data }) {
 
   return (
     <div className="md:space-y-6 md:p-8 p-2">
-      <div className=" md:flex justify-start gap-5 p-2 ">
-        <Input
-          type="text"
-          placeholder="Search"
-          className="max-w-full w-60 border rounded-md p-2 md:mb-0 mb-2"
-        />
-
-        <Link href="/dashboard/members/add-member">
-          <Button color="primary" radius="sm" size="md">
-            Add Member
-            <span>
-              <Plus size={18} />
-            </span>
-          </Button>
-        </Link>
-      </div>
-
       <ScrollArea className="md:w-full max-w-64 w-max md:max-w-full">
         <div className="p-2">
           <Table radius="sm" aria-label="Member table">
@@ -113,17 +96,29 @@ export function MemberTable({ data }) {
                 </TableColumn>
               ))}
             </TableHeader>
-            <TableBody>
-              {data.map((member) => (
-                <TableRow key={member.userID}>
-                  {fieldsToDisplay.map((key) => (
-                    <TableCell className="" key={key}>
-                      {renderCell(member, key)}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
+            {data !== undefined ? (
+              <TableBody>
+                {data?.map((member) => (
+                  <TableRow key={member.userID}>
+                    {fieldsToDisplay.map((key) => (
+                      <TableCell className="" key={key}>
+                        {renderCell(member, key)}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            ) : (
+              <TableBody
+                emptyContent={
+                  <div className="flex flex-col items-center justify-center">
+                    <p className="text-gray-500">No teams found</p>
+                  </div>
+                }
+              >
+                {[]}
+              </TableBody>
+            )}
           </Table>
         </div>
         <ScrollBar orientation="horizontal" />

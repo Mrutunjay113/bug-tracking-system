@@ -77,21 +77,21 @@ export const createMember = async (formData) => {
   }
 };
 
-export const getMembers = async () => {
-  try {
-    await ConnectMongoDb();
-    const members = await Member.find().populate("team");
+// export const getMembers = async () => {
+//   try {
+//     await ConnectMongoDb();
+//     const members = await Member.find().populate("team");
 
-    console.log(`members`, members);
-    return {
-      success: true,
-      members: JSON.parse(JSON.stringify(members)),
-    };
-  } catch (error) {
-    console.error("Error getting members:", error);
-    return { success: false, error: error.message };
-  }
-};
+//     console.log(`members`, members);
+//     return {
+//       success: true,
+//       members: JSON.parse(JSON.stringify(members)),
+//     };
+//   } catch (error) {
+//     console.error("Error getting members:", error);
+//     return { success: false, error: error.message };
+//   }
+// };
 
 export const getMembersByDesignation = async (designation) => {
   console.log(`designation`, designation);
@@ -106,5 +106,44 @@ export const getMembersByDesignation = async (designation) => {
   } catch (error) {
     console.error("Error getting members by designation:", error);
     return { success: false, error: error.message };
+  }
+};
+
+export const fetchMembers = async (q, page = 10) => {
+  const regex = new RegExp(q, "i");
+  const ITEM_PER_PAGE = 10;
+
+  try {
+    const count = await Member.find({
+      $or: [
+        { firstName: { $regex: regex } },
+        { lastName: { $regex: regex } },
+        { email: { $regex: regex } },
+      ],
+    }).countDocuments();
+    const members = await Member.find({
+      $or: [
+        { firstName: { $regex: regex } },
+        { lastName: { $regex: regex } },
+        { email: { $regex: regex } },
+      ],
+    })
+      .populate("team")
+      .limit(ITEM_PER_PAGE)
+      .skip(ITEM_PER_PAGE * (page - 1));
+    if (members.length === 0) {
+      return {
+        success: false,
+        error: "No teams found",
+      };
+    }
+
+    return {
+      members: JSON.parse(JSON.stringify(members)),
+      count,
+      success: true,
+    };
+  } catch (err) {
+    console.log(err);
   }
 };
