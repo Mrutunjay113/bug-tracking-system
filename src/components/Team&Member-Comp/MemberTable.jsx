@@ -112,7 +112,7 @@ export function MemberTable({ data }) {
               <TableBody
                 emptyContent={
                   <div className="flex flex-col items-center justify-center">
-                    <p className="text-gray-500">No teams found</p>
+                    <p className="text-gray-500">No Members found</p>
                   </div>
                 }
               >

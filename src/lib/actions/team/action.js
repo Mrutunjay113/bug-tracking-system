@@ -173,6 +173,7 @@ export const fetchTeams = async (q, page = 10) => {
         { TeamRole: { $regex: regex } },
       ],
     })
+      .populate("members")
       .limit(ITEM_PER_PAGE)
       .skip(ITEM_PER_PAGE * (page - 1));
     if (teams.length === 0) {

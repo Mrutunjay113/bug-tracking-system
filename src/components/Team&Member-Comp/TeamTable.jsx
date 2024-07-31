@@ -53,12 +53,14 @@ const fieldNameMapping = {
 };
 
 export function TeamTable({ data }) {
+  console.log(`tdata`, data);
   const [selectedUser, setSelectedUser] = useState({
     selected: "member" ? "member" : "other" ? "other" : null,
     data: [],
   });
 
   const handleAvatarClick = (member) => {
+    console.log(`member`, member);
     if (member.selected === "member") {
       setSelectedUser({
         selected: "member",
@@ -82,7 +84,7 @@ export function TeamTable({ data }) {
       });
     }
   };
-  console.log(`data`, selectedUser.data.firstName);
+  console.log(`data`, selectedUser?.data?.firstName);
 
   const renderCell = useCallback(
     (team, key) => {
@@ -191,7 +193,7 @@ export function TeamTable({ data }) {
                   </DropdownItem>
                 ) : (
                   selectedUser.selected === "other" &&
-                  team.members.map((member) => (
+                  team?.members?.map((member) => (
                     <DropdownItem
                       key={member._id}
                       textValue={`${member.firstName} ${member.lastName}`}
