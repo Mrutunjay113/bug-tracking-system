@@ -26,6 +26,7 @@ const IssuesPage = async () => {
   });
   const issue = await res.json();
   const issues = issue.issues;
+  const counts = issue.counts;
   console.log(issues);
   // console.log(issues.issues);
   if (issues.success === false) {
@@ -48,10 +49,23 @@ const IssuesPage = async () => {
       <div className=" md:pt-4">
         <div className=" max-w-full md:px-10 px-3 grid grid-cols-1 md:grid-cols-2  lg:grid-cols-4 gap-8 ">
           <Suspense fallback={<div>Loadings...</div>}>
-            <IssueColumn title="TO DO" issues={addIssue} addissue={true} />
-            <IssueColumn title="In Progress" issues={inProgress} />
-            <IssueColumn title="In Review" issues={inReview} />
-            <IssueColumn title="Done" issues={done} />
+            <IssueColumn
+              title="TO DO"
+              issues={addIssue}
+              addissue={true}
+              counts={counts.open}
+            />
+            <IssueColumn
+              title="In Progress"
+              issues={inProgress}
+              counts={counts.inProgress}
+            />
+            <IssueColumn
+              title="In Review"
+              issues={inReview}
+              counts={counts.inReview}
+            />
+            <IssueColumn title="Done" issues={done} counts={counts.closed} />
           </Suspense>
         </div>
       </div>

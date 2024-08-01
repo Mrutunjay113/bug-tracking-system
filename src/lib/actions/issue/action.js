@@ -106,6 +106,7 @@ export const getIssueById = async (id) => {
       image: issue.image,
       status: issue.status,
       type: issue.type,
+      dueDate: issue.dueDate,
       issueType: issue.issueType,
       createdAt: issue.createdAt,
       updatedAt: issue.updatedAt,

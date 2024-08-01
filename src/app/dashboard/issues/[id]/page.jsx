@@ -9,8 +9,14 @@ const IssueDetailsPage = async ({ params }) => {
   const { id } = params;
 
   return (
-    <main className=" p-6 relative">
-      <Heading headingTitle="Issue Details" size="lg" className="mb-8" />
+    <main className="  relative">
+      <div className="bg-[color:var(--primary-2)] margin-5 py-10 md:mb-10">
+        <Heading
+          headingTitle="Issue Details"
+          size="lg"
+          className="text-white uppercase ml-4"
+        />
+      </div>
       <Suspense fallback={<div>Loading...</div>}>
         <IssueDetailComp id={id} />
       </Suspense>

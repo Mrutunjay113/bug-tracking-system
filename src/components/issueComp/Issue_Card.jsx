@@ -3,7 +3,14 @@ import { Avatar } from "@nextui-org/avatar";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Image } from "@nextui-org/image";
 import classNames from "classnames";
-import { MessageSquareText } from "lucide-react";
+import {
+  CalendarCheck,
+  CalendarClock,
+  CalendarPlus,
+  Clock,
+  Flag,
+  MessageSquareText,
+} from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
@@ -16,6 +23,7 @@ const IssueCard = ({ issue }) => {
     image,
     assignedTo,
     type,
+    dueDate,
     status,
     createdAt,
   } = issue;
@@ -61,31 +69,44 @@ const IssueCard = ({ issue }) => {
     }
   };
   const classPriority = {
-    low: "bg-green-200",
-    medium: "bg-yellow-200",
-    high: "bg-red-200",
+    low: "text-green-600",
+    medium: "text-yellow-600",
+    high: "text-red-600",
   };
 
   return (
     <div
-      className={`mb-4 flex-row shadow-sm  p-2
-      bg-[#eff0ef] rounded-md
+      className={`mb-4 flex-row shadow-sm border hover:border-gray-400  bg-white p-2 px-4
+       rounded-md 
 ${status === "Closed" ? "opacity-60" : "opacity-100"}
       `}
     >
-      <Link href={`/dashboard/issues/${issue._id}`} className="space-y-4">
+      <Link href={`/dashboard/issues/${issue._id}`} className="">
         <div className="relative ">
           <div className="flex justify-between items-center ">
-            <h2 className="text-lg font-bold flex text-wrap">{title} </h2>
             <div
-              className={`px-2   rounded-full text-gray-700 ${classPriority[priority]}`}
+              className={`  flex items-center font-semibold text-sm  uppercase rounded-full text-gray-700 ${classPriority[priority]}`}
             >
               {priority}
             </div>
+            <div className="flex text-muted-foreground gap-2 text-sm  items-center">
+              <span>
+                <CalendarClock className="w-4" />
+              </span>
+              {new Date(dueDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </div>
           </div>
-          <div className="text-muted-foreground flex text-sm  items-center">
-            <div>
-              {assignedTo[0]?.name} - {timeandDateFormatter(createdAt)}
+          <div className="my-2">
+            <h2 className="text-lg font-bold flex text-wrap">{title} </h2>
+            <div className="flex items-center text-muted-foreground text-sm gap-1">
+              <span className=" ">
+                <CalendarPlus className="w-4" />
+              </span>
+              {timeandDateFormatter(createdAt)}
             </div>
           </div>
         </div>
@@ -93,16 +114,16 @@ ${status === "Closed" ? "opacity-60" : "opacity-100"}
           <p className="text-base">{description}</p>
         </div> */}
 
-        <div className="text-muted-foreground flex justify-between items-center pt-2">
+        <div className="text-muted-foreground flex justify-between items-center ">
           <div className="p-1 flex justify-start gap-2">
             {issueType === "UI/UX" ? (
-              <span className="text-blue-500  ">#UI/UX</span>
+              <span className="  ">#UI/UX</span>
             ) : issueType === "Developer" ? (
-              <span className="text-green-500 ">#Dev</span>
+              <span className=" ">#Dev</span>
             ) : issueType === "QA" ? (
-              <span className="text-yellow-500  ">#QA</span>
+              <span className="  ">#QA</span>
             ) : (
-              <span className="text-red-500 ">#Other</span>
+              <span className="">#Other</span>
             )}
             {"|"}
             <span className={classNames(" ", classType[type])}>
@@ -112,13 +133,13 @@ ${status === "Closed" ? "opacity-60" : "opacity-100"}
           <div className="flex items-center gap-4">
             <Avatar
               src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
+              size="sm"
               // src={assignedTo[0]?.image}
               alt="my"
             />
             <div
               className={`
-            text-[#ff8952]
-
+            text-muted-foreground hover:text-gray-600 text-sm font-semibold
             status === "Closed" ? "opacity-50" : "opacity-90 "`}
             >
               <MessageSquareText />

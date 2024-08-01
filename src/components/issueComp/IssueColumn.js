@@ -7,17 +7,22 @@ import { ScrollShadow } from "@nextui-org/scroll-shadow";
 
 import { ScrollArea } from "../ui/scroll-area";
 
-const IssueColumn = ({ title, issues, addissue }) => {
+const IssueColumn = ({ title, issues, addissue, counts }) => {
   return (
     <div className=" ">
       <div className="flex justify-between items-center my-2 ">
-        <h2
-          className={`text-lg font-bold my-2 text-[#323232] ${
-            addissue ? "" : ""
-          }`}
-        >
-          {title}
-        </h2>
+        <div className="flex items-center gap-4">
+          <h2
+            className={`text-lg font-bold my-2 text-[#323232] ${
+              addissue ? "" : ""
+            }`}
+          >
+            {title}
+          </h2>
+          <span className="px-2 text-[var(--primary-1)] bg-[var(--gray-1)] font-semibold rounded-full">
+            {counts}
+          </span>
+        </div>
         {addissue && (
           <Link
             href="/dashboard/issues/addissue"

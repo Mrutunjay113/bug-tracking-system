@@ -37,7 +37,7 @@ export async function GET(req, { params }) {
     }, {});
 
     const userMap = users.reduce((acc, user) => {
-      console.log("user", user);
+      // console.log("user", user);
       //get full name and image
       acc[user._id] = {
         name: `${user.firstName} ${user.lastName}`,
@@ -57,15 +57,27 @@ export async function GET(req, { params }) {
       type: issue.type,
       status: issue.status,
       issueType: issue.issueType,
+      dueDate: issue.dueDate,
       createdAt: issue.createdAt,
       updatedAt: issue.updatedAt,
       team: teamMap[issue.team] || null, // Get team name
       assignedTo: issue.assignedTo.map((userId) => userMap[userId] || null),
     }));
+    const count = {
+      open: formattedIssues.filter((issue) => issue.status === "Open").length,
+      inProgress: formattedIssues.filter(
+        (issue) => issue.status === "In Progress"
+      ).length,
+      inReview: formattedIssues.filter((issue) => issue.status === "In Review")
+        .length,
+      closed: formattedIssues.filter((issue) => issue.status === "Closed")
+        .length,
+    };
 
     return NextResponse.json({
       success: true,
       issues: formattedIssues,
+      counts: count,
     });
   } catch (error) {
     console.error(error);
