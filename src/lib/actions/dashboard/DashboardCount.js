@@ -43,6 +43,9 @@ export const getDashboardCounts = async () => {
           statusProgress: {
             $sum: { $cond: [{ $eq: ["$status", "In Progress"] }, 1, 0] },
           },
+          statusReview: {
+            $sum: { $cond: [{ $eq: ["$status", "In Review"] }, 1, 0] },
+          },
           priorityHigh: {
             $sum: { $cond: [{ $eq: ["$priority", "high"] }, 1, 0] },
           },
@@ -61,6 +64,7 @@ export const getDashboardCounts = async () => {
       totalIssue: result.totalIssues || 0,
       StatusOpen: result.statusOpen || 0,
       StatusClose: result.statusClose || 0,
+      StatusReview: result.statusReview || 0,
       StatusProgress: result.statusProgress || 0,
       Priority: {
         totalPriority:

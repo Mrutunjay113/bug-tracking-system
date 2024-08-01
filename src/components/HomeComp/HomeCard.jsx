@@ -15,6 +15,7 @@ import React from "react";
 
 import DonutChart from "./DonutPie";
 import DonutPie from "./DonutPie";
+import { Donut } from "./halfdonut";
 
 const HomeCard = ({
   title = "Total Issues",
@@ -41,8 +42,8 @@ const HomeCard = ({
     : null;
 
   return (
-    <div className="flex rounded-md  w-f border bg-white justify-between  relative p-4 ">
-      <div className=" items-center gap-4">
+    <div className="flex rounded-md w-full min-h-[192px] min-w-[200px] bg-white justify-between h-fit relative p-4 ">
+      <div className=" items-center gap-4 my-auto">
         <div className="flex justify-between items-center">
           <h2 className="text-sm font-normal">{title}</h2>
         </div>
@@ -70,6 +71,7 @@ const HomeCard = ({
         {chart ? (
           <div className="flex items-center justify-center">
             <DonutPie chartData={chartData} CustomChartType={CustomChartType} />
+            {/* <Donut data={chartData} /> */}
           </div>
         ) : (
           <div className="flex  justify-center mb-4">{Icon}</div>
