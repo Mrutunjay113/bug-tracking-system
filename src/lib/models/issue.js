@@ -38,7 +38,7 @@ const IssueSchema = new mongoose.Schema({
     default: "Open",
   },
   dueDate: {
-    type: Date,
+    type: String,
     required: true,
   },
   issueType: {

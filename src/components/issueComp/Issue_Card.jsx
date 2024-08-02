@@ -76,7 +76,7 @@ const IssueCard = ({ issue }) => {
 
   return (
     <div
-      className={`mb-4 flex-row shadow-sm border hover:border-gray-400  bg-white p-2 px-4
+      className={` flex-row shadow-sm  my-2 hover:border-gray-400  bg-white p-2 px-4
        rounded-md 
 ${status === "Closed" ? "opacity-60" : "opacity-100"}
       `}

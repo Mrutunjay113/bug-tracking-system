@@ -12,10 +12,12 @@ import {
   getTeamRole,
 } from "@/lib/actions/team/action";
 import { toast } from "sonner";
-import Image from "next/image";
 import { Cross, SquareX, X } from "lucide-react";
 import { Button } from "@nextui-org/button";
 import Heading from "@/components/Heading";
+import { Avatar } from "@nextui-org/avatar";
+import { Image } from "@nextui-org/image";
+import { DatePickerWithPresets } from "@/components/DatePicker";
 
 const AddIssueForm = () => {
   const router = useRouter();
@@ -27,7 +29,9 @@ const AddIssueForm = () => {
     setValue,
   } = useForm();
   const [teams, setTeams] = useState([]);
+  const [image, setImage] = useState(null);
   const [members, setMembers] = useState([]);
+  const [showImgs, setShowImgs] = useState(false);
 
   const fetchTeams = async (TeamRole) => {
     try {
@@ -72,7 +76,7 @@ const AddIssueForm = () => {
   const handleFileChange = (e) => {
     if (e.target.files[0]) {
       const file = e.target.files[0];
-      // setProfilePicture(URL.createObjectURL(file));
+      setImage(URL.createObjectURL(file));
       setValue("issueImage", file);
     }
     console.log(`e`, e.target.files[0]);
@@ -80,7 +84,7 @@ const AddIssueForm = () => {
 
   const onSubmit = async (formData) => {
     try {
-      console.log(formData);
+      console.log(`formData`, formData);
       // await new Promise((resolve) => setTimeout(resolve, 1000));
       // const res = await createIssue(formData);
       const data = new FormData();
@@ -92,6 +96,7 @@ const AddIssueForm = () => {
       data.append("team", formData.team);
       data.append("type", formData.type);
       data.delete("issueImage");
+      data.append("dueDate", formData.dueDate);
 
       data.append("assignedTo", formData.assignedTo);
       if (formData.issueImage) {
@@ -112,10 +117,19 @@ const AddIssueForm = () => {
       // reset();
     }
   };
+  const handleDateChange = (date) => {
+    console.log(`date`, date);
+
+    setValue("dueDate", date);
+  };
 
   return (
     <div className=" mx-auto max-w-4xl md:mt-8">
-      <Heading heading="Add issue" size="lg" className="mb-5" />
+      <Heading
+        headingTitle="Add Issue"
+        size="lg"
+        className="mb-5 text-center uppercase"
+      />
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div className="relative">
           <Label htmlFor="imageissue">Image</Label>
@@ -131,12 +145,46 @@ const AddIssueForm = () => {
             <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
           )}
           <div>
-            <X
-              className="w-5 h-5 absolute right-5 top-9 pt-1 text-gray-500 hover:text-gray-600 cursor-pointer"
-              onClick={() => setValue("image", "")}
-            />
+            {image && (
+              <Avatar
+                src={image}
+                size="sm"
+                alt="my"
+                className="absolute right-14 top-8 cursor-pointer"
+                onClick={(e) => setShowImgs(image)}
+              />
+            )}
+            {image && (
+              <X
+                className="w-5 h-5 absolute right-5 top-9 pt-1 text-gray-500 hover:text-gray-600 cursor-pointer"
+                onClick={() => {
+                  setValue("image", "");
+                  setImage(null);
+                }}
+              />
+            )}
           </div>
-
+          {showImgs && (
+            <div className="fixed inset-0 w-full h-full z-50 text-center bg-black bg-opacity-50 flex justify-center items-center">
+              <div className="relative  ">
+                {" "}
+                {/* Fixed size container */}
+                <SquareX
+                  color="white"
+                  className="w-5 h-5 text-end absolute right-5 top-5 z-50 cursor-pointer"
+                  onClick={() => setShowImgs(null)}
+                />
+                {image && (
+                  <Image
+                    width={800}
+                    src={image}
+                    alt="img"
+                    className="object-cover" // Ensure image fills the container
+                  />
+                )}
+              </div>
+            </div>
+          )}
           {errors.image && (
             <p className="text-red-500 text-sm mt-1">{errors.image.message}</p>
           )}
@@ -152,6 +200,12 @@ const AddIssueForm = () => {
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
           )}
+        </div>
+        <div className="">
+          <Label htmlFor="dueDate">Due Date</Label>
+          <div>
+            <DatePickerWithPresets handleDateChange={handleDateChange} />
+          </div>
         </div>
         <div>
           <Label htmlFor="type">Type</Label>

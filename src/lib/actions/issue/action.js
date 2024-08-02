@@ -54,6 +54,7 @@ export const createIssue = async (formData) => {
       assignedTo: data.assignedTo,
       team: data.team,
       type: data.type,
+      dueDate: data.dueDate,
     });
 
     await newIssue.save();
@@ -65,6 +66,7 @@ export const createIssue = async (formData) => {
     await setProjectMember.save();
 
     return { success: true, issue: JSON.parse(JSON.stringify(newIssue)) };
+    // return { success: true, issue: JSON.parse(JSON.stringify(data)) };
 
     // Save the member to the database
     // await newMember.save();

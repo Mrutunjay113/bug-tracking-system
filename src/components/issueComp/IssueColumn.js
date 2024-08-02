@@ -39,7 +39,7 @@ const IssueColumn = ({ title, issues, addissue, counts }) => {
 
       <Separator />
 
-      <ScrollArea className="h-[650px] mt-4">
+      <ScrollArea className="max-h-[650px] mt-4  px-2   rounded-lg bg-[var(--gray-1)] ">
         {issues.map((issue) => (
           <IssueCard key={issue._id} issue={issue} />
         ))}
