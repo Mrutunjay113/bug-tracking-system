@@ -124,9 +124,9 @@ export function Donut({ data, config, title, description }) {
       </CardContent>
       {data?.Closed > 0 ? (
         <CardFooter className="flex justify-center mt-4">
-          <span className="bg-[#34A853] p-2 text-white rounded-full">
+          <span className="bg-[#34A853] p-1 text-white rounded-full">
             {" "}
-            <TrendingUp className="w-5 h-5" />
+            <TrendingUp className="w-4 h-4" />
           </span>
 
           <span className="ml-2 text-muted-foreground">

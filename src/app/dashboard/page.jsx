@@ -1,24 +1,15 @@
 import Heading from "@/components/Heading";
-import { Barchart } from "@/components/HomeComp/BarChart";
-import { Donut } from "@/components/HomeComp/halfdonut";
-import HomeCard from "@/components/HomeComp/HomeCard";
-import HomeCardCol from "@/components/HomeComp/HomeCardCol";
 import HomeCharts from "@/components/HomeComp/HomeCharts";
-import { LineChart2, LineChartComp } from "@/components/HomeComp/LineChart";
-import { ShadDonut } from "@/components/HomeComp/ShadDonut";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { getBarChartData } from "@/lib/actions/charts/barchartAction";
+
 import { getDashboardCounts } from "@/lib/actions/dashboard/DashboardCount";
-import { Card, CardHeader } from "@nextui-org/card";
-import { SeparatorVertical } from "lucide-react";
-import { Toaster } from "sonner";
+
+import { toast } from "sonner";
 
 const Page = async () => {
   const { success, dashboardCount, error } = await getDashboardCounts();
 
   if (!success) {
-    return <Toaster message={error} />;
+    return toast.error(error);
   }
   const data = dashboardCount;
   console.log(`data`, data);
