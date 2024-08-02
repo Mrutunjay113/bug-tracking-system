@@ -3,6 +3,7 @@ import { Barchart } from "@/components/HomeComp/BarChart";
 import { Donut } from "@/components/HomeComp/halfdonut";
 import HomeCard from "@/components/HomeComp/HomeCard";
 import HomeCardCol from "@/components/HomeComp/HomeCardCol";
+import HomeCharts from "@/components/HomeComp/HomeCharts";
 import { LineChart2, LineChartComp } from "@/components/HomeComp/LineChart";
 import { ShadDonut } from "@/components/HomeComp/ShadDonut";
 import { Button } from "@/components/ui/button";
@@ -104,8 +105,9 @@ const Page = async () => {
 
             <div className="w-full">
               {/* create a card in which show the total issues , issues open, issues closed? */}
-
-              <Donut data={data} />
+              {/*   
+              <Donut data={data} /> */}
+              <HomeCharts data={data} />
             </div>
           </div>
           {/* <div className="mt-10  py-5  rounded-md">

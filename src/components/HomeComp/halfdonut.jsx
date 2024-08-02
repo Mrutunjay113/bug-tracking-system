@@ -13,7 +13,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
@@ -21,46 +20,27 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartConfig = {
-  taskCount: {
-    label: "Task",
-  },
-  open: {
-    label: "Open",
-    color: "#4285f4",
-  },
-  "In Progress": {
-    label: "Progress",
-    color: "#ffab00",
-    value: "In Progress",
-  },
-  "In Review": {
-    label: "Review",
-    color: "#34a853",
-  },
-  Closed: {
-    label: "Closed",
-    color: "#ff4b4b",
-  },
-  review: {
-    label: "review",
-    color: "#34a853",
-  },
-};
+export function Donut({ data, config, title, description }) {
+  const chartData = useMemo(() => {
+    return Object.entries(data)
+      .map(([key, value]) => {
+        if (config[key]) {
+          return {
+            task: config[key].label,
+            taskCount: value,
+            fill: config[key].color,
+          };
+        }
+        return null;
+      })
+      .filter((item) => item !== null);
+  }, [data, config]);
 
-export function Donut({ data }) {
-  const chartData = [
-    { task: "open", taskCount: data?.StatusOpen, fill: "#4285f4" },
-    { task: "In Progress", taskCount: data?.StatusProgress, fill: "#ffab00" },
-    { task: "In Review", taskCount: data?.StatusReview, fill: "#34a853" },
-    { task: "Closed", taskCount: data?.StatusClose, fill: "#ff4b4b" },
-  ];
-
-  const [activeIndex, setActiveIndex] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(null);
 
   const totalTask = useMemo(() => {
     return chartData.reduce((acc, curr) => acc + curr.taskCount, 0);
-  }, []);
+  }, [chartData]);
 
   const handleClick = (_, index) => {
     setActiveIndex(index);
@@ -69,12 +49,12 @@ export function Donut({ data }) {
   return (
     <Card className="flex flex-col w-fit min-w-[300px]">
       <CardHeader className="items-center pb-0">
-        <CardTitle>Task Progress</CardTitle>
-        <CardDescription>This month</CardDescription>
+        <CardTitle>{title}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
-          config={chartConfig}
+          config={config}
           className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
@@ -130,7 +110,7 @@ export function Donut({ data }) {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Total Task
+                          {`Total ${title?.split(" ")[0]}`}
                         </tspan>
                       </text>
                     );
@@ -141,23 +121,25 @@ export function Donut({ data }) {
             <ChartLegend content={<ChartLegendContent nameKey="task" />} />
           </PieChart>
         </ChartContainer>
-        <CardFooter className="flex justify-center mt-4">
-          <TrendingUp className="w-5 h-5" />{" "}
-          {data?.StatusClose > 0 ? (
-            <span className="ml-2 text-muted-foreground">
-              We have closed
-              <span className="text-gray-600 font-semibold">
-                {data?.StatusClose > 0
-                  ? ` ${(data?.StatusClose / totalTask) * 100}%   `
-                  : " no"}
-              </span>
-              tasks this month.
-            </span>
-          ) : (
-            "No tasks closed this month."
-          )}
-        </CardFooter>
       </CardContent>
+      {data?.Closed > 0 ? (
+        <CardFooter className="flex justify-center mt-4">
+          <span className="bg-[#34A853] p-2 text-white rounded-full">
+            {" "}
+            <TrendingUp className="w-5 h-5" />
+          </span>
+
+          <span className="ml-2 text-muted-foreground">
+            We have closed
+            <span className="text-gray-600 font-semibold">
+              {data?.Closed > 0
+                ? ` ${(data?.Closed / totalTask) * 100}%   `
+                : null}
+            </span>
+            tasks this month.
+          </span>
+        </CardFooter>
+      ) : null}
     </Card>
   );
 }
