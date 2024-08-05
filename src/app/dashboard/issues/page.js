@@ -12,7 +12,6 @@ const IssuesPage = async () => {
   const cookiesstore = cookies();
   const token = cookiesstore.get("token")?.value;
   if (!token) {
-    toast.error("Unauthorized");
     redirect("/sign-in");
   }
   const date = "2024-07-01"; // Replace with your desired date filter
@@ -27,7 +26,6 @@ const IssuesPage = async () => {
   const issue = await res.json();
   const issues = issue.issues;
   const counts = issue.counts;
-  console.log(issues);
   // console.log(issues.issues);
   if (issues.success === false) {
     toast.error(issues.error);

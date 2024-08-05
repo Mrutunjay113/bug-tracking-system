@@ -88,8 +88,7 @@ export async function signOut() {
   const token = Cookie.get("token")?.value;
   if (token) {
     Cookie.delete("token");
-    revalidatePath("/");
-    redirect("/sign-in");
+
     return { success: true };
   }
   // Redirect to the sign-in page

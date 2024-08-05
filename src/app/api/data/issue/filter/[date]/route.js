@@ -73,6 +73,7 @@ export async function GET(req, { params }) {
       closed: formattedIssues.filter((issue) => issue.status === "Closed")
         .length,
     };
+    console.log("count", formattedIssues);
 
     return NextResponse.json({
       success: true,

@@ -125,3 +125,16 @@ export const getIssueById = async (id) => {
     return { success: false, error: error.message };
   }
 };
+
+export const getIssuesBYRecent = async (last = 5) => {
+  try {
+    ConnectMongoDb();
+    const issues = await IssueModel.find({})
+      .sort({ createdAt: -1 })
+      .limit(last);
+    return { success: true, issues: JSON.parse(JSON.stringify(issues)) };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: error.message };
+  }
+};
