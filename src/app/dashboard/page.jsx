@@ -35,7 +35,7 @@ const Page = async () => {
             </div>
           </div>
 
-          <div className="mt-2 flex gap-2">
+          <div className="mt-2 flex w-fit justify-end gap-2">
             {/* <SimpleCalendar /> */}
             <CalendarDemo />
             <RecentIssueCard />
