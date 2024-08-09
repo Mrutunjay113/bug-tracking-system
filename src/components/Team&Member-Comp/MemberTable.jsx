@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   Table,
   TableHeader,
@@ -11,13 +11,8 @@ import {
 import { User } from "@nextui-org/user";
 import classNames from "classnames";
 import { Chip } from "@nextui-org/chip";
-import { Button } from "@nextui-org/button";
-import { Input } from "../ui/input";
-import Link from "next/link";
-import { Plus } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 
-// Define the fields to display and their order
 const fieldsToDisplay = [
   "profileImg",
   "email",
@@ -26,7 +21,6 @@ const fieldsToDisplay = [
   "availabilityStatus",
 ];
 
-// Define a mapping from field names to display names
 const fieldNameMapping = {
   profileImg: "Profile",
   email: "Email",
@@ -38,12 +32,15 @@ const fieldNameMapping = {
 export function MemberTable({ data }) {
   console.log(`data`, data);
 
-  const statusColorMap = {
-    Available: "success",
-    Busy: "primary",
-    Vacation: "warning",
-    OnLeave: "danger",
-  };
+  const statusColorMap = useMemo(
+    () => ({
+      Available: "success",
+      Busy: "primary",
+      Vacation: "warning",
+      OnLeave: "danger",
+    }),
+    []
+  );
 
   const renderCell = useCallback(
     (member, key) => {
@@ -71,7 +68,6 @@ export function MemberTable({ data }) {
             </Chip>
           );
         case "team":
-          // Extract team name and description
           const { name, description } = cellValue || {};
           return (
             <div>
@@ -83,7 +79,7 @@ export function MemberTable({ data }) {
           return cellValue;
       }
     },
-    [statusColorMap] // Add statusColorMap to the dependency array
+    [statusColorMap] // Now it's safe to include statusColorMap here
   );
 
   return (
