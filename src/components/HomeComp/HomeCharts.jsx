@@ -13,6 +13,7 @@ import { Card, CardHeader, CardBody, Image } from "@nextui-org/react";
 import { Avatar } from "@nextui-org/avatar";
 import { CircleAlert, CircleCheck } from "lucide-react";
 import { Input } from "../ui/input";
+import { SearchTabs } from "./searchTabs";
 
 const memberData = [
   {
@@ -157,6 +158,9 @@ export default function HomeCharts({ data }) {
       __v: 0,
     },
   ];
+
+  const [tab, setTab] = React.useState("team");
+
   const taskStatusData = {
     Open: data.StatusOpen || 0,
     Progress: data.StatusProgress || 0,
@@ -167,6 +171,9 @@ export default function HomeCharts({ data }) {
     high: data.Priority ? data.Priority.high : 0,
     medium: data.Priority ? data.Priority.medium : 0,
     low: data.Priority ? data.Priority.low : 0,
+  };
+  const handleChangeTab = (tab) => {
+    setTab(tab);
   };
 
   return (
@@ -187,65 +194,7 @@ export default function HomeCharts({ data }) {
         {/* // availble team task and team members search */}
 
         <div className="">
-          <Card className="py-4 rounded-md overflow-y-auto">
-            <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
-              <h1 className="text-md uppercase font-bold">Team and member</h1>
-              {/* <small className="text-default-500">12 Tracks</small> */}
-              <Input
-                type="text"
-                placeholder="Search"
-                className="border p-2 mt-2 rounded-md w-full"
-              />
-            </CardHeader>
-
-            <CardBody className="overflow-visible py-2">
-              {memberData.map((team) => (
-                <div
-                  key={team._id.$oid}
-                  className="last:border-none border-b py-2"
-                >
-                  <div className="flex items-center gap-2">
-                    <Avatar
-                      alt={`${team.firstName} ${team.lastName}`}
-                      className="flex-shrink-0"
-                      size="sm"
-                      src={team.profileImg}
-                    />
-                    <div className="flex flex-col  w-full">
-                      <span>
-                        {team.firstName} {team.lastName}
-                      </span>
-                      <div className=" text-tiny">
-                        <>
-                          {team.tasks.length > 0 ? (
-                            <div>
-                              {team.tasks.length >= 2 ? (
-                                <span
-                                  className={`font-semibold flex items-center 
-                              text-red-500
-                              `}
-                                >
-                                  <CircleAlert className="w-4 mr-2" />
-                                  {team.tasks.length} Task left
-                                </span>
-                              ) : (
-                                <span className="text-green-500 font-semibold flex items-center ">
-                                  <CircleCheck className="w-4 mr-2 " />
-                                  {team.tasks.length} Task left
-                                </span>
-                              )}
-                            </div>
-                          ) : (
-                            <p className="text-green-700">No Task</p>
-                          )}
-                        </>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </CardBody>
-          </Card>
+          <SearchTabs />
         </div>
       </div>
     </div>
