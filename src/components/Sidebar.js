@@ -124,7 +124,6 @@ const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(true); // State to manage sidebar expand/collapse
   const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false); // State to manage Team dropdown visibility
   const toggleSidebar = () => setIsExpanded(!isExpanded);
-  const toggleTeamDropdown = () => setIsTeamDropdownOpen(!isTeamDropdownOpen);
 
   const pathname = usePathname();
 
@@ -175,18 +174,14 @@ const Sidebar = () => {
               showText={isExpanded}
             />
             <SidebarItem
-              href="#"
+              href=""
               icon={<HiOutlineUserGroup className="h-6 w-6" />}
               text="Team & Member"
-              isActive={pathname === "/dashboard/team"}
               showText={isExpanded}
               showDownArrow={true}
               isTeamDropdownOpen={isTeamDropdownOpen}
               className="transition delay-150 duration-300 ease-in-out"
-              onClick={(e) => {
-                e.preventDefault();
-                toggleTeamDropdown();
-              }}
+              onClick={() => setIsTeamDropdownOpen(!isTeamDropdownOpen)}
             >
               {isTeamDropdownOpen && (
                 <ul className={`pl-4 mt-2 space-y-2`}>
