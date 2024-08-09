@@ -42,7 +42,7 @@ const Page = () => {
     if (!success) {
       toast.error(error);
     }
-    // console.log(teamLeaders);
+    console.log(`t`,teamLeaders);
     setTeamLeaders(teamLeaders);
   };
 

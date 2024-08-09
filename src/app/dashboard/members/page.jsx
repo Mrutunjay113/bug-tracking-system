@@ -34,9 +34,9 @@ export default async function Page({ searchParams }) {
         />
         <div className="flex justify-between gap-4 mr-4">
           <Search placeholder="Search for a Member" />
-          <Link href="/dashboard/teams/add-team" className="">
+          <Link href="/dashboard/members/add-member" className="">
             <Button color="primary" radius="sm" size="md" className="w-25">
-              Add Team
+              Add Member
               <span>
                 <Plus size={18} />
               </span>

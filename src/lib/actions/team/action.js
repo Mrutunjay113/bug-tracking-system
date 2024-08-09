@@ -131,13 +131,14 @@ export const createTeam = async (formData) => {
 //   }
 // };
 
+//add team page
 export const getTeamLeader = async (teamType) => {
   console.log("teamType", teamType);
   try {
     await ConnectMongoDb();
     const team = await User.find({
       designation: teamType,
-    }).populate("members");
+    });
     if (team.length === 0) {
       return {
         success: false,
