@@ -98,7 +98,7 @@ const SidebarItem = ({
 
 const Sidebar = () => {
   const { token } = useToken();
-  console.log(token);
+  // console.log(token);
 
   const data = [
     { id: 1, message: "New comment on your post" },

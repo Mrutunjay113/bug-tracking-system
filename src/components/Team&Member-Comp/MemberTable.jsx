@@ -45,44 +45,46 @@ export function MemberTable({ data }) {
     OnLeave: "danger",
   };
 
-  const renderCell = useCallback((member, key) => {
-    const cellValue = member[key];
+  const renderCell = useCallback(
+    (member, key) => {
+      const cellValue = member[key];
 
-    switch (key) {
-      case "profileImg":
-        return (
-          <User
-            // avatarProps={{ radius: "full", src: member.profileImg }}
-            avatarProps={{
-              radius: "full",
-              src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png",
-            }}
-            description={member.email}
-            name={`${member.firstName} ${member.lastName}`}
-          />
-        );
-      case "availabilityStatus":
-        return (
-          <Chip
-            color={statusColorMap[cellValue]}
-            className={classNames("text-white")}
-          >
-            {cellValue}
-          </Chip>
-        );
-      case "team":
-        // Extract team name and description
-        const { name, description } = cellValue || {};
-        return (
-          <div>
-            <p className="text-sm font-semibold text-gray-700">{name}</p>
-            <p className="text-xs text-gray-400">{description}</p>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+      switch (key) {
+        case "profileImg":
+          return (
+            <User
+              avatarProps={{
+                radius: "full",
+                src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png",
+              }}
+              description={member.email}
+              name={`${member.firstName} ${member.lastName}`}
+            />
+          );
+        case "availabilityStatus":
+          return (
+            <Chip
+              color={statusColorMap[cellValue]}
+              className={classNames("text-white")}
+            >
+              {cellValue}
+            </Chip>
+          );
+        case "team":
+          // Extract team name and description
+          const { name, description } = cellValue || {};
+          return (
+            <div>
+              <p className="text-sm font-semibold text-gray-700">{name}</p>
+              <p className="text-xs text-gray-400">{description}</p>
+            </div>
+          );
+        default:
+          return cellValue;
+      }
+    },
+    [statusColorMap] // Add statusColorMap to the dependency array
+  );
 
   return (
     <div className="md:space-y-6 md:p-8 p-2">

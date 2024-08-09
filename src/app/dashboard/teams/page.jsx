@@ -12,7 +12,6 @@ import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
 export default async function Page({ searchParams }) {
-  const query = searchParams?.q || "";
 
   // const { error, teams } = await getTeamsRole();
 
