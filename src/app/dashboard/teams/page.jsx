@@ -12,7 +12,6 @@ import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
 export default async function Page({ searchParams }) {
-
   // const { error, teams } = await getTeamsRole();
 
   const q = searchParams.q || "";
@@ -41,9 +40,9 @@ export default async function Page({ searchParams }) {
           </Link>
         </div>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      {/* <Suspense fallback={<div>Loading...</div>}>
         <TeamTable data={userss} />
-      </Suspense>
+      </Suspense> */}
     </main>
   );
 }
