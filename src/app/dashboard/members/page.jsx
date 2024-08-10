@@ -12,10 +12,6 @@ import Link from "next/link";
 import { Suspense } from "react";
 
 export default async function Page({ searchParams }) {
-  // const { error, members } = await getMembers();
-  // if (error) {
-  //   return <div>error</div>;
-  // }
   const q = searchParams?.q || "";
   const page = searchParams.page || 1;
   const response = await fetchMembers(q, page);
@@ -32,7 +28,7 @@ export default async function Page({ searchParams }) {
           size="lg"
           className="text-white uppercase ml-4"
         />
-        <div className="flex justify-between gap-4 mr-4">
+        {/* <div className="flex justify-between gap-4 mr-4">
           <Search placeholder="Search for a Member" />
           <Link href="/dashboard/members/add-member" className="">
             <Button color="primary" radius="sm" size="md" className="w-25">
@@ -43,10 +39,11 @@ export default async function Page({ searchParams }) {
             </Button>
           </Link>
         </div>
-      </div>
+  
       <Suspense fallback="loading...">
         <MemberTable data={data} />
-      </Suspense>
+      </Suspense> */}{" "}
+      </div>
     </main>
   );
 }
