@@ -18,6 +18,7 @@ import {
   SquareUser,
   User,
   UserRound,
+  ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -68,7 +69,7 @@ const SidebarItem = ({
         )}
         {!showText && (
           <div
-            className={`absolute left-full rounded-md px-2 border py-1 ml-6 bg-white text-[#1f66ff] text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
+            className={`absolute left-full rounded-md px-2 border z-20 py-1 ml-6 bg-white text-[#1f66ff] text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
           >
             {text}
           </div>
@@ -131,11 +132,11 @@ const Sidebar = () => {
     <div className=" flex h-full ">
       <div
         className={`bg-[color:var(--bg-primary)] w-${
-          isExpanded ? "60" : "16"
+          isExpanded ? "64" : "16"
         } flex flex-col p-2 border-r flex-1`}
       >
         <div className="p-4 mb-2 justify-start flex">
-          <div className="flex-1 flex items-center justify-around">
+          <div className="flex-1 flex items-center justify-start">
             <div className="">
               <Icons.logo className={` ${isExpanded ? "h-10 w-10 " : ""}`} />
             </div>
@@ -147,7 +148,7 @@ const Sidebar = () => {
             onClick={toggleSidebar}
             className="text-gray-500 hover:text-gray-900 focus:outline-none"
           >
-            {isExpanded ? <ArrowLeftFromLine /> : <ArrowRightToLine />}
+            {isExpanded ? <ArrowLeft /> : <ArrowRightToLine />}
           </button>
         </div>
         <nav className="flex-1">
@@ -173,35 +174,6 @@ const Sidebar = () => {
               isActive={pathname === "/dashboard/analytics"}
               showText={isExpanded}
             />
-            {/* <SidebarItem
-              href=""
-              icon={<HiOutlineUserGroup className="h-6 w-6" />}
-              text="Team & Member"
-              showText={isExpanded}
-              showDownArrow={true}
-              isTeamDropdownOpen={isTeamDropdownOpen}
-              className="transition delay-150 duration-300 ease-in-out"
-              onClick={() => setIsTeamDropdownOpen(!isTeamDropdownOpen)}
-            >
-              {isTeamDropdownOpen && (
-                <ul className={`pl-4 mt-2 space-y-2`}>
-                  <SidebarItem
-                    icon={<Users className="h-6 w-6" />}
-                    href="/dashboard/teams"
-                    text="Teams"
-                    isActive={pathname === "/dashboard/teams"}
-                    showText={isExpanded}
-                  />
-                  <SidebarItem
-                    icon={<Users className="h-6 w-6" />}
-                    href="/dashboard/member"
-                    text="Members"
-                    isActive={pathname === "/dashboard/members"}
-                    showText={isExpanded}
-                  />
-                </ul>
-              )}
-            </SidebarItem> */}
             <SidebarItem
               href="/dashboard/teams"
               icon={<HiOutlineUserGroup className="h-6 w-6" />}

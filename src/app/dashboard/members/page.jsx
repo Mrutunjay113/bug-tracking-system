@@ -16,8 +16,6 @@ export default async function Page({ searchParams }) {
   const page = searchParams.page || 1;
   const response = await fetchMembers(q, page);
   const members = response?.members;
-  console.log("userss", members);
-  console.log("response ", response?.members);
   const data = members;
 
   return (
@@ -28,7 +26,7 @@ export default async function Page({ searchParams }) {
           size="lg"
           className="text-white uppercase ml-4"
         />
-        {/* <div className="flex justify-between gap-4 mr-4">
+        <div className="flex justify-between gap-4 mr-4">
           <Search placeholder="Search for a Member" />
           <Link href="/dashboard/members/add-member" className="">
             <Button color="primary" radius="sm" size="md" className="w-25">
@@ -39,11 +37,10 @@ export default async function Page({ searchParams }) {
             </Button>
           </Link>
         </div>
-  
-      <Suspense fallback="loading...">
-        <MemberTable data={data} />
-      </Suspense> */}{" "}
       </div>
+      <Suspense fallback={<div>Loading...</div>}>
+        {data && <MemberTable data={data} />}
+      </Suspense>
     </main>
   );
 }
