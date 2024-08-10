@@ -50,7 +50,7 @@ const SidebarItem = ({
   return (
     <li className={cn("relative", className)}>
       <Link
-        href={href}
+        href={href ? href : "#"}
         onClick={onClick}
         className={`relative flex items-center py-2 px-3 font-medium rounded-md cursor-pointer transition-colors group ${
           isActive
@@ -194,7 +194,7 @@ const Sidebar = () => {
                   />
                   <SidebarItem
                     icon={<Users className="h-6 w-6" />}
-                    href="/dashboard/members"
+                    href="/dashboard/member"
                     text="Members"
                     isActive={pathname === "/dashboard/members"}
                     showText={isExpanded}

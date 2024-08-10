@@ -40,9 +40,9 @@ export default async function Page({ searchParams }) {
           </Link>
         </div>
       </div>
-      {/* <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading...</div>}>
         <TeamTable data={userss} />
-      </Suspense> */}
+      </Suspense>
     </main>
   );
 }
