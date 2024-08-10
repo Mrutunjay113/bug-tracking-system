@@ -12,7 +12,7 @@ export const RecentIssueCard = async () => {
   }
   const data = response.issues;
   return (
-    <Card shadow className="p-2 rounded-sm">
+    <Card shadow className="p-2 rounded-sm shadow-none border">
       <CardHeader className="">
         <h1 className="font-semibold text-blue-600"> Recent Activities</h1>
       </CardHeader>
@@ -24,7 +24,7 @@ export const RecentIssueCard = async () => {
               <Link
                 href={`/dashboard/issues/${issue._id}`}
                 key={issue._id}
-                className=" items-center justify-between p-2 rounded-md bg-blue-50
+                className=" items-center justify-between p-2 rounded-md bg-gray-100
                 hover:bg-blue-200  "
               >
                 <div className="font-semibold ">{issue.title}</div>

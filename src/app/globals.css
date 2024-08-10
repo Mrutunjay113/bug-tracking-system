@@ -75,6 +75,12 @@
 [data-issue-date="true"] {
   background-color: #fbbf24; /* Customize the color */
 }
+.highlight {
+  background-color: #ef4444; /* Customize background color */
+}
+.text-white {
+  color: #ffffff; /* Customize text color */
+}
 
 @layer base {
   * {

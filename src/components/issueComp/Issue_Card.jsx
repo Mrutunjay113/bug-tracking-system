@@ -100,7 +100,7 @@ ${status === "Closed" ? "opacity-60" : "opacity-100"}
               })}
             </div>
           </div>
-          <div className="my-2">
+          <div className="my-4">
             <h2 className="text-lg font-bold flex text-wrap">{title} </h2>
             <div className="flex items-center text-muted-foreground text-sm gap-1">
               <span className=" ">
@@ -113,7 +113,7 @@ ${status === "Closed" ? "opacity-60" : "opacity-100"}
         {/* <div>
           <p className="text-base">{description}</p>
         </div> */}
-
+        <div className="border-t mb-2" />
         <div className="text-muted-foreground flex justify-between items-center ">
           <div className="p-1 flex justify-start gap-2">
             {issueType === "UI/UX" ? (

@@ -1,36 +1,38 @@
-// import AddMember from "@/components/Team&Member-Comp/addMember";
-
 import Heading from "@/components/Heading";
 import Search from "@/components/search";
 import { MemberTable } from "@/components/Team&Member-Comp/MemberTable";
-import { buttonVariants } from "@/components/ui/button";
+import { TeamTable } from "@/components/Team&Member-Comp/TeamTable";
 import { Input } from "@/components/ui/input";
-import { fetchMembers, getMembers } from "@/lib/actions/team/member/action";
+import { fetchTeams, getTeams } from "@/lib/actions/team/action";
 import { Button } from "@nextui-org/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
 import { Suspense } from "react";
+import { toast } from "sonner";
 
+// `app/page.js` is the UI for the `/` URL
 export default async function Page({ searchParams }) {
-  const q = searchParams?.q || "";
+  // const { error, teams } = await getTeamsRole();
+
+  const q = searchParams.q || "";
   const page = searchParams.page || 1;
-  const response = await fetchMembers(q, page);
-  const members = response?.members;
-  const data = members;
+  const response = await fetchTeams(q, page);
+  const userss = response?.users;
+  console.log("userss", userss);
 
   return (
     <main>
-      <div className="bg-[color:var(--primary-2)] margin-5 py-10 flex justify-between">
+      <div className="bg-[color:var(--primary-2)]   py-10 flex justify-between">
         <Heading
-          headingTitle="Members"
+          headingTitle="Teams"
           size="lg"
-          className="text-white uppercase ml-4"
+          className="text-white uppercase ml-10"
         />
         <div className="flex justify-between gap-4 mr-4">
-          <Search placeholder="Search for a Member" />
-          <Link href="/dashboard/members/add-member" className="">
+          <Search placeholder="Search for a team" />
+          <Link href="/dashboard/teams/add-team" className="">
             <Button color="primary" radius="sm" size="md" className="w-25">
-              Add Member
+              Add Team
               <span>
                 <Plus size={18} />
               </span>
@@ -39,7 +41,7 @@ export default async function Page({ searchParams }) {
         </div>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
-        {data && <MemberTable data={data} />}
+        <TeamTable data={userss} />
       </Suspense>
     </main>
   );

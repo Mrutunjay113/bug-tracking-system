@@ -41,7 +41,7 @@ const IssuesPage = async () => {
         <Heading
           headingTitle="All Issues"
           size="lg"
-          className="text-white uppercase ml-4"
+          className="text-white uppercase ml-10"
         />
       </div>
       <div className=" md:pt-4">

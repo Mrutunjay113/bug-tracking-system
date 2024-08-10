@@ -8,6 +8,7 @@ import User from "@/lib/models/User";
 import { RecentIssueCard } from "@/components/recentIssueCard";
 
 import { toast } from "sonner";
+import CustomCalendar from "@/components/Mycalender";
 
 const Page = async () => {
   const { success, dashboardCount, error } = await getDashboardCounts();
@@ -25,7 +26,7 @@ const Page = async () => {
           <Heading
             headingTitle="Dashboard"
             size="lg"
-            className="text-white uppercase ml-4"
+            className="text-white uppercase ml-10"
           />
         </div>
         <div className="md:p-8 p-2 ">
@@ -37,7 +38,7 @@ const Page = async () => {
 
           <div className="mt-2 flex w-fit justify-end gap-2">
             {/* <SimpleCalendar /> */}
-            <CalendarDemo />
+            <CustomCalendar />
             <RecentIssueCard />
           </div>
         </div>

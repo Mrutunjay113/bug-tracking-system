@@ -10,7 +10,7 @@ const Page = () => {
         <Heading
           headingTitle="Analytics"
           size="lg"
-          className="text-white uppercase ml-4"
+          className="text-white uppercase ml-10"
         />
       </div>
       <div className="md:flex py-5 md:space-y-0 space-y-4 gap-4 w-full md:p-8 p-2">

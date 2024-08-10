@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { Calendar } from "@/components/ui/calendar"; // Ensure this path is correct
+import { select } from "@nextui-org/react";
 
 const issues = [
   {
@@ -13,7 +14,27 @@ const issues = [
     type: "improvement",
     status: "Open",
     issueType: "UI/UX",
-    dueDate: "Fri Aug 09 2024 05:30:00 GMT+0530 (India Standard Time)",
+    dueDate: "Sat Aug 11 2024 21:45:29 GMT+0530 (India Standard Time)",
+    createdAt: "2024-08-02T08:25:49.927Z",
+    updatedAt: "2024-08-02T08:25:49.927Z",
+    team: "sherrrrrrrrrrr",
+    assignedTo: [
+      {
+        name: "Jayant Singh",
+        image: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png",
+      },
+    ],
+  },
+  {
+    _id: "66ac980dfdfa3f3c079a99232",
+    title: "changecolor",
+    description: "change to gray",
+    priority: "medium",
+    image: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png",
+    type: "improvement",
+    status: "Open",
+    issueType: "UI/UX",
+    dueDate: "Sat Aug 12 2024 21:45:29 GMT+0530 (India Standard Time)",
     createdAt: "2024-08-02T08:25:49.927Z",
     updatedAt: "2024-08-02T08:25:49.927Z",
     team: "sherrrrrrrrrrr",
@@ -29,24 +50,27 @@ const issues = [
 
 export function CalendarDemo() {
   const [date, setDate] = React.useState(new Date());
-
-  // Check if a given date is an issue date
-  const isIssueDate = (date) => {
-    const dateString = `${date.getFullYear()}-${String(
-      date.getMonth() + 1
-    ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
-    return issues.some(
-      (issue) =>
-        new Date(issue.createdAt).toISOString().split("T")[0] === dateString
-    );
-  };
+  // Convert issue due dates to Date objects and create modifiers
+  // Convert issue due dates to Date objects and create modifiers
+  const dueDates = issues.map((issue) => new Date(issue.dueDate));
+  const modifiers = {};
+  dueDates.forEach((dueDate) => {
+    modifiers[`dueDate-${dueDate}`] = {
+      days: [dueDate],
+    };
+  });
 
   return (
     <Calendar
       mode="single"
       selected={date}
       onSelect={setDate}
-      className="rounded-md border bg-white"
+      modifiers={modifiers}
+      modifiersClassNames={{
+        [`dueDate-${dueDates[0].toISOString().split("T")[0]}`]: "bg-red-400",
+        [`dueDate-${dueDates[1].toISOString().split("T")[0]}`]: "bg-blue-400",
+        // Add additional styles for other due dates as needed
+      }}
     />
   );
 }
