@@ -173,7 +173,7 @@ const Sidebar = () => {
               isActive={pathname === "/dashboard/analytics"}
               showText={isExpanded}
             />
-            <SidebarItem
+            {/* <SidebarItem
               href=""
               icon={<HiOutlineUserGroup className="h-6 w-6" />}
               text="Team & Member"
@@ -201,7 +201,21 @@ const Sidebar = () => {
                   />
                 </ul>
               )}
-            </SidebarItem>
+            </SidebarItem> */}
+            <SidebarItem
+              href="/dashboard/teams"
+              icon={<HiOutlineUserGroup className="h-6 w-6" />}
+              text="Teams"
+              isActive={pathname === "/dashboard/teams"}
+              showText={isExpanded}
+            />
+            <SidebarItem
+              href="/dashboard/members"
+              icon={<Users className="h-6 w-6" />}
+              text="Members"
+              isActive={pathname === "/dashboard/members"}
+              showText={isExpanded}
+            />
           </ul>
         </nav>
         <nav className="flex justify-between items-center text-center h-10 mb-4 pt-4 border-t border-black    ">
