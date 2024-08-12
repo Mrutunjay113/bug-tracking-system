@@ -11,12 +11,13 @@ import { Suspense } from "react";
 import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
-const Page = async ({ searchParams }) => {
+const page = async ({ searchParams }) => {
   // const { error, teams } = await getTeamsRole();
 
-  const q = searchParams?.q || "";
-  const page = searchParams?.page || 1;
-
+  // const q = searchParams?.q || "";
+  // const page = searchParams?.page || 1;
+  const q = "";
+  const page = 1;
   const response = await fetchTeams(q, page);
   const userss = response?.users;
   console.log("userss", userss);
@@ -47,4 +48,4 @@ const Page = async ({ searchParams }) => {
     </main>
   );
 };
-export default Page;
+export default page;
