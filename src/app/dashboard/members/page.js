@@ -13,7 +13,7 @@ import { Suspense } from "react";
 
 export default async function Page({ searchParams }) {
   const q = searchParams?.q || "";
-  const page = searchParams.page || 1;
+  const page = searchParams?.page || 1;
   const response = await fetchMembers(q, page);
   const members = await response?.members;
 

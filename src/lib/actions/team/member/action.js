@@ -109,7 +109,7 @@ export const getMembersByDesignation = async (designation) => {
   }
 };
 
-export const fetchMembers = async (q, page = 10) => {
+export const fetchMembers = async (q, page = 1) => {
   const regex = new RegExp(q, "i");
   const ITEM_PER_PAGE = 10;
 
