@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   format,
   addMonths,
@@ -24,10 +24,15 @@ import {
   SelectLabel,
   SelectItem,
 } from "../components/ui/select";
+import { getIssueByDate } from "@/lib/actions/dashboard/calenderIssues";
+import IssueDetailModal from "./HomeComp/CalenderModal";
 
-export default function CustomCalendar() {
+const CustomCalendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(null);
+  const [data, setData] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedIssue, setSelectedIssue] = useState(null);
 
   const today = new Date();
   const months = [
@@ -45,15 +50,6 @@ export default function CustomCalendar() {
     { name: "December", value: 11 },
   ];
 
-  // Example date array to highlight
-  const highlightedDates = [
-    { date: "2024-08-05", type: "image", imageUrl: "/path/to/your/image.png" },
-    { date: "2024-08-03", type: "color", color: "bg-green-500" },
-  ].map((item) => ({
-    ...item,
-    date: parseISO(item.date),
-  }));
-
   const nextMonth = () => {
     setCurrentMonth(addMonths(currentMonth, 1));
   };
@@ -64,7 +60,12 @@ export default function CustomCalendar() {
 
   const onDateClick = (day) => {
     setSelectedDate(day);
-    console.log("Selected date:", day);
+    const selectedDay = format(day, "yyyy-MM-dd");
+    const issue = data.find((item) => item.dueDate === selectedDay);
+    if (issue) {
+      setSelectedIssue(issue);
+      setModalOpen(true);
+    }
   };
 
   const handleMonthChange = (value) => {
@@ -120,12 +121,12 @@ export default function CustomCalendar() {
       const day = new Date(startDate);
       const isToday = isSameDay(day, today);
       const isSelected = isSameDay(day, selectedDate);
-      const highlight = highlightedDates.find((highlightedDate) =>
-        isSameDay(day, highlightedDate.date)
+      const highlight = data?.find((highlightedDate) =>
+        isSameDay(day, parseISO(highlightedDate.dueDate))
       );
 
       const dayStyle = isSelected
-        ? "bg-blue-500 text-white"
+        ? "bg-green-500 text-white"
         : isToday
         ? "bg-gray-500 text-white"
         : isSameMonth(day, currentMonth)
@@ -133,9 +134,9 @@ export default function CustomCalendar() {
         : "text-gray-400";
 
       const customStyle = highlight
-        ? highlight.type === "image"
-          ? `bg-cover bg-center bg-no-repeat`
-          : highlight.color
+        ? highlight.imageUrl
+          ? "bg-cover bg-center bg-no-repeat"
+          : "bg-blue-500 text-white"
         : "";
 
       days.push(
@@ -144,10 +145,9 @@ export default function CustomCalendar() {
           key={day.toString()}
           onClick={() => onDateClick(day)}
           style={{
-            backgroundImage:
-              highlight?.type === "image"
-                ? `url(${highlight.imageUrl})`
-                : "none",
+            backgroundImage: highlight?.imageUrl
+              ? `url(${highlight.imageUrl})`
+              : "none",
           }}
         >
           {format(day, "d")}
@@ -159,8 +159,29 @@ export default function CustomCalendar() {
     return <div className="grid grid-cols-7 gap-2">{days}</div>;
   };
 
+  useEffect(() => {
+    async function fetchData() {
+      const result = await getIssueByDate();
+      setData(result.data);
+    }
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    //close modal when click out side of modal then close modal
+    const closeModal = (e) => {
+      if (e.target.id === "modal") {
+        setModalOpen(false);
+      }
+    };
+    window.addEventListener("click", closeModal);
+    return () => {
+      window.removeEventListener("click", closeModal);
+    };
+  }, []);
+
   return (
-    <div className="p-4 bg-white rounded-lg shadow-lg max-w-sm mx-auto">
+    <div className="p-4 bg-white rounded-lg relative shadow-lg max-w-sm mx-auto">
       {renderHeader()}
       <div className="grid grid-cols-7 gap-2 text-center text-gray-600 font-medium mb-2">
         <div>Su</div>
@@ -172,6 +193,13 @@ export default function CustomCalendar() {
         <div>Sa</div>
       </div>
       {renderDays()}
+      <IssueDetailModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        issue={selectedIssue}
+      />
     </div>
   );
-}
+};
+
+export default CustomCalendar;
