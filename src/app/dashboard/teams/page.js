@@ -41,9 +41,9 @@ const Page = async ({ searchParams }) => {
           </Link>
         </div>
       </div>
-      {/* <Suspense fallback={<div>Loading...</div>}>
-        <TeamTable data={userss} />
-      </Suspense> */}
+      {/* <Suspense fallback={<div>Loading...</div>}> */}
+      {userss && <TeamTable data={userss} />}
+      {/* </Suspense> */}
     </main>
   );
 };
