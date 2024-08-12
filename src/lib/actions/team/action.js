@@ -155,7 +155,7 @@ export const getTeamLeader = async (teamType) => {
     return { success: false, error: error.message };
   }
 };
-export const fetchTeams = async (q, page = 10) => {
+export const fetchTeams = async (q, page = 1) => {
   const regex = new RegExp(q, "i");
   const ITEM_PER_PAGE = 10;
 
