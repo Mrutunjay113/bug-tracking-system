@@ -84,7 +84,6 @@ export function TeamTable({ data }) {
       });
     }
   };
-  console.log(`data`, selectedUser?.data?.firstName);
 
   const renderCell = useCallback(
     (team, key) => {

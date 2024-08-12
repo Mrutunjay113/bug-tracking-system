@@ -11,7 +11,7 @@ import { Suspense } from "react";
 import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
-export default async function page({ searchParams }) {
+export default async function Page({ searchParams }) {
   // const { error, teams } = await getTeamsRole();
 
   const q = searchParams?.q || "";
@@ -19,7 +19,6 @@ export default async function page({ searchParams }) {
 
   const response = await fetchTeams(q, page);
   const userss = response?.users;
-  console.log("userss", userss);
 
   return (
     <main>
@@ -42,7 +41,7 @@ export default async function page({ searchParams }) {
         </div>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
-        <TeamTable teams={userss} />
+        {userss ? <TeamTable data={userss} /> : <p>No data available</p>}
       </Suspense>
     </main>
   );
