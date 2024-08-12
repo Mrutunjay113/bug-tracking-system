@@ -30,7 +30,7 @@ const Page = async ({ searchParams }) => {
           className="text-white uppercase ml-10"
         />
         <div className="flex justify-between gap-4 mr-4">
-          <Search placeholder="Search for a team" />
+          {/* <Search placeholder="Search for a team" /> */}
           <Link href="/dashboard/teams/add-team" className="">
             <Button color="primary" radius="sm" size="md" className="w-25">
               Add Team
