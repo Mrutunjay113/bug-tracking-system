@@ -156,10 +156,13 @@ export const getTeamLeader = async (teamType) => {
   }
 };
 export const fetchTeams = async (q, page = 1) => {
+  console.log("q", q);
+
   const regex = new RegExp(q, "i");
   const ITEM_PER_PAGE = 10;
 
   try {
+    await ConnectMongoDb();
     const count = await TeamModel.find({
       $or: [
         { name: { $regex: regex } },
@@ -183,6 +186,7 @@ export const fetchTeams = async (q, page = 1) => {
         error: "No teams found",
       };
     }
+
 
     const getTemInfo = await Promise.all(
       teams.map(async (team) => {
@@ -208,6 +212,7 @@ export const fetchTeams = async (q, page = 1) => {
         userInfo: getTemInfo[index].userinfo,
       };
     });
+    
     return {
       users: JSON.parse(JSON.stringify(formateTeam)),
       count,

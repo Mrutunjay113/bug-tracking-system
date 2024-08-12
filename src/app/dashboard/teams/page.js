@@ -14,13 +14,14 @@ import { toast } from "sonner";
 export default async function Page({ searchParams }) {
   // const { error, teams } = await getTeamsRole();
 
-  // const q = searchParams?.q || "";
-  // const page = searchParams?.page || 1;
+  const q = searchParams?.q || "";
+  const page = searchParams?.page || 1;
 
-  const q = "";
-  const page = 1;
+  // const q = "";
+  // const page = 1;
   const response = await fetchTeams(q, page);
-  const userss = response?.users;
+  const userss = await response.users;
+  console.log(`userss`, userss);
 
   return (
     <main>
