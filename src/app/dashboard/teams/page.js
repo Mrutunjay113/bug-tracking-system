@@ -42,8 +42,9 @@ export default async function Page({ searchParams }) {
           </Link>
         </div>
       </div>
+      {userss ? <TeamTable data={userss} /> : <p>No data available</p>}
       {/* <Suspense fallback={<div>Loading...</div>}>
-        // {userss ? <TeamTable data={userss} /> : <p>No data available</p>}
+      
       </Suspense> */}
     </main>
   );
