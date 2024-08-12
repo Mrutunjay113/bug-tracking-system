@@ -11,13 +11,12 @@ import { Suspense } from "react";
 import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
-export default async function page() {
+export default async function page({ searchParams }) {
   // const { error, teams } = await getTeamsRole();
 
-  // const q = searchParams?.q || "";
-  // const page = searchParams?.page || 1;
-  const q = "";
-  const page = 1;
+  const q = searchParams?.q || "";
+  const page = searchParams?.page || 1;
+
   const response = await fetchTeams(q, page);
   const userss = response?.users;
   console.log("userss", userss);
@@ -42,8 +41,9 @@ export default async function page() {
           </Link>
         </div>
       </div>
-
-      <TeamTable data={userss} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <TeamTable teams={userss} />
+      </Suspense>
     </main>
   );
 }
