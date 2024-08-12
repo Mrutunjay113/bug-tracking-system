@@ -14,9 +14,9 @@ import { toast } from "sonner";
 const Page = async ({ searchParams }) => {
   // const { error, teams } = await getTeamsRole();
 
-  const q = searchParams.q || "";
-  const page = searchParams.page || 1;
-  const response = await fetchTeams(q, page);
+  // const q = searchParams.q || "";
+  // const page = searchParams.page || 1;
+  const response = await fetchTeams((q = ""), (page = 1));
   const userss = response?.users;
   console.log("userss", userss);
 
@@ -29,7 +29,7 @@ const Page = async ({ searchParams }) => {
           className="text-white uppercase ml-10"
         />
         <div className="flex justify-between gap-4 mr-4">
-          <Search placeholder="Search for a team" />
+          {/* <Search placeholder="Search for a team" /> */}
           <Link href="/dashboard/teams/add-team" className="">
             <Button color="primary" radius="sm" size="md" className="w-25">
               Add Team
@@ -40,9 +40,9 @@ const Page = async ({ searchParams }) => {
           </Link>
         </div>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      {/* <Suspense fallback={<div>Loading...</div>}>
         <TeamTable data={userss} />
-      </Suspense>
+      </Suspense> */}
     </main>
   );
 };
