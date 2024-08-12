@@ -15,8 +15,7 @@ export default async function Page({ searchParams }) {
   const q = searchParams?.q || "";
   const page = searchParams.page || 1;
   const response = await fetchMembers(q, page);
-  const members = response?.members;
-  const data = members;
+  const members = await response?.members;
 
   return (
     <main>
@@ -39,7 +38,7 @@ export default async function Page({ searchParams }) {
         </div>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
-        {data && <MemberTable data={data} />}
+        <MemberTable data={members} />
       </Suspense>
     </main>
   );
