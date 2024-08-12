@@ -11,7 +11,7 @@ import { Suspense } from "react";
 import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
-const page = async ({ searchParams }) => {
+const page = async () => {
   // const { error, teams } = await getTeamsRole();
 
   // const q = searchParams?.q || "";
@@ -42,9 +42,9 @@ const page = async ({ searchParams }) => {
           </Link>
         </div>
       </div>
-      {/* <Suspense fallback={<div>Loading...</div>}> */}
-      {userss && <TeamTable data={userss} />}
-      {/* </Suspense> */}
+      <Suspense fallback={<div>Loading...</div>}>
+        <TeamTable data={userss} />
+      </Suspense>
     </main>
   );
 };
