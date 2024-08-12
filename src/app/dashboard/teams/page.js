@@ -21,7 +21,6 @@ export default async function Page({ searchParams }) {
   // const page = 1;
   const response = await fetchTeams(q, page);
   const userss = await response.users;
-  console.log(`userss`, userss);
 
   return (
     <main>

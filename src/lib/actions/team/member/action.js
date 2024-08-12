@@ -114,6 +114,7 @@ export const fetchMembers = async (q, page = 10) => {
   const ITEM_PER_PAGE = 10;
 
   try {
+    await ConnectMongoDb();
     const count = await Member.find({
       $or: [
         { firstName: { $regex: regex } },
