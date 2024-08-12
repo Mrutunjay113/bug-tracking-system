@@ -11,7 +11,7 @@ import { Suspense } from "react";
 import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
-export default async function Page({ searchParams }) {
+const Page = async ({ searchParams }) => {
   // const { error, teams } = await getTeamsRole();
 
   const q = searchParams.q || "";
@@ -45,4 +45,5 @@ export default async function Page({ searchParams }) {
       </Suspense>
     </main>
   );
-}
+};
+export default Page;
