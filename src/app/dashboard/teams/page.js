@@ -17,8 +17,10 @@ export default async function Page({ searchParams }) {
   // const q = searchParams?.q || "";
   // const page = searchParams?.page || 1;
 
-  // const response = await fetchTeams(q, page);
-  // const userss = response?.users;
+  const q = "";
+  const page = 1;
+  const response = await fetchTeams(q, page);
+  const userss = response?.users;
 
   return (
     <main>
@@ -41,7 +43,7 @@ export default async function Page({ searchParams }) {
         </div>
       </div>
       {/* <Suspense fallback={<div>Loading...</div>}>
-        {userss ? <TeamTable data={userss} /> : <p>No data available</p>}
+        // {userss ? <TeamTable data={userss} /> : <p>No data available</p>}
       </Suspense> */}
     </main>
   );
