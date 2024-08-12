@@ -42,9 +42,8 @@ export default async function page() {
           </Link>
         </div>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
-        <TeamTable data={userss} />
-      </Suspense>
+
+      <TeamTable data={userss} />
     </main>
   );
 }
