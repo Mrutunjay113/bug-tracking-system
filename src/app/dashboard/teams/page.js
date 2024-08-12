@@ -11,7 +11,7 @@ import { Suspense } from "react";
 import { toast } from "sonner";
 
 // `app/page.js` is the UI for the `/` URL
-const page = async () => {
+export default async function page() {
   // const { error, teams } = await getTeamsRole();
 
   // const q = searchParams?.q || "";
@@ -47,5 +47,4 @@ const page = async () => {
       </Suspense>
     </main>
   );
-};
-export default page;
+}
