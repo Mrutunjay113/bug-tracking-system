@@ -3,7 +3,7 @@ import Search from "@/components/search";
 import { MemberTable } from "@/components/Team&Member-Comp/MemberTable";
 import { TeamTable } from "@/components/Team&Member-Comp/TeamTable";
 import { Input } from "@/components/ui/input";
-import { fetchTeams, getTeams } from "@/lib/actions/team/action";
+import { fetchTeams } from "@/lib/actions/team/action";
 import { Button } from "@nextui-org/button";
 import { Plus } from "lucide-react";
 import Link from "next/link";
