@@ -12,12 +12,12 @@ export const RecentIssueCard = async () => {
   }
   const data = response.issues;
   return (
-    <Card shadow className="p-2 rounded-sm shadow-none border">
+    <Card shadow className="p-2 rounded-md shadow-none border">
       <CardHeader className="">
         <h1 className="font-semibold text-blue-600"> Recent Activities</h1>
       </CardHeader>
 
-      <ScrollArea className="max-h-[300px] ">
+      <ScrollArea className="md:max-h-[300px] md:h-full h-64">
         <CardBody className="rounded-md gap-y-2">
           {data &&
             data.map((issue) => (

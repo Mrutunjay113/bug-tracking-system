@@ -14,7 +14,7 @@ const IssueDetailsPage = async ({ params }) => {
         <Heading
           headingTitle="Issue Details"
           size="lg"
-          className="text-white uppercase ml-10"
+          className="text-white uppercase md:ml-10 ml-4"
         />
       </div>
       <Suspense fallback={<div>Loading...</div>}>

@@ -47,12 +47,12 @@ export function Donut({ data, config, title, description }) {
   };
 
   return (
-    <Card className="flex flex-col w-fit min-w-[300px]">
+    <Card className="flex flex-col  md:min-w-[300px] ">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 pb-0">
+      <CardContent className="md:flex-1 pb-0">
         <ChartContainer
           config={config}
           className="mx-auto aspect-square max-h-[250px]"

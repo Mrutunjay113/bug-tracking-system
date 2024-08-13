@@ -75,16 +75,16 @@ const CustomCalendar = () => {
 
   const renderHeader = () => {
     return (
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between gap-2 items-center mb-4">
         <button
           onClick={prevMonth}
-          className="p-1 border rounded-md text-muted-foreground"
+          className="p-1 border rounded-md text-muted-foreground text-sm hover:bg-gray-100 hover:text-gray-800"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </button>
         <div className="flex items-center">
-          <Select onValueChange={handleMonthChange}>
-            <SelectTrigger className="w-[150px]">
+          <Select onValueChange={handleMonthChange} className="">
+            <SelectTrigger className="w-[100px] ">
               <SelectValue placeholder={months[currentMonth.getMonth()].name} />
             </SelectTrigger>
             <SelectContent>
@@ -98,15 +98,15 @@ const CustomCalendar = () => {
               </SelectGroup>
             </SelectContent>
           </Select>
-          <span className="text-lg font-semibold ml-2">
+          <span className="text-base font-medium ml-2 ">
             {format(currentMonth, "yyyy")}
           </span>
         </div>
         <button
           onClick={nextMonth}
-          className="p-1 border rounded-md text-muted-foreground"
+          className="p-1 border rounded-md text-muted-foreground hover:bg-gray-100 hover:text-gray-800"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </button>
       </div>
     );
@@ -141,7 +141,7 @@ const CustomCalendar = () => {
 
       days.push(
         <div
-          className={`flex justify-center items-center h-10 w-10 rounded cursor-pointer ${dayStyle} ${customStyle}`}
+          className={`flex justify-center items-center h-10  w-10 rounded cursor-pointer ${dayStyle} ${customStyle}`}
           key={day.toString()}
           onClick={() => onDateClick(day)}
           style={{
@@ -156,7 +156,7 @@ const CustomCalendar = () => {
       startDate = addDays(startDate, 1);
     }
 
-    return <div className="grid grid-cols-7 gap-2">{days}</div>;
+    return <div className="grid grid-cols-7 md:gap-2 ">{days}</div>;
   };
 
   useEffect(() => {
@@ -181,9 +181,9 @@ const CustomCalendar = () => {
   }, []);
 
   return (
-    <div className="p-4 bg-white rounded-lg relative shadow-lg max-w-sm mx-auto">
+    <div className="p-4 bg-white rounded-lg relative border  mx-auto">
       {renderHeader()}
-      <div className="grid grid-cols-7 gap-2 text-center text-gray-600 font-medium mb-2">
+      <div className="grid grid-cols-7 gap-2 text-center text-muted-foreground font-medium mb-2">
         <div>Su</div>
         <div>Mo</div>
         <div>Tu</div>

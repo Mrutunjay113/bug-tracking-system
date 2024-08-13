@@ -177,7 +177,7 @@ export default function HomeCharts({ data }) {
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="md:flex md:gap-2 md:space-y-0 space-y-2">
       <Donut
         data={taskStatusData}
         config={taskStatusConfig}
@@ -190,12 +190,10 @@ export default function HomeCharts({ data }) {
         title="Priority Levels"
         description="This month"
       />
-      <div className=" w-[300px] ">
+      <div className=" md:w-[300px] ">
         {/* // availble team task and team members search */}
 
-        <div className="">
-          <SearchTabs />
-        </div>
+        <SearchTabs />
       </div>
     </div>
   );

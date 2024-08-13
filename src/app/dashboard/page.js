@@ -21,26 +21,22 @@ const Page = async () => {
 
   return (
     <main>
-      <div>
-        <div className="bg-[color:var(--primary-2)] margin-5 py-10">
-          <Heading
-            headingTitle="Dashboard"
-            size="lg"
-            className="text-white uppercase ml-10"
-          />
+      <div className="bg-[color:var(--primary-2)] margin-5 py-10">
+        <Heading
+          headingTitle="Dashboard"
+          size="lg"
+          className="text-white uppercase md:ml-10 ml-4"
+        />
+      </div>
+      <div className="md:p-8 p-2 ">
+        <div className="md:flex md:gap-2 w-full">
+          <HomeCharts data={data} />
         </div>
-        <div className="md:p-8 p-2 ">
-          <div className="flex gap-2  w-full">
-            <div className="w-full">
-              <HomeCharts data={data} />
-            </div>
-          </div>
 
-          <div className="mt-2 flex w-fit justify-end gap-2">
-            {/* <SimpleCalendar /> */}
-            <CustomCalendar />
-            <RecentIssueCard />
-          </div>
+        <div className="mt-2 md:flex md:w-fit w-full md:justify-end gap-2 md:space-y-0 space-y-2">
+          {/* <SimpleCalendar /> */}
+          <CustomCalendar />
+          <RecentIssueCard />
         </div>
       </div>
     </main>

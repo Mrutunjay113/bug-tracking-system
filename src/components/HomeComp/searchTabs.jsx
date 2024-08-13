@@ -169,7 +169,7 @@ export function SearchTabs() {
 
   return (
     <div className="flex w-full flex-col ">
-      <Card className="rounded-sm shadow-none border bg-white">
+      <Card className="rounded-md shadow-none border bg-white">
         <CardHeader>
           <div className="relative flex w-full items-center  ">
             <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />

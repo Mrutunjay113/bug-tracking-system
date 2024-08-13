@@ -62,7 +62,7 @@ export default async function Page() {
         <Heading
           headingTitle={`${data?.firstName}'s Profile`}
           size="lg"
-          className="uppercase ml-10"
+          className="uppercase md:ml-10 ml-4"
         />
       </div>
 
