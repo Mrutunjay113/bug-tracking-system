@@ -1,5 +1,29 @@
 const mongoose = require("mongoose");
 
+const CommentSchema = new mongoose.Schema({
+  comment: {
+    type: String,
+    required: true,
+    default: "",
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const IssueSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -59,6 +83,7 @@ const IssueSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  comments: [CommentSchema],
 });
 const IssueModel =
   mongoose.models.Issue || mongoose.model("Issue", IssueSchema);

@@ -1,13 +1,36 @@
 import { getIssueById } from "@/lib/actions/issue/action";
-import { CalendarArrowUp, CalendarPlus, Flag, User, Users } from "lucide-react";
+import {
+  addCommentToIssue,
+  getCommentsByIssueId,
+} from "@/lib/actions/issue/commentaction";
+import {
+  CalendarArrowUp,
+  CalendarPlus,
+  Flag,
+  Heart,
+  User,
+  Users,
+} from "lucide-react";
 import Image from "next/image";
+import { CommentForm } from "./CommentForm";
+import Comments from "./Comments";
 
 const IssueDetailComp = async ({ id }) => {
   const issueData = await getIssueById(id);
   const issue = issueData?.issues[0];
-  console.log(issue);
+
+  // const comment = {
+  //   text: "This is a test comment",
+  //   createdBy: "6698d025b122ebababc55cc6",
+  // };
+  // const getUserName = await getCommentsByIssueId(issue._id);
+  // console.log(getUserName);
+
+  // const result = await addCommentToIssue(issue._id, comment);
+  // console.log(result);
+
   return (
-    <div className=" md:p-8 p-2 lg:flex justify-start mx-auto h-[calc(100vh-300px)] overflow-auto relative  ">
+    <div className=" md:p-8 p-2 lg:flex justify-start mx-auto overflow-auto relative  ">
       <div className="md:w-1/2 ">
         <div className="mb-6 pb-4 ">
           <div className="flex items-center gap-2 ">
@@ -91,9 +114,8 @@ const IssueDetailComp = async ({ id }) => {
           </div>
         </div>
 
-        {/* {issue.image && ( */}
-
-        {/* )} */}
+        {/* <CommentForm issueId={id} data={issue} /> */}
+        <Comments issue={issue} />
       </div>
 
       <div className=" md:1/2 relative mt-4  min-w-80 ">

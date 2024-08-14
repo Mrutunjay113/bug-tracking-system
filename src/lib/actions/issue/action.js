@@ -7,6 +7,7 @@ import { VerifyJwtToken } from "@/lib/utils";
 import TeamModel from "@/lib/models/Team";
 import User from "@/lib/models/User";
 import Member from "@/lib/models/Member";
+import { comment } from "postcss";
 
 export const createIssue = async (formData) => {
   console.log(`formData`, formData);
@@ -75,11 +76,11 @@ export const createIssue = async (formData) => {
     return { success: false, error: error.message };
   }
 };
-
 export const getIssueById = async (id) => {
-  // console.log(`id`, id);
   try {
     await ConnectMongoDb();
+
+    // Fetch issue details
     const issues = await IssueModel.find({ _id: id });
     const teamIds = issues.map((issue) => issue.team);
     const assignedToIds = issues.map((issue) => issue.assignedTo);
@@ -99,7 +100,20 @@ export const getIssueById = async (id) => {
       return acc;
     }, {});
 
-    // Merge the data
+    // Extract user IDs from comments
+    const commentUserIds = issues.flatMap((issue) =>
+      issue.comments.map((comment) => comment.createdBy)
+    );
+    const uniqueUserIds = [...new Set(commentUserIds)];
+
+    // Fetch user details for comment creators
+    const commentUsers = await User.find({ _id: { $in: uniqueUserIds } });
+    const commentUserMap = commentUsers.reduce((acc, user) => {
+      acc[user._id] = `${user.firstName} ${user.lastName}`;
+      return acc;
+    }, {});
+
+    // Format issues with comments including user details
     const formattedIssues = issues.map((issue) => ({
       _id: issue._id,
       title: issue.title,
@@ -112,6 +126,13 @@ export const getIssueById = async (id) => {
       issueType: issue.issueType,
       createdAt: issue.createdAt,
       updatedAt: issue.updatedAt,
+      comments: issue.comments.map((comment) => ({
+        _id: comment._id,
+        text: comment.text,
+        createdBy: commentUserMap[comment.createdBy] || "Unknown User", // Map user ID to user name
+        createdAt: comment.createdAt,
+        likes: comment.likes || 0,
+      })),
       team: teamMap[issue.team] || null, // Get team name
       assignedTo: userMap[issue.assignedTo] || null, // Get full name of assignedTo
     }));
@@ -125,6 +146,70 @@ export const getIssueById = async (id) => {
     return { success: false, error: error.message };
   }
 };
+
+// export const getIssueById = async (id) => {
+//   // console.log(`id`, id);
+//   try {
+//     await ConnectMongoDb();
+//     const issues = await IssueModel.find({ _id: id });
+//     const teamIds = issues.map((issue) => issue.team);
+//     const assignedToIds = issues.map((issue) => issue.assignedTo);
+
+//     // Fetch teams and users
+//     const teams = await TeamModel.find({ _id: { $in: teamIds } });
+//     const users = await Member.find({ _id: { $in: assignedToIds } });
+
+//     // Create a map for easy lookup
+//     const teamMap = teams.reduce((acc, team) => {
+//       acc[team._id] = team.name;
+//       return acc;
+//     }, {});
+
+//     const userMap = users.reduce((acc, user) => {
+//       acc[user._id] = `${user.firstName} ${user.lastName}`;
+//       return acc;
+//     }, {});
+//     //i have to get the comments and the user who created the comments and return the comments array with the user who created the comment
+
+//     const getcreatedBy = issues.map((issue) =>
+//       issue.comments.map((comment) => comment.createdBy)
+//     );
+
+//     console.log(`getcreatedBy`, getcreatedBy);
+
+//     // Merge the data
+//     const formattedIssues = issues.map((issue) => ({
+//       _id: issue._id,
+//       title: issue.title,
+//       description: issue.description,
+//       priority: issue.priority,
+//       image: issue.image,
+//       status: issue.status,
+//       type: issue.type,
+//       dueDate: issue.dueDate,
+//       issueType: issue.issueType,
+//       createdAt: issue.createdAt,
+//       updatedAt: issue.updatedAt,
+//       comments: issue.comments.map((comment) => ({
+//         _id: comment._id,
+//         text: comment.text,
+//         createdBy: comment.createdBy,
+//         createdAt: comment.createdAt,
+//         likes: comment.likes || 0,
+//       })),
+//       team: teamMap[issue.team] || null, // Get team name
+//       assignedTo: userMap[issue.assignedTo] || null, // Get full name of assignedTo
+//     }));
+
+//     return {
+//       success: true,
+//       issues: JSON.parse(JSON.stringify(formattedIssues)),
+//     };
+//   } catch (error) {
+//     console.error(error);
+//     return { success: false, error: error.message };
+//   }
+// };
 
 export const getIssuesBYRecent = async (last = 5) => {
   try {
