@@ -9,6 +9,12 @@ import Heading from "@/components/Heading";
 import { Suspense } from "react";
 
 const IssuesPage = async () => {
+  const cookiesstore = cookies();
+  const token = cookiesstore.get("next-auth.session-token")?.value;
+
+  if (!token) {
+    redirect("/sign-in");
+  }
   const date = "2024-07-01"; // Replace with your desired date filter
 
   const res = await fetch(`${process.env.URL}/api/data/issue/filter/${date}`, {
