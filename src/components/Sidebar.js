@@ -21,20 +21,20 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { Icons } from "./icons";
 import { useState } from "react";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { cn } from "@/lib/utils";
-import { signOut } from "@/lib/actions/action";
 import {
   Dropdown,
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/dropdown";
-import { useToken } from "@/app/context/usercontext";
 import { Avatar } from "@nextui-org/avatar";
+import { signOut } from "next-auth/react";
+import { toast } from "sonner";
 
 const SidebarItem = ({
   href,
@@ -98,7 +98,6 @@ const SidebarItem = ({
 };
 
 const Sidebar = () => {
-  const { token } = useToken();
   // console.log(token);
 
   const data = [
@@ -110,17 +109,6 @@ const Sidebar = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const iconClasses = "text-xl  pointer-events-none flex-shrink-0";
-
-  const handleSignOut = async () => {
-    // Sign out the user
-    // Remove the token from the cookies
-    // Redirect to the sign-in page
-    const signout = await signOut();
-    if (signout.success) {
-      toast.success("Signed out successfully");
-      redirect(new URL("/sign-in").toString());
-    }
-  };
 
   const [isExpanded, setIsExpanded] = useState(true); // State to manage sidebar expand/collapse
   const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false); // State to manage Team dropdown visibility
@@ -284,7 +272,9 @@ const Sidebar = () => {
                   Help & Feedback
                 </DropdownItem>
                 <DropdownItem
-                  onClick={handleSignOut}
+                  onClick={() =>
+                    signOut({ callbackUrl: "/sign-in", redirect: true })
+                  }
                   key="logout"
                   color="danger"
                   startContent={

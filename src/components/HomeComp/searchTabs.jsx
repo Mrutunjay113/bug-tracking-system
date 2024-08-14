@@ -118,6 +118,7 @@ export function SearchTabs() {
   const [result, setResult] = React.useState([]);
   const [membersData, setMembersData] = React.useState([]);
   const [error, setError] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
 
   const [selected, setSelected] = React.useState("team");
   const selectChange = (key) => {
@@ -126,42 +127,53 @@ export function SearchTabs() {
   };
   const onEnter = async (e) => {
     if (e.key === "Enter") {
+      setLoading(true);
       e.preventDefault();
       console.log("search", e.target.value);
-
-      const reponse = await searchTeamMember(e.target.value, selected);
-      console.log(reponse);
-      if (reponse.success) {
-        if (selected === "team") {
-          setResult(reponse.team);
-          setError(null);
-        } else {
-          setMembersData(reponse.member);
-          setError(null);
+      try {
+        const reponse = await searchTeamMember(e.target.value, selected);
+        console.log(reponse);
+        if (reponse.success) {
+          if (selected === "team") {
+            setResult(reponse.team);
+            setError(null);
+            setLoading(false);
+          } else {
+            setMembersData(reponse.member);
+            setError(null);
+          }
         }
-      } else {
+      } catch (error) {
+        setLoading(false);
         setMembersData([]);
         setResult([]);
         setError(reponse.error);
         toast.error(reponse.error);
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   useEffect(() => {
     const fetch = async () => {
-      const reponse = await searchTeamMember("", selected);
-      console.log(reponse);
-      if (reponse.success) {
-        if (selected === "team") {
-          setResult(reponse.team);
-        } else {
-          setMembersData(reponse.member);
+      try {
+        setLoading(true);
+        const reponse = await searchTeamMember("", selected);
+        console.log(reponse);
+        if (reponse.success) {
+          if (selected === "team") {
+            setResult(reponse.team);
+          } else {
+            setMembersData(reponse.member);
+          }
         }
-      } else {
+      } catch (error) {
         setMembersData([]);
         setResult([]);
         toast.error(reponse.error);
+      } finally {
+        setLoading(false);
       }
     };
     fetch();

@@ -8,6 +8,7 @@ import ConnectMongoDb from "@/lib/mongoConnect";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
+import { signIn } from "next-auth/react";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -36,10 +37,9 @@ export const addUser = async (data) => {
   }
 };
 
-export const signIn = async (data) => {
-  const { email, password } = data;
-  console.log(`data`, data);
-
+export const signInUser = async (credentials) => {
+  console.log(`credentials`, credentials);
+  const { email, password } = credentials;
   try {
     ConnectMongoDb(); // Ensure MongoDB connection
 
@@ -52,44 +52,18 @@ export const signIn = async (data) => {
 
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
-      return {
-        error: "Invalid credentials",
-      };
-    } // Remove password from user object
-    const { password: pass, ...rest } = user.toObject();
+      return { error: "Invalid credentials" };
+    }
 
-    // Create a JWT token using the user object jose library
-    // Create a JWT token using the jose library
-    const token = await new SignJWT({ user: rest })
-      .setProtectedHeader({ alg: "HS256" })
-      .setIssuedAt()
-      .setExpirationTime("1h")
-      .sign(new TextEncoder().encode(process.env.JWT_SECRET));
+    // Remove password from user object
+    const { password: pass, ...userWithoutPassword } = user.toObject();
 
-    cookies().set("token", token, {
-      httpOnly: true, // To prevent client-side access
-      secure: process.env.NODE_ENV === "production", // Ensure cookies are only sent over HTTPS in production
-      maxAge: 3600, // 1 hour
-      path: "/", // Set the cookie for the entire domain
-    });
-
-    return { user: token, success: true };
-  } catch (error) {
-    console.error("Error signing in:", error);
     return {
-      error: "Something went wrong",
+      error: null,
+      user: JSON.parse(JSON.stringify(userWithoutPassword)),
     };
-  } finally {
+  } catch (error) {
+    console.error("SignIn error:", error);
+    return { error: "An error occurred during sign-in", user: null };
   }
 };
-export async function signOut() {
-  // Clear the token from the cookie
-  const Cookie = cookies();
-  const token = Cookie.get("token")?.value;
-  if (token) {
-    Cookie.delete("token");
-
-    return { success: true };
-  }
-  // Redirect to the sign-in page
-}

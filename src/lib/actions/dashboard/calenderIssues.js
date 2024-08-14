@@ -51,7 +51,7 @@ export const getIssueByDate = async (date = "") => {
         };
       })
     );
-    console.log("issueDetails", issueDetails);
+    // console.log("issueDetails", issueDetails);
 
     return {
       success: true,

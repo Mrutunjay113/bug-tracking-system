@@ -7,13 +7,15 @@ import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Icons } from "@/components/icons";
-import { signIn } from "@/lib/actions/action";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { getCookie, getCookies } from "cookies-next";
 import { Button } from "@nextui-org/button";
 import { useState } from "react";
 import { useToken } from "@/app/context/usercontext";
+
+import { signIn } from "next-auth/react";
+import { authenticate } from "@/lib/actions/action";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -27,23 +29,19 @@ const LoginPage = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const onSubmit = async (data) => {
+    console.log(`data`, data);
     // await new Promise((resolve) => setTimeout(resolve, 3000));
-    const { error, success, user } = await signIn(data);
+    const result = await signIn("credentials", {
+      redirect: false,
+      email: data.email,
+      password: data.password,
+    });
+    if (result.error) {
+      return toast.error(result.error);
+    }
 
-    if (error) {
-      toast.error(error);
-      return;
-    }
-    // console.log(`response`, response);
-    if (error) {
-      toast.error(response.error);
-      return;
-    }
-    if (success) {
-      saveToken(user);
-      toast.success("Sign in successfully");
-      router.push("/dashboard");
-    }
+    toast.success("sign in successfully");
+    router.push("/dashboard");
   };
 
   return (

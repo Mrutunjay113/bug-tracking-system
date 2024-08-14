@@ -1,23 +1,20 @@
 import SimpleCalendar from "@/components/Calender";
 import Heading from "@/components/Heading";
 import HomeCharts from "@/components/HomeComp/HomeCharts";
-import { CalendarDemo } from "@/components/shadCalender";
 
 import { getDashboardCounts } from "@/lib/actions/dashboard/DashboardCount";
-import User from "@/lib/models/User";
 import { RecentIssueCard } from "@/components/recentIssueCard";
-
-import { toast } from "sonner";
+import { authOptions } from "../api/auth/[...nextauth]/options";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/dist/server/api-utils";
 import CustomCalendar from "@/components/Mycalender";
+import { cookies } from "next/headers";
 
 const Page = async () => {
+  const session = await getServerSession(authOptions);
+  console.log(`session`, session);
   const { success, dashboardCount, error } = await getDashboardCounts();
-
-  if (!success) {
-    return toast.error(error);
-  }
   const data = dashboardCount;
-  console.log(`data`, data);
 
   return (
     <main>

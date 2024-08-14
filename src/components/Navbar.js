@@ -21,11 +21,11 @@ import {
 } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { useState } from "react";
-import { signOut } from "@/lib/actions/action";
 import { toast } from "sonner";
 import { useToken } from "@/app/context/usercontext";
 import { verifyJwtToken } from "@/lib/utils";
 import { redirect } from "next/dist/server/api-utils";
+import { signOut } from "next-auth/react";
 
 const Navbar = () => {
   const { token } = useToken();
@@ -41,16 +41,16 @@ const Navbar = () => {
 
   const iconClasses = "text-xl  pointer-events-none flex-shrink-0";
 
-  const handleSignOut = async () => {
-    // Sign out the user
-    // Remove the token from the cookies
-    // Redirect to the sign-in page
-    const signout = await signOut();
-    if (signout.success) {
-      toast.success("Signed out successfully");
-      redirect(new URL("/sign-in").toString());
-    }
-  };
+  // const handleSignOut = async () => {
+  //   // Sign out the user
+  //   // Remove the token from the cookies
+  //   // Redirect to the sign-in page
+  //   const signout = await signOut();
+  //   if (signout.success) {
+  //     toast.success("Signed out successfully");
+  //     redirect(new URL("/sign-in").toString());
+  //   }
+  // };
 
   return (
     <nav className="flex justify-between items-center h-20 border-b bg-white shadow">
@@ -138,7 +138,9 @@ const Navbar = () => {
               Help & Feedback
             </DropdownItem>
             <DropdownItem
-              onClick={handleSignOut}
+              onClick={() =>
+                signOut({ callbackUrl: "/sign-in", redirect: true })
+              }
               key="logout"
               color="danger"
               startContent={<LogOutIcon className={iconClasses} size={16} />}
