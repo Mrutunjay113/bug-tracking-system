@@ -19,6 +19,7 @@ export const getIssueByDate = async (date = "") => {
           description: 1,
           priority: 1,
           type: 1,
+          image: 1,
           status: 1,
           issueType: 1,
           dueDate: 1,

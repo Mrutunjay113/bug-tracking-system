@@ -193,7 +193,7 @@ export function SearchTabs() {
             variant="light"
             classNames={{
               tabList:
-                " w-full relative rounded-lg p-0.5 border-none bg-gray-100 ",
+                " w-full relative rounded-xl p-0.5 border-none bg-gray-100 ",
 
               tab: "data-[selected=true]:text-[#06b6d4] bg-gray-100 ",
               tabContent: "",
@@ -201,7 +201,7 @@ export function SearchTabs() {
           >
             <Tab key="team" title="Teams">
               <Card className="rounded-sm shadow-none ">
-                <ScrollArea className="h-40">
+                <ScrollArea className="h-40 transition-all ease-in-out duration-1000">
                   <CardBody className=" ">
                     {search && result && (
                       <div className=" ">
@@ -270,14 +270,14 @@ export function SearchTabs() {
                       </div>
                     )}
                     {!error && membersData.length > 0 ? (
-                      membersData.map((team) => (
+                      membersData.map((member) => (
                         <div
-                          key={team._id.$oid}
+                          key={member._id}
                           className="last:border-none border-b py-2"
                         >
                           <div className="flex items-center gap-2">
                             <Avatar
-                              alt={`${team.firstName} ${team.lastName}`}
+                              alt={`${member.firstName} ${member.lastName}`}
                               className="flex-shrink-0"
                               size="sm"
                               // src={team.profileImg}
@@ -285,25 +285,25 @@ export function SearchTabs() {
                             />
                             <div className="flex flex-col  w-full">
                               <span className="text-sm">
-                                {team.firstName} {team.lastName}
+                                {member.firstName} {member.lastName}
                               </span>
                               <div className=" text-tiny">
                                 <>
-                                  {team.tasks.length > 0 ? (
+                                  {member.tasks.length > 0 ? (
                                     <div>
-                                      {team.tasks.length >= 2 ? (
+                                      {member.tasks.length >= 2 ? (
                                         <span
                                           className={`font-semibold flex items-center 
                               text-red-500
                               `}
                                         >
                                           <CircleAlert className="w-4 mr-2" />
-                                          {team.tasks.length} Task left
+                                          {member.tasks.length} Task left
                                         </span>
                                       ) : (
                                         <span className="text-green-500 font-semibold flex items-center ">
                                           <CircleCheck className="w-4 mr-2 " />
-                                          {team.tasks.length} Task left
+                                          {member.tasks.length} Task left
                                         </span>
                                       )}
                                     </div>
