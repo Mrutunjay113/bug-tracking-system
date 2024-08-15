@@ -20,7 +20,8 @@ export async function middleware(request) {
 
       if (
         (decoded && request.nextUrl.pathname === "/") ||
-        request.nextUrl.pathname === "/sign-in"
+        request.nextUrl.pathname === "/sign-in" ||
+        request.nextUrl.pathname === "/sign-up"
       ) {
         return NextResponse.redirect(new URL("/dashboard", request.url));
       }
@@ -32,17 +33,20 @@ export async function middleware(request) {
       console.error("Token verification failed:", error);
 
       const response = NextResponse.redirect(new URL("/sign-in", request.url));
+
       response.cookies.delete("__Secure-next-auth.session-token");
       response.cookies.delete("next-auth.session-token");
       return response;
     }
   } else {
-    if (!request.nextUrl.pathname.startsWith("/sign-in")) {
+    //if
+    if (
+      !request.nextUrl.pathname.startsWith("/sign-in") &&
+      !request.nextUrl.pathname.startsWith("/sign-up")
+    ) {
       return NextResponse.redirect(new URL("/sign-in", request.url));
     }
   }
-
-  return NextResponse.next();
 }
 
 export const config = {
