@@ -6,6 +6,7 @@ import {
   CardBody,
   CardHeader,
   Avatar,
+  Spinner,
 } from "@nextui-org/react";
 import { CircleAlert, CircleCheck, Search } from "lucide-react";
 import { Input } from "../ui/input";
@@ -118,7 +119,7 @@ export function SearchTabs() {
   const [result, setResult] = React.useState([]);
   const [membersData, setMembersData] = React.useState([]);
   const [error, setError] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = React.useState(true);
 
   const [selected, setSelected] = React.useState("team");
   const selectChange = (key) => {
@@ -214,126 +215,129 @@ export function SearchTabs() {
             <Tab key="team" title="Teams">
               <Card className="rounded-sm shadow-none ">
                 <ScrollArea className="h-40 transition-all ease-in-out duration-1000">
-                  <CardBody className=" ">
-                    {search && result && (
-                      <div className=" ">
-                        <span className="text-gray-500">Result of: </span>
-                        <span className="font-semibold text-gray-600">
-                          {search}
-                        </span>
-                      </div>
-                    )}
-                    {!error && result.length > 0 ? (
-                      result?.map((team) => (
-                        <div
-                          className="last:border-none border-b py-2"
-                          key={team._id}
-                        >
-                          <div className="flex items-center gap-2">
-                            {/* <Avatar
-                          alt={`${team.name}`}
-                          className="flex-shrink-0"
-                          size="sm"
-                          src={
-                            team.profileImg ||
-                            "https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png"
-                          }
-                        /> */}
-                            <div className="flex flex-col  w-full">
-                              <h1 className="text-sm">
-                                {" "}
-                                {team.name}{" "}
-                                {` | @${team.teamleader.firstName} ${team.teamleader.lastName}`}
-                              </h1>
-                              <div className="flex gap-2">
-                                <div className=" text-tiny text-gray-500">
-                                  {team.TeamRole}
-                                </div>
-                                <div className=" text-tiny text-gray-500">
-                                  |{" "}
-                                  {team.description.length > 20
-                                    ? `${team.description.slice(0, 20)}...`
-                                    : team.description}
+                  {loading ? (
+                    <CardBody className="text-center">
+                      <Spinner size="md" />
+                    </CardBody>
+                  ) : (
+                    <CardBody className=" ">
+                      {search && result && (
+                        <div className=" ">
+                          <span className="text-gray-500">Result of: </span>
+                          <span className="font-semibold text-gray-600">
+                            {search}
+                          </span>
+                        </div>
+                      )}
+                      {!error && result.length > 0 ? (
+                        result?.map((team) => (
+                          <div
+                            className="last:border-none border-b py-2"
+                            key={team._id}
+                          >
+                            <div className="flex items-center gap-2">
+                              <div className="flex flex-col  w-full">
+                                <h1 className="text-sm">
+                                  {" "}
+                                  {team.name}{" "}
+                                  {` | @${team.teamleader.firstName} ${team.teamleader.lastName}`}
+                                </h1>
+                                <div className="flex gap-2">
+                                  <div className=" text-tiny text-gray-500">
+                                    {team.TeamRole}
+                                  </div>
+                                  <div className=" text-tiny text-gray-500">
+                                    |{" "}
+                                    {team.description.length > 20
+                                      ? `${team.description.slice(0, 20)}...`
+                                      : team.description}
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
+                        ))
+                      ) : (
+                        <div className=" mt-4 text-red-500">
+                          {error || "No team found"}
                         </div>
-                      ))
-                    ) : (
-                      <div className=" mt-4 text-red-500">
-                        {error || "No team found"}
-                      </div>
-                    )}
-                  </CardBody>
+                      )}
+                    </CardBody>
+                  )}
                 </ScrollArea>
               </Card>
             </Tab>
             <Tab key="member" title="Members">
               <Card className="rounded-sm shadow-none transition-all duration-1000">
                 <ScrollArea className="h-40 p-0">
-                  <CardBody className="overflow-visible">
-                    {search && membersData && (
-                      <div className=" ">
-                        <span className="text-gray-500">Result of: </span>
-                        <span className="font-semibold text-gray-600">
-                          {search}
-                        </span>
-                      </div>
-                    )}
-                    {!error && membersData.length > 0 ? (
-                      membersData.map((member) => (
-                        <div
-                          key={member._id}
-                          className="last:border-none border-b py-2"
-                        >
-                          <div className="flex items-center gap-2">
-                            <Avatar
-                              alt={`${member.firstName} ${member.lastName}`}
-                              className="flex-shrink-0"
-                              size="sm"
-                              // src={team.profileImg}
-                              src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/3.png"
-                            />
-                            <div className="flex flex-col  w-full">
-                              <span className="text-sm">
-                                {member.firstName} {member.lastName}
-                              </span>
-                              <div className=" text-tiny">
-                                <>
-                                  {member.tasks.length > 0 ? (
-                                    <div>
-                                      {member.tasks.length >= 2 ? (
-                                        <span
-                                          className={`font-semibold flex items-center 
+                  {loading ? (
+                    <CardBody className="text-center">
+                      <Spinner size="md" />
+                    </CardBody>
+                  ) : (
+                    <CardBody className="overflow-visible">
+                      {search && membersData && (
+                        <div className=" ">
+                          <span className="text-gray-500">Result of: </span>
+                          <span className="font-semibold text-gray-600">
+                            {search}
+                          </span>
+                        </div>
+                      )}
+                      {!error && membersData.length > 0 ? (
+                        membersData.map((member) => (
+                          <div
+                            key={member._id}
+                            className="last:border-none border-b py-2"
+                          >
+                            <div className="flex items-center gap-2">
+                              <Avatar
+                                alt={`${member.firstName} ${member.lastName}`}
+                                className="flex-shrink-0"
+                                size="sm"
+                                // src={team.profileImg}
+                                src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/3.png"
+                              />
+                              <div className="flex flex-col  w-full">
+                                <span className="text-sm">
+                                  {member.firstName} {member.lastName}
+                                </span>
+                                <div className=" text-tiny">
+                                  <>
+                                    {member.tasks.length > 0 ? (
+                                      <div>
+                                        {member.tasks.length >= 2 ? (
+                                          <span
+                                            className={`font-semibold flex items-center 
                               text-red-500
                               `}
-                                        >
-                                          <CircleAlert className="w-4 mr-2" />
-                                          {member.tasks.length} Task left
-                                        </span>
-                                      ) : (
-                                        <span className="text-green-500 font-semibold flex items-center ">
-                                          <CircleCheck className="w-4 mr-2 " />
-                                          {member.tasks.length} Task left
-                                        </span>
-                                      )}
-                                    </div>
-                                  ) : (
-                                    <p className="text-green-700">No Task</p>
-                                  )}
-                                </>
+                                          >
+                                            <CircleAlert className="w-4 mr-2" />
+                                            {member.tasks.length} Task left
+                                          </span>
+                                        ) : (
+                                          <span className="text-green-500 font-semibold flex items-center ">
+                                            <CircleCheck className="w-4 mr-2 " />
+                                            {member.tasks.length} Task left
+                                          </span>
+                                        )}
+                                      </div>
+                                    ) : (
+                                      <p className="text-green-700">No Task</p>
+                                    )}
+                                  </>
+                                </div>
                               </div>
                             </div>
                           </div>
+                        ))
+                      ) : (
+                        <div className=" mt-4 text-red-500">
+                          {error || "No member found"}
                         </div>
-                      ))
-                    ) : (
-                      <div className=" mt-4 text-red-500">
-                        {error || "No member found"}
-                      </div>
-                    )}
-                  </CardBody>
+                      )}
+                    </CardBody>
+                  )}
                 </ScrollArea>
               </Card>
             </Tab>
