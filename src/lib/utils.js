@@ -1,6 +1,5 @@
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import jwt from "jsonwebtoken";
 import { jwtVerify } from "jose";
 export function cn(...inputs) {
   return twMerge(clsx(inputs));

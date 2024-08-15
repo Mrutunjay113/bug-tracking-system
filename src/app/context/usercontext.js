@@ -1,6 +1,4 @@
 "use client";
-import { verifyJwtToken } from "@/lib/utils";
-import { image } from "@nextui-org/react";
 import { createContext, useContext, useState } from "react";
 
 const TokenContext = createContext();

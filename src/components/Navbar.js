@@ -23,7 +23,6 @@ import { Avatar } from "@nextui-org/avatar";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useToken } from "@/app/context/usercontext";
-import { verifyJwtToken } from "@/lib/utils";
 import { redirect } from "next/dist/server/api-utils";
 import { signOut } from "next-auth/react";
 

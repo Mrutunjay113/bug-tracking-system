@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 import ConnectMongoDb from "@/lib/mongoConnect";
 import IssueModel from "@/lib/models/issue";
 import { cookies } from "next/headers";
-import { VerifyJwtToken } from "@/lib/utils";
 import TeamModel from "@/lib/models/Team";
 import User from "@/lib/models/User";
 import Member from "@/lib/models/Member";

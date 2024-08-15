@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { verifyJwtToken } from "./lib/utils"; // Ensure this is an async function
 import { cookies } from "next/headers";
 import { decode } from "next-auth/jwt";
 import { redirect } from "next/dist/server/api-utils";

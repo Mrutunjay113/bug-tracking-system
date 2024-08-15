@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
 import ConnectMongoDb from "@/lib/mongoConnect";
 import IssueModel from "@/lib/models/issue";
 import { cookies } from "next/headers";
