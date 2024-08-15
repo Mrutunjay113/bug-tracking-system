@@ -4,7 +4,9 @@ import { decode } from "next-auth/jwt";
 import { redirect } from "next/dist/server/api-utils";
 
 export async function middleware(request) {
-  const token = cookies(request).get("next-auth.session-token")?.value; // Get the token from the cookie
+  const token = cookies(request).get(
+    "next-auth.session-token" || "__Secure-next-auth.session-token"
+  )?.value; // Get the token from the cookie
 
   if (token) {
     try {
