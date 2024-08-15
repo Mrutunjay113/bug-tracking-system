@@ -15,7 +15,6 @@ import { useState } from "react";
 import { useToken } from "@/app/context/usercontext";
 
 import { signIn } from "next-auth/react";
-import { authenticate } from "@/lib/actions/action";
 
 const LoginPage = () => {
   const router = useRouter();

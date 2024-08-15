@@ -18,7 +18,6 @@ export const authOptions = {
         if (result.error) {
           return null; // If there is an error, return null to indicate authentication failure
         }
-
         return result.user; // Return the user object if authentication is successful
       },
     }),
@@ -31,11 +30,13 @@ export const authOptions = {
 
   session: {
     strategy: "jwt",
+
+    //max age of the session 7 days
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        user.role = user?.role == null ? "User" : user?.role;
+        user.role = user?.roles[0] ? user.roles[0] : "user";
         token.user = user;
       }
       return token;
@@ -43,6 +44,9 @@ export const authOptions = {
     async session({ session, token, user }) {
       session.user = token.user;
       return session;
+    },
+    authorized({ req, token }) {
+      if (token) return true; // If there is a token, the user is authenticated
     },
   },
 };

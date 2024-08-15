@@ -9,7 +9,10 @@ export function cn(...inputs) {
 const JWT_SECRET = process.env.JWT_SECRET; // Your JWT secret key
 
 export async function verifyJwtToken(token) {
-  // console.log("Token:", token);
+  console.log(`token`, token);
+  if (!token) {
+    return null;
+  }
   try {
     // Decode the JWT token using the jose library
     const { payload } = await jwtVerify(
@@ -20,6 +23,6 @@ export async function verifyJwtToken(token) {
     return payload;
   } catch (error) {
     console.error("Token verification failed:", error);
-    throw new Error("Invalid token");
+    return null;
   }
 }

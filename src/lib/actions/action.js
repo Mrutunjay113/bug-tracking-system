@@ -9,6 +9,7 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { SignJWT } from "jose";
 import { signIn } from "next-auth/react";
+import { encode } from "next-auth/jwt";
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -57,6 +58,15 @@ export const signInUser = async (credentials) => {
 
     // Remove password from user object
     const { password: pass, ...userWithoutPassword } = user.toObject();
+    // Generate JWT token and set it as a cookie using jose library
+    // const jwt = await new SignJWT({ user: userWithoutPassword })
+    //   .setProtectedHeader({ alg: "HS256" })
+    //   .setIssuedAt()
+    //   .setExpirationTime("2h")
+    //   .sign(new TextEncoder().encode(JWT_SECRET));
+
+    // ///set cookie with jwt token
+    // cookies().set("token", jwt, {});
 
     return {
       error: null,

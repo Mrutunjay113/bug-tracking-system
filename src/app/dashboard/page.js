@@ -9,10 +9,15 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/dist/server/api-utils";
 import CustomCalendar from "@/components/Mycalender";
 import { cookies } from "next/headers";
+import { verifyJwtToken } from "@/lib/utils";
 
 const Page = async () => {
-  const session = await getServerSession(authOptions);
-  console.log(`session`, session);
+  
+  // console.log(`session`, session);
+  // const accessToken = cookies().get("token")?.value;
+  // console.log(`accessToken`, accessToken);
+  // const jwtjose = await verifyJwtToken(accessToken);
+  // console.log(`jwtjose`, jwtjose);
   const { success, dashboardCount, error } = await getDashboardCounts();
   const data = dashboardCount;
 
