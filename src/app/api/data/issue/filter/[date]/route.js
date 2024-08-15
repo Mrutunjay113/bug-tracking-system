@@ -8,19 +8,6 @@ import Member from "@/lib/models/Member";
 import { decode } from "next-auth/jwt";
 
 export async function GET(req, { params }) {
-  console.log("params", params);
-  const authHeader = req.headers.get("authorization");
-  const token = authHeader && authHeader.split(" ")[1];
-  console.log("token", token);
-  if (!token) {
-    return NextResponse.json({ error: "Unauthorized" });
-  }
-  const decoded = await decode({
-    token,
-    secret: process.env.NEXTAUTH_SECRET,
-  });
-  console.log("decode", decoded);
-
   try {
     await ConnectMongoDb();
 

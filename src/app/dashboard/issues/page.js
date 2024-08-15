@@ -19,13 +19,7 @@ const IssuesPage = async () => {
   }
   const date = "2024-07-01"; // Replace with your desired date filter
 
-  const res = await fetch(`${process.env.URL}/api/data/issue/filter/${date}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  });
+  const res = await fetch(`${process.env.URL}/api/data/issue/filter/${date}`);
   const issue = await res.json();
   const issues = issue.issues;
   const counts = issue.counts;
