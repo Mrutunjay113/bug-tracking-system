@@ -45,8 +45,8 @@ export const authOptions = {
       session.user = token.user;
       return session;
     },
-    authorized({ req, token }) {
-      if (token) return true; // If there is a token, the user is authenticated
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
     },
   },
 };
