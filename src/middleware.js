@@ -34,8 +34,6 @@ export async function middleware(request) {
 
       const response = NextResponse.redirect(new URL("/sign-in", request.url));
 
-      response.cookies.delete("__Secure-next-auth.session-token");
-      response.cookies.delete("next-auth.session-token");
       return response;
     }
   } else {

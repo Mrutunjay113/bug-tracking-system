@@ -9,13 +9,11 @@ import Heading from "@/components/Heading";
 import { Suspense } from "react";
 
 const IssuesPage = async () => {
-  const cookiesstore = cookies();
-  const token = cookiesstore.get(
-    "next-auth.session-token" || "__Secure-next-auth.session-token"
-  )?.value;
-
+  const token =
+    cookies().get("__Secure-next-auth.session-token")?.value ||
+    cookies().get("next-auth.session-token")?.value;
   if (!token) {
-    redirect("/sign-in");
+    redirect("/signin");
   }
   const date = "2024-07-01"; // Replace with your desired date filter
 
