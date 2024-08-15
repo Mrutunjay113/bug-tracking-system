@@ -21,6 +21,7 @@ const IssuesPage = async () => {
 
   const res = await fetch(`${process.env.URL}/api/data/issue/filter/${date}`);
   const issue = await res.json();
+  console.log(`issue`, issue);
   const issues = issue.issues;
   const counts = issue.counts;
   // console.log(issues.issues);

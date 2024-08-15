@@ -77,6 +77,6 @@ export async function GET(req, { params }) {
     });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ error: "Something went wrong" });
+    return NextResponse.json({ error: "Something went wrong", success: false });
   }
 }
