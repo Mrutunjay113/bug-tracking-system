@@ -18,17 +18,17 @@ const UserSelect = ({
       selectedKeys={selectedKeys}
       placeholder={placeholder}
       onSelectionChange={onSelectionChange}
-      className="max-w-xs"
+      className="w-full bg-white"
       variant="bordered"
       classNames={{
         label: "group-data-[filled=true]:-translate-y-5 text-default-900",
-        trigger: "min-h-16 border border-default-600 rounded-md",
-        listboxWrapper: "max-h-[400px]",
+        trigger: "min-h-16 border border-default-400 rounded-md",
+        listboxWrapper: "max-h-[400px] ",
       }}
       listboxProps={{
         itemClasses: {
           base: [
-            "rounded-md",
+            "rounded-md ",
             "text-default-500",
             "transition-opacity",
             "data-[hover=true]:text-foreground",

@@ -11,8 +11,6 @@ import CustomCalendar from "@/components/Mycalender";
 import { cookies } from "next/headers";
 
 const Page = async () => {
-  
-  
   const { success, dashboardCount, error } = await getDashboardCounts();
   const data = dashboardCount;
 

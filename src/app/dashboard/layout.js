@@ -6,7 +6,7 @@ const Layout = ({ children }) => {
     <div className="flex h-screen overflow-hidden">
       <Sidebar />
       <div className="flex-1 flex flex-col">
-        <main className="bg-[#fafafa] w-full h-full overflow-auto">
+        <main className="bg-[#F3F5F7] w-full h-full overflow-auto">
           {children}
         </main>
       </div>

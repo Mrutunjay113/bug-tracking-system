@@ -155,6 +155,14 @@ const Sidebar = () => {
               isActive={pathname === "/dashboard/issues"}
               showText={isExpanded}
             />
+            {/* //notification */}
+            <SidebarItem
+              href="/dashboard/notifications"
+              icon={<Bell className="h-6 w-6" />}
+              text="Inbox"
+              isActive={pathname === "/dashboard/notifications"}
+              showText={isExpanded}
+            />
             <SidebarItem
               href="/dashboard/analytics"
               icon={<BarChartBig className="h-6 w-6" />}
@@ -188,7 +196,7 @@ const Sidebar = () => {
 
           <div className="flex items-center space-x-4 mx-auto">
             {/* Notification Bell Icon */}
-            {isExpanded && (
+            {/* {isExpanded && (
               <Dropdown
                 placement="bottom-end"
                 accessKey="n"
@@ -211,7 +219,7 @@ const Sidebar = () => {
                   )}
                 </DropdownMenu>
               </Dropdown>
-            )}
+            )} */}
 
             {/* Profile Icon */}
             <Dropdown placement="right ">

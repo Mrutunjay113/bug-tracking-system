@@ -30,12 +30,17 @@ export default async function Page({ searchParams }) {
           size="lg"
           className="text-white uppercase md:ml-10 ml-4"
         />
-        <div className="flex justify-between gap-4 mr-4">
+        <div className="flex justify-between gap-4 mr-10">
           <Search placeholder="Search for a team" />
           <Link href="/dashboard/teams/add-team" className="">
-            <Button color="primary" radius="sm" size="md" className="w-25">
+            <Button
+              color=""
+              radius="sm"
+              size="md"
+              className="w-25 bg-white text-blue-700 font-semibold"
+            >
               Add Team
-              <span>
+              <span className="text">
                 <Plus size={18} />
               </span>
             </Button>

@@ -42,7 +42,7 @@ const Page = () => {
     if (!success) {
       toast.error(error);
     }
-    console.log(`t`,teamLeaders);
+    console.log(`t`, teamLeaders);
     setTeamLeaders(teamLeaders);
   };
 
@@ -175,6 +175,7 @@ const Page = () => {
             selectedKeys={selectedUsers}
             onSelectionChange={handleSelectionChange}
             // data={users}
+
             data={teamMembers}
           />
           <Button
