@@ -124,17 +124,15 @@ export function Donut({ data, config, title, description }) {
       </CardContent>
       {data?.Closed > 0 ? (
         <CardFooter className="flex justify-center mt-4">
-          <span className="bg-[#34A853] p-1 text-white rounded-full">
+          <span className=" p-1  rounded-full">
             {" "}
             <TrendingUp className="w-4 h-4" />
           </span>
 
           <span className="ml-2 text-muted-foreground">
             We have closed
-            <span className="text-gray-600 font-semibold">
-              {data?.Closed > 0
-                ? ` ${(data?.Closed / totalTask) * 100}%   `
-                : null}
+            <span className="text-gray-600 font-semibold px-2">
+              {((data.Closed / totalTask) * 100).toFixed(0)}%
             </span>
             tasks this month.
           </span>

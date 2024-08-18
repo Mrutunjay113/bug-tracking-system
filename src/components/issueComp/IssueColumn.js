@@ -36,11 +36,11 @@ const IssueColumn = ({ title, issues, addissue, counts }) => {
 
       <Separator className="bg-slate-400" />
 
-      <ScrollArea className="md:h-[650px] md:min-h-[400px] transition-all ease-in-out duration-1000 ">
+      <div className="md:h-[650px] md:min-h-[400px] transition-all ease-in-out duration-1000 overflow-auto">
         {issues.map((issue, index) => (
           <IssueCard key={issue._id} issue={issue} index={index} />
         ))}
-      </ScrollArea>
+      </div>
     </div>
   );
 };

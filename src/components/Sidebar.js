@@ -42,10 +42,10 @@ const SidebarItem = ({
       <Link
         href={href ? href : "#"}
         onClick={onClick}
-        className={`relative flex items-center py-2  rounded-lg pl-5 font-medium cursor-pointer  group ${
+        className={`relative flex items-center py-2 rounded-lg pl-5 font-medium cursor-pointer group ${
           isActive
             ? "bg-[#1f66ff] text-white"
-            : "hover:bg-[#f1f5ff] text-gray-600"
+            : "hover:bg-[#eaebee] text-gray-600"
         } ${showText ? "justify-start" : "justify-start"} `}
       >
         {icon && (
@@ -60,9 +60,9 @@ const SidebarItem = ({
         <motion.div
           initial={{ opacity: 0, width: 0 }}
           animate={{ opacity: showText ? 1 : 0, width: showText ? "auto" : 0 }}
-          className={`overflow-hidden whitespace-nowrap  font-semibold ${
+          className={`overflow-hidden whitespace-nowrap font-semibold ${
             showText ? "ml-4" : "ml-0"
-          } `}
+          }`}
         >
           {text}
         </motion.div>
@@ -71,6 +71,7 @@ const SidebarItem = ({
     </li>
   );
 };
+
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
@@ -83,30 +84,26 @@ const Sidebar = () => {
       initial={{ width: "5rem" }}
       animate={{ width: isExpanded ? "15rem" : "5rem" }}
       transition={{
-        bounce: 0,
-        duration: 0.2,
-        type: "spring",
-        stiffness: 260,
-        damping: 20,
+        width: { duration: 0.3, bounce: 0.5 }, // Smooth transition for width
+        opacity: { duration: 0.2 }, // Optional: Smooth transition for opacity if used
       }}
     >
-      <div className="bg-[color:var(--bg-primary)]  flex flex-col p-2 border-r  flex-1 ">
+      <div className="bg-[color:var(--bg-primary)] flex flex-col p-2 border-r flex-1">
         <div className="p-4 mb-2 justify-start flex">
           <div className="flex-1 flex items-center justify-start">
             <div className="">
-              <Icons.logo className={` h-7 w-7 `} />
+              <Icons.logo className={`h-7 w-7`} />
             </div>
             {isExpanded && (
               <div className={`text-md font-bold ml-2`}>Mrutunjay</div>
             )}
           </div>
         </div>
-        <nav className="flex-1 ">
+        <nav className="flex-1">
           <motion.div
-            //show step wise animation on sidebar items
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            transition={{ delay: 0.2, duration: 0.2 }} // Smooth opacity transition
             className="space-y-2 list-none"
           >
             <SidebarItem
@@ -153,14 +150,14 @@ const Sidebar = () => {
             />
           </motion.div>
         </nav>
-        <nav className="flex justify-between items-center text-center  h-10 mb-4 pt-4 border-t border-black">
+        <nav className="flex justify-between items-center text-center h-10 mb-4 pt-4 border-t border-black">
           {isExpanded && (
             <div className="flex items-center ml-5">
               <p className="text-lg font-semibold">Mrutunjay</p>
             </div>
           )}
           <div className="flex items-center space-x-4 mx-auto">
-            <Dropdown placement="right ">
+            <Dropdown placement="right">
               <DropdownTrigger>
                 <Avatar
                   isBordered

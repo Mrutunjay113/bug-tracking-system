@@ -73,6 +73,10 @@
   }
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 [data-issue-date="true"] {
   background-color: #fbbf24; /* Customize the color */
 }

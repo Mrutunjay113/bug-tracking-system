@@ -26,6 +26,7 @@ import {
 } from "../components/ui/select";
 import { Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { getIssueByDate } from "@/lib/actions/dashboard/calenderIssues";
+import { motion } from "framer-motion";
 
 const CustomCalendar = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -61,7 +62,6 @@ const CustomCalendar = () => {
     setSelectedDate(day);
     const selectedDay = format(day, "yyyy-MM-dd");
     const issue = data.find((item) => item.dueDate === selectedDay);
-    console.log("issue", issue);
     if (issue) {
       setSelectedIssue(issue);
       setPopoverOpen(true);
@@ -119,8 +119,7 @@ const CustomCalendar = () => {
       );
 
       const dayStyle = isSelected
-        ? //if highlight is true then it will show the image of the user
-          `${highlight ? " text-white " : "bg-gray-400 text-white"}`
+        ? `${highlight ? "text-white" : "bg-gray-400 text-white"}`
         : isToday
         ? "bg-gray-200 text-gray-800"
         : isSameMonth(day, currentMonth)
@@ -129,8 +128,7 @@ const CustomCalendar = () => {
 
       const customStyle = highlight
         ? highlight.imageurl
-          ? // "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
-            "bg-cover bg-center bg-no-repeat"
+          ? "bg-cover bg-center bg-no-repeat"
           : "bg-orange-400 text-white"
         : "";
 
@@ -141,20 +139,28 @@ const CustomCalendar = () => {
           onClose={() => setPopoverOpen(false)}
         >
           <PopoverTrigger>
-            <div
+            <motion.div
               className={`flex justify-center items-center h-10 w-10 rounded cursor-pointer ${dayStyle} ${customStyle}`}
               onClick={() => onDateClick(day)}
               style={{
                 backgroundImage: highlight?.imageurl
-                  ? // ? `url(${highlight.image})`
-                    `url(https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png)`
+                  ? `url(https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png)`
                   : "none",
               }}
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
             >
               {format(day, "d")}
-            </div>
+            </motion.div>
           </PopoverTrigger>
-          <PopoverContent className="p-4 grid gap-2 w-fit bg-white rounded-md z-40 shadow-xl border max-w-[300px] items-start border-gray-200">
+          <PopoverContent
+            className="p-4 grid gap-2 w-fit bg-white rounded-md z-40 shadow-xl border max-w-[300px] items-start border-gray-200"
+            style={{ opacity: popoverOpen ? 1 : 0 }}
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: popoverOpen ? 1 : 0, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
             <h2 className="text-lg uppercase tracking-wide font-bold flex text-wrap">
               {selectedIssue?.title}
             </h2>
@@ -181,7 +187,6 @@ const CustomCalendar = () => {
               <span className="font-medium text-gray-700">Priority:</span>{" "}
               {selectedIssue?.priority}
             </div>
-            {/* //team name from temLeader array */}
             <div className="text-sm text-gray-600">
               <span className="font-medium text-gray-700">Team:</span>{" "}
               {selectedIssue?.team?.teamLeader?.firstName}{" "}
@@ -208,13 +213,11 @@ const CustomCalendar = () => {
     async function fetchData() {
       const result = await getIssueByDate();
       setData(result.data);
-      console.log("result", result);
     }
     fetchData();
   }, []);
 
   useEffect(() => {
-    // Close popover when clicking outside of it
     const handleClickOutside = (e) => {
       if (!e.target.closest(".nextui-popover-content")) {
         setPopoverOpen(false);

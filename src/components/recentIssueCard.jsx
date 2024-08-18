@@ -1,48 +1,30 @@
 import { getIssuesBYRecent } from "@/lib/actions/issue/action";
-import { Card, CardBody, CardHeader } from "@nextui-org/card";
-import { CalendarPlus, Flag } from "lucide-react";
-import { toast } from "sonner";
-import { ScrollArea } from "./ui/scroll-area";
-import Link from "next/link";
+import RecentIssueCards from "./HomeComp/recentIssueCards";
+import { Suspense } from "react";
 
 export const RecentIssueCard = async () => {
   const response = await getIssuesBYRecent();
+
+  let error = [];
   if (!response.success) {
-    return toast.error(response.error);
+    error = response.error;
   }
   const data = response.issues;
+
   return (
-    <Card shadow className="p-2 rounded-md shadow-none border">
-      <CardHeader className="">
-        <h1 className="font-semibold text-blue-600"> Recent Activities</h1>
-      </CardHeader>
-
-      <ScrollArea className="md:max-h-[300px] md:h-full h-64">
-        <CardBody className="rounded-md gap-y-2">
-          {data &&
-            data.map((issue) => (
-              <Link
-                href={`/dashboard/issues/${issue._id}`}
-                key={issue._id}
-                className=" items-center justify-between p-2 rounded-md bg-gray-50
-                hover:bg-gray-100  "
-              >
-                <div className="font-semibold ">{issue.title}</div>
-
-                <div className="flex items-center">
-                  <p className="text-muted-foreground">
-                    {issue.type} | {issue.priority} |{" "}
-                    {new Date(issue.dueDate).toLocaleDateString("en-US", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </p>
-                </div>
-              </Link>
-            ))}
-        </CardBody>
-      </ScrollArea>
-    </Card>
+    <div className="p-3 rounded-md shadow-none border min-w-[300px]">
+      <h1 className="font-semibold text-blue-600">Recent Activities</h1>
+      <div className="md:max-h-[300px] md:h-full h-64 mt-2 overflow-y-scroll">
+        <div className="rounded-md flex-col space-y-2">
+          {data ? (
+            data.map((issue, index) => (
+              <RecentIssueCards issue={issue} index={index} key={issue._id} />
+            ))
+          ) : (
+            <div className="text-red-500">{error}</div>
+          )}
+        </div>
+      </div>
+    </div>
   );
 };

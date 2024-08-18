@@ -46,6 +46,9 @@ export function SearchTabs() {
   const selectChange = (key) => {
     setSelected(key);
     setSearch("");
+    setResult([]);
+    setMembersData([]);
+    setError(null);
   };
   const onEnter = async (e) => {
     if (e.key === "Enter") {
@@ -64,6 +67,12 @@ export function SearchTabs() {
             setMembersData(reponse.member);
             setError(null);
           }
+        } else {
+          setLoading(false);
+          setMembersData([]);
+          setResult([]);
+          setError(reponse.error);
+          toast.error(reponse.error);
         }
       } catch (error) {
         setLoading(false);
