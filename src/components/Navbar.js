@@ -22,14 +22,10 @@ import {
 import { Avatar } from "@nextui-org/avatar";
 import { useState } from "react";
 import { toast } from "sonner";
-import { useToken } from "@/app/context/usercontext";
 import { redirect } from "next/dist/server/api-utils";
 import { signOut } from "next-auth/react";
 
 const Navbar = () => {
-  const { token } = useToken();
-  console.log(token);
-
   const data = [
     { id: 1, message: "New comment on your post" },
     { id: 2, message: "Your task is due tomorrow" },

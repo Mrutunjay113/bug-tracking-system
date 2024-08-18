@@ -11,13 +11,12 @@ import { redirect, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { Button } from "@nextui-org/button";
 import { useState } from "react";
-import { useToken } from "@/app/context/usercontext";
 
 import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
-  const { saveToken } = useToken();
+ 
   const [handlepassword, setHandlePassword] = useState(false);
 
   const {

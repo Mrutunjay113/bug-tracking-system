@@ -1,27 +1,17 @@
 "use client";
 import {
-  ArrowDown,
-  ArrowLeftFromLine,
+  ArrowLeft,
   ArrowRightToLine,
-  ArrowRightToLineIcon,
-  ArrowUpIcon,
   BarChartBig,
-  CircleChevronDown,
-  CircleChevronUpIcon,
+  Bell,
   Home,
+  LogOutIcon,
   SquareGanttChart,
   Users,
-  BadgeInfo,
-  Bell,
-  LineChart,
-  LogOutIcon,
-  SquareUser,
-  User,
   UserRound,
-  ArrowLeft,
 } from "lucide-react";
 import Link from "next/link";
-import { redirect, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Icons } from "./icons";
 import { useState } from "react";
 import { HiOutlineUserGroup } from "react-icons/hi2";
@@ -34,7 +24,7 @@ import {
 } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
 import { signOut } from "next-auth/react";
-import { toast } from "sonner";
+import { motion } from "framer-motion";
 
 const SidebarItem = ({
   href,
@@ -57,22 +47,23 @@ const SidebarItem = ({
           isActive
             ? "bg-[#1f66ff] text-white"
             : "hover:bg-[#f1f5ff] text-gray-600"
-        } ${showText ? "" : "justify-center"}
-        `}
+        } ${showText ? "" : "justify-center"}`}
       >
         {icon && (
           <span
-            className={`group${isActive ? "text-blue-500 " : "text-gray-500"} `}
+            className={`group ${isActive ? "text-white " : "text-gray-500"}`}
           >
             {icon}
           </span>
         )}
         {!showText && (
-          <div
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className={`absolute left-full rounded-md px-2 border z-20 py-1 ml-6 bg-white text-[#1f66ff] text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
           >
             {text}
-          </div>
+          </motion.div>
         )}
         {showText && (
           <p
@@ -81,14 +72,6 @@ const SidebarItem = ({
             } ${showDownArrow ? "flex justify-end " : ""}`}
           >
             {text}
-            <span className={`text-gray-600 ${showDownArrow ? "ml-2" : ""}`}>
-              {showDownArrow &&
-                (isTeamDropdownOpen ? (
-                  <CircleChevronUpIcon className="w-5 h-5" />
-                ) : (
-                  <CircleChevronDown className="w-5 h-5" />
-                ))}
-            </span>
           </p>
         )}
       </Link>
@@ -98,49 +81,50 @@ const SidebarItem = ({
 };
 
 const Sidebar = () => {
-  // console.log(token);
-
-  const data = [
-    { id: 1, message: "New comment on your post" },
-    { id: 2, message: "Your task is due tomorrow" },
-    { id: 3, message: "New friend request" },
-  ];
-  const [notifications, setNotifications] = useState([]);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-  const iconClasses = "text-xl  pointer-events-none flex-shrink-0";
-
-  const [isExpanded, setIsExpanded] = useState(true); // State to manage sidebar expand/collapse
-  const [isTeamDropdownOpen, setIsTeamDropdownOpen] = useState(false); // State to manage Team dropdown visibility
-  const toggleSidebar = () => setIsExpanded(!isExpanded);
-
+  const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
 
   return (
-    <div className=" flex h-full ">
-      <div
-        className={`bg-[color:var(--bg-primary)] w-${
-          isExpanded ? "64" : "16"
-        } flex flex-col p-2 border-r flex-1`}
-      >
+    <motion.div
+      className="flex h-full"
+      onHoverStart={() => setIsExpanded(true)}
+      onHoverEnd={() => setIsExpanded(false)}
+      initial={{ width: "4rem" }}
+      animate={{ width: isExpanded ? "15rem" : "5rem" }}
+      transition={{
+        bounce: 0,
+        duration: 0.2,
+        type: "spring",
+        stiffness: 260,
+        damping: 20,
+      }}
+    >
+      <div className="bg-[color:var(--bg-primary)]  flex flex-col p-2 border-r  flex-1 ">
         <div className="p-4 mb-2 justify-start flex">
           <div className="flex-1 flex items-center justify-start">
             <div className="">
-              <Icons.logo className={` ${isExpanded ? "h-10 w-10 " : ""}`} />
+              <Icons.logo className={` h-7 w-7 `} />
             </div>
-            <div className={`text-md font-bold ${isExpanded ? "" : "hidden"}`}>
-              Mrutunjay
-            </div>
+            {isExpanded && (
+              <div className={`text-md font-bold ml-2`}>Mrutunjay</div>
+            )}
           </div>
-          <button
-            onClick={toggleSidebar}
+
+          {/* <button
+            onClick={() => setIsExpanded(!isExpanded)}
             className="text-gray-500 hover:text-gray-900 focus:outline-none"
           >
             {isExpanded ? <ArrowLeft /> : <ArrowRightToLine />}
-          </button>
+          </button> */}
         </div>
-        <nav className="flex-1">
-          <ul className="space-y-2">
+        <nav className="flex-1 ">
+          <motion.div
+            //show step wise animation on sidebar items
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="space-y-2 list-none"
+          >
             <SidebarItem
               href="/dashboard"
               icon={<Home className="h-6 w-6" />}
@@ -155,12 +139,11 @@ const Sidebar = () => {
               isActive={pathname === "/dashboard/issues"}
               showText={isExpanded}
             />
-            {/* //notification */}
             <SidebarItem
-              href="/dashboard/notifications"
+              href="/dashboard/inbox"
               icon={<Bell className="h-6 w-6" />}
               text="Inbox"
-              isActive={pathname === "/dashboard/notifications"}
+              isActive={pathname === "/dashboard/inbox"}
               showText={isExpanded}
             />
             <SidebarItem
@@ -184,44 +167,15 @@ const Sidebar = () => {
               isActive={pathname === "/dashboard/members"}
               showText={isExpanded}
             />
-          </ul>
+          </motion.div>
         </nav>
-        <nav className="flex justify-between items-center text-center h-10 mb-4 pt-4 border-t border-black    ">
-          {/* Left Side */}
+        <nav className="flex justify-between items-center text-center  h-10 mb-4 pt-4 border-t border-black">
           {isExpanded && (
             <div className="flex items-center ml-5">
               <p className="text-lg font-semibold">Mrutunjay</p>
             </div>
           )}
-
           <div className="flex items-center space-x-4 mx-auto">
-            {/* Notification Bell Icon */}
-            {/* {isExpanded && (
-              <Dropdown
-                placement="bottom-end"
-                accessKey="n"
-                isOpen={isDropdownOpen}
-                onOpenChange={(open) => setIsDropdownOpen(open)}
-              >
-                <DropdownTrigger accessKey="n">
-                  <Bell className="h-5 w-5 text-gray-600 hover:text-gray-900 cursor-pointer" />
-                </DropdownTrigger>
-
-                <DropdownMenu aria-label="Notifications" variant="light">
-                  {data.length > 0 ? (
-                    data.map((notification) => (
-                      <DropdownItem key={notification.id}>
-                        {notification.message}
-                      </DropdownItem>
-                    ))
-                  ) : (
-                    <DropdownItem>No new notifications</DropdownItem>
-                  )}
-                </DropdownMenu>
-              </Dropdown>
-            )} */}
-
-            {/* Profile Icon */}
             <Dropdown placement="right ">
               <DropdownTrigger>
                 <Avatar
@@ -230,7 +184,7 @@ const Sidebar = () => {
                   size="sm"
                   className="transition-transform"
                   src={
-                    User.image ||
+                    // User.image ||
                     "https://i.pravatar.cc/150?u=a042581f4e29026704d"
                   }
                 />
@@ -242,40 +196,32 @@ const Sidebar = () => {
                   variant="light"
                 >
                   <p className="font-semibold">Signed in as</p>
-                  <p className="font-semibold">
-                    {User.username || "zoey@example.com"}
-                  </p>
+                  <p className="font-semibold">{"zoey@example.com"}</p>
                 </DropdownItem>
-
                 <DropdownItem
-                  key="prfile"
+                  key="profile"
                   href="/dashboard/profile"
-                  startContent={<UserRound className={iconClasses} size={16} />}
+                  startContent={<UserRound className="text-xl" />}
                 >
                   My Profile
                 </DropdownItem>
-
                 <DropdownItem
                   key="add_issue"
                   href="/dashboard/issues/addissue"
-                  startContent={
-                    <SquareGanttChart className={iconClasses} size={16} />
-                  }
+                  startContent={<SquareGanttChart className="text-xl" />}
                 >
                   Add Issue
                 </DropdownItem>
                 <DropdownItem
                   key="analytics"
                   href="/dashboard/analytics"
-                  startContent={
-                    <BarChartBig className={iconClasses} size={16} />
-                  }
+                  startContent={<BarChartBig className="text-xl" />}
                 >
                   Analytics
                 </DropdownItem>
                 <DropdownItem
                   key="help_and_feedback"
-                  startContent={<BadgeInfo className={iconClasses} size={16} />}
+                  startContent={<UserRound className="text-xl" />}
                 >
                   Help & Feedback
                 </DropdownItem>
@@ -285,9 +231,7 @@ const Sidebar = () => {
                   }
                   key="logout"
                   color="danger"
-                  startContent={
-                    <LogOutIcon className={iconClasses} size={16} />
-                  }
+                  startContent={<LogOutIcon className="text-xl" />}
                 >
                   Sign Out
                 </DropdownItem>
@@ -296,7 +240,7 @@ const Sidebar = () => {
           </div>
         </nav>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

@@ -124,7 +124,7 @@ const AddIssueForm = () => {
   };
 
   return (
-    <div className=" mx-auto max-w-4xl md:mt-8">
+    <div className=" mx-auto max-w-4xl p-2 w-full md:p-0 md:mt-8">
       <Heading
         headingTitle="Add Issue"
         size="lg"

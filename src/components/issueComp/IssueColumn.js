@@ -1,4 +1,3 @@
-import React from "react";
 import { Separator } from "../ui/separator";
 import { Button, buttonVariants } from "../ui/button";
 import Link from "next/link";
@@ -9,13 +8,11 @@ import { ScrollArea } from "../ui/scroll-area";
 
 const IssueColumn = ({ title, issues, addissue, counts }) => {
   return (
-    <div className=" ">
+    <div className="border mt-2 md:p-4 p-2 h-full bg-[var(--gray-2)] rounded-md">
       <div className="flex justify-between items-center my-2 ">
         <div className="flex items-center gap-4">
           <h2
-            className={`text-lg font-bold my-2 text-[#323232] ${
-              addissue ? "" : ""
-            }`}
+            className={`text-lg font-bold text-[#323232] ${addissue ? "" : ""}`}
           >
             {title}
           </h2>
@@ -37,11 +34,11 @@ const IssueColumn = ({ title, issues, addissue, counts }) => {
         )}
       </div>
 
-      <Separator />
+      <Separator className="bg-slate-400" />
 
-      <ScrollArea className="max-h-[650px] mt-4  px-2   rounded-lg bg-[var(--gray-1)] ">
-        {issues.map((issue) => (
-          <IssueCard key={issue._id} issue={issue} />
+      <ScrollArea className="md:h-[650px] md:min-h-[400px] transition-all ease-in-out duration-1000 ">
+        {issues.map((issue, index) => (
+          <IssueCard key={issue._id} issue={issue} index={index} />
         ))}
       </ScrollArea>
     </div>

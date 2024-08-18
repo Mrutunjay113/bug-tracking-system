@@ -24,8 +24,8 @@ export const RecentIssueCard = async () => {
               <Link
                 href={`/dashboard/issues/${issue._id}`}
                 key={issue._id}
-                className=" items-center justify-between p-2 rounded-md bg-gray-100
-                hover:bg-blue-200  "
+                className=" items-center justify-between p-2 rounded-md bg-gray-50
+                hover:bg-gray-100  "
               >
                 <div className="font-semibold ">{issue.title}</div>
 

@@ -10,11 +10,11 @@ const IssueDetailsPage = async ({ params }) => {
 
   return (
     <main className="  relative">
-      <div className="bg-[color:var(--primary-2)] margin-5 py-10 md:mb-10">
+      <div className="bg-[#F6F6F6]margin-5 py-10 md:mb-10">
         <Heading
           headingTitle="Issue Details"
           size="lg"
-          className="text-white uppercase md:ml-10 ml-4"
+          className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
       </div>
       <Suspense fallback={<div>Loading...</div>}>

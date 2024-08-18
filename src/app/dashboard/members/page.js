@@ -19,11 +19,11 @@ export default async function Page({ searchParams }) {
 
   return (
     <main>
-      <div className="bg-[color:var(--primary-2)] margin-5 py-10 flex justify-between">
+      <div className="bg-[#F6F6F6] margin-5 py-10 border-b border-gray-400 flex  justify-between">
         <Heading
           headingTitle="Members"
           size="lg"
-          className="text-white uppercase md:ml-10 ml-4"
+          className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
         <div className="flex justify-between gap-4 mr-4">
           <Search placeholder="Search for a Member" />

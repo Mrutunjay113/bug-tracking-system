@@ -12,20 +12,30 @@ import { cookies } from "next/headers";
 
 const Page = async () => {
   const { success, dashboardCount, error } = await getDashboardCounts();
-  const data = dashboardCount;
+  let data = null;
+  let errors = null;
+  if (success) {
+    data = dashboardCount;
+  } else {
+    errors = error;
+  }
 
   return (
     <main>
-      <div className="bg-[color:var(--primary-2)] margin-5 py-10">
+      <div className="bg-[#F6F6F6] border-b margin-5 py-10">
         <Heading
           headingTitle="Dashboard"
           size="lg"
-          className="text-white uppercase md:ml-10 ml-4"
+          className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
       </div>
       <div className="md:p-8 p-2 ">
         <div className="md:flex md:gap-2 w-full">
-          <HomeCharts data={data} />
+          {errors ? (
+            <div className="text-red-500">{errors}</div>
+          ) : (
+            <HomeCharts data={data} />
+          )}
         </div>
 
         <div className="mt-2 md:flex md:w-fit w-full md:justify-end gap-2 md:space-y-0 space-y-2">

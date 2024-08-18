@@ -32,12 +32,12 @@ const IssuesPage = async () => {
   const done = issues.filter((issue) => issue.status === "Closed");
   // console.log(issues);
   return (
-    <div className=" ">
-      <div className="bg-[color:var(--primary-2)] margin-5 py-10">
+    <div className="">
+      <div className="bg-[#F6F6F6]margin-5 border-b border-gray-400 py-10">
         <Heading
           headingTitle="All Issues"
           size="lg"
-          className="text-white uppercase md:ml-10 ml-4"
+          className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
       </div>
       <div className=" md:pt-4">

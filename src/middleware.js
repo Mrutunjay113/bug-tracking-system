@@ -32,9 +32,12 @@ export async function middleware(request) {
     } catch (error) {
       console.error("Token verification failed:", error);
 
-      const response = NextResponse.redirect(new URL("/sign-in", request.url));
-
-      return response;
+      if (
+        !request.nextUrl.pathname.startsWith("/sign-in") &&
+        !request.nextUrl.pathname.startsWith("/sign-up")
+      ) {
+        return NextResponse.redirect(new URL("/sign-in", request.url));
+      }
     }
   } else {
     //if
