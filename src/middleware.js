@@ -37,6 +37,8 @@ export async function middleware(request) {
         !request.nextUrl.pathname.startsWith("/sign-up")
       ) {
         return NextResponse.redirect(new URL("/sign-in", request.url));
+      } else {
+        return NextResponse.next();
       }
     }
   } else {

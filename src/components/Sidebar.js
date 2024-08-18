@@ -25,6 +25,7 @@ import {
 import { Avatar } from "@nextui-org/avatar";
 import { signOut } from "next-auth/react";
 import { motion } from "framer-motion";
+import { getToken } from "next-auth/jwt";
 
 const SidebarItem = ({
   href,
@@ -34,52 +35,42 @@ const SidebarItem = ({
   isActive,
   onClick,
   children,
-  showDownArrow,
   className,
-  isTeamDropdownOpen,
 }) => {
   return (
     <li className={cn("relative", className)}>
       <Link
         href={href ? href : "#"}
         onClick={onClick}
-        className={`relative flex items-center py-2 px-3 font-medium rounded-md cursor-pointer transition-colors group ${
+        className={`relative flex items-center py-2  rounded-lg pl-5 font-medium cursor-pointer  group ${
           isActive
             ? "bg-[#1f66ff] text-white"
             : "hover:bg-[#f1f5ff] text-gray-600"
-        } ${showText ? "" : "justify-center"}`}
+        } ${showText ? "justify-start" : "justify-start"} `}
       >
         {icon && (
           <span
-            className={`group ${isActive ? "text-white " : "text-gray-500"}`}
+            className={`
+          ${isActive ? "text-white" : "text-gray-600"}
+          `}
           >
             {icon}
           </span>
         )}
-        {!showText && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className={`absolute left-full rounded-md px-2 border z-20 py-1 ml-6 bg-white text-[#1f66ff] text-sm invisible opacity-20 -translate-x-3 transition-all group-hover:visible group-hover:opacity-100 group-hover:translate-x-0`}
-          >
-            {text}
-          </motion.div>
-        )}
-        {showText && (
-          <p
-            className={`ml-4 font-semibold items-center${
-              isActive ? "text-white" : ""
-            } ${showDownArrow ? "flex justify-end " : ""}`}
-          >
-            {text}
-          </p>
-        )}
+        <motion.div
+          initial={{ opacity: 0, width: 0 }}
+          animate={{ opacity: showText ? 1 : 0, width: showText ? "auto" : 0 }}
+          className={`overflow-hidden whitespace-nowrap  font-semibold ${
+            showText ? "ml-4" : "ml-0"
+          } `}
+        >
+          {text}
+        </motion.div>
       </Link>
       {children}
     </li>
   );
 };
-
 const Sidebar = () => {
   const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
@@ -89,7 +80,7 @@ const Sidebar = () => {
       className="flex h-full"
       onHoverStart={() => setIsExpanded(true)}
       onHoverEnd={() => setIsExpanded(false)}
-      initial={{ width: "4rem" }}
+      initial={{ width: "5rem" }}
       animate={{ width: isExpanded ? "15rem" : "5rem" }}
       transition={{
         bounce: 0,
@@ -109,13 +100,6 @@ const Sidebar = () => {
               <div className={`text-md font-bold ml-2`}>Mrutunjay</div>
             )}
           </div>
-
-          {/* <button
-            onClick={() => setIsExpanded(!isExpanded)}
-            className="text-gray-500 hover:text-gray-900 focus:outline-none"
-          >
-            {isExpanded ? <ArrowLeft /> : <ArrowRightToLine />}
-          </button> */}
         </div>
         <nav className="flex-1 ">
           <motion.div
