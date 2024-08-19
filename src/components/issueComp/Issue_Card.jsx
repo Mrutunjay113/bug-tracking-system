@@ -91,7 +91,7 @@ const IssueCard = ({ issue, index }) => {
 
         transition: { duration: 0.3, ease: "easeIn" },
       }}
-      transition={{ delay: index * 0.2, duration: 0.5, ease: "easeOut" }}
+      transition={{ delay: index * 0.3, duration: 0.5, ease: "easeOut" }}
     >
       <Link href={`/dashboard/issues/${issue._id}`} className="">
         <div className="relative">

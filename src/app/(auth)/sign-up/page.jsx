@@ -26,13 +26,16 @@ const SignUpPage = () => {
   } = useForm();
   const onSubmit = async (data) => {
     await new Promise((resolve) => setTimeout(resolve, 3000));
-    const user = await addUser(data);
+    const { user, token, error } = await addUser(data);
+    // const user = await addUser(data);
 
-    if (user.error) {
-      toast.error(user.error);
+    if (error) {
+      toast.error(error);
+      return;
     }
     toast.success("Account created successfully");
-    Router.push("/sign-in");
+    Router.push(`/verify-email?email=${user.email}&token=${token}`);
+    // Router.push("/sign-in");
   };
 
   return (

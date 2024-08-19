@@ -25,14 +25,14 @@ export default async function Page({ searchParams }) {
           size="lg"
           className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
-        <div className="flex justify-between gap-4 mr-4">
-          <Search placeholder="Search for a Member" />
+        <div className="flex justify-between gap-4 mr-10">
+          <Search placeholder="Search for a member" />
           <Link href="/dashboard/members/add-member" className="">
             <Button
               color="primary"
               radius="sm"
               size="md"
-              className="w-25 bg-white text-blue-700 font-semibold"
+              className="w-25 bg-white text-blue-700 border font-semibold "
             >
               Add Member
               <span>

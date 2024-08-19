@@ -11,7 +11,7 @@ import {
 import { User } from "@nextui-org/user";
 import classNames from "classnames";
 import { Chip } from "@nextui-org/chip";
-import { ScrollArea, ScrollBar } from "../ui/scroll-area";
+import { ScrollArea, ScrollBar } from "../../components/ui/scroll-area";
 
 const fieldsToDisplay = [
   "profileImg",
@@ -52,7 +52,9 @@ export function MemberTable({ data }) {
             <User
               avatarProps={{
                 radius: "full",
-                src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png",
+                src:
+                  // member.profileImg ||
+                  "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png",
               }}
               description={member.email}
               name={`${member.firstName} ${member.lastName}`}
@@ -79,48 +81,49 @@ export function MemberTable({ data }) {
           return cellValue;
       }
     },
-    [statusColorMap] // Now it's safe to include statusColorMap here
+    [statusColorMap]
   );
 
   return (
     <div className="md:space-y-6 md:p-8 p-2">
-      <ScrollArea className="md:w-full max-w-64 w-max md:max-w-full">
-        <div className="p-2">
-          <Table radius="sm" aria-label="Member table">
-            <TableHeader>
-              {fieldsToDisplay.map((key) => (
-                <TableColumn className="text-sm" key={key}>
-                  {fieldNameMapping[key]}
-                </TableColumn>
-              ))}
-            </TableHeader>
-            {data !== undefined ? (
-              <TableBody>
-                {data?.map((member) => (
-                  <TableRow key={member.userID}>
-                    {fieldsToDisplay.map((key) => (
-                      <TableCell className="" key={key}>
-                        {renderCell(member, key)}
-                      </TableCell>
-                    ))}
-                  </TableRow>
+      <div className="w-full overflow-x-auto">
+        <ScrollArea className="w-full">
+          <div className="min-w-full p-2">
+            <Table radius="sm" aria-label="Member table" className="w-full">
+              <TableHeader>
+                {fieldsToDisplay.map((key) => (
+                  <TableColumn className="text-sm" key={key}>
+                    {fieldNameMapping[key]}
+                  </TableColumn>
                 ))}
+              </TableHeader>
+              <TableBody>
+                {data?.length > 0 ? (
+                  data.map((member) => (
+                    <TableRow key={member.userID}>
+                      {fieldsToDisplay.map((key) => (
+                        <TableCell className="" key={key}>
+                          {renderCell(member, key)}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={fieldsToDisplay.length}
+                      className="text-center text-gray-500"
+                    >
+                      No Members found
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
-            ) : (
-              <TableBody
-                emptyContent={
-                  <div className="flex flex-col items-center justify-center">
-                    <p className="text-gray-500">No Members found</p>
-                  </div>
-                }
-              >
-                {[]}
-              </TableBody>
-            )}
-          </Table>
-        </div>
-        <ScrollBar orientation="horizontal" />
-      </ScrollArea>
+            </Table>
+          </div>{" "}
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
+      </div>
     </div>
   );
 }

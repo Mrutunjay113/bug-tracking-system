@@ -17,21 +17,25 @@ const userSchema = new Schema({
   verification: {
     verified: { type: Boolean, default: false },
     token: { type: String },
+    expires: { type: Date },
   },
   image: { type: String },
   designation: {
     type: String,
     enum: ["Developer", "QA", "UI/UX", "Software Engineer", "Tester"],
-    required: true,
+    // required: true,
   },
-  resetPassword: {
-    token: { type: String },
-    expires: { type: Date },
+  resetPasswordExp: {
+    type: Date,
+    default: Date.now,
+  },
+  resetPasswordToken: {
+    type: String,
   },
   status: {
     type: String,
     enum: ["onleave", "vacation", "active"],
-    default: "Active",
+    default: "active",
   },
 });
 

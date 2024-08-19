@@ -132,7 +132,11 @@ export function TeamTable({ data }) {
                               })
                             }
                           >
-                            <Avatar src={"/assets/images/user_preview.png"} />
+                            <Avatar
+                              src={
+                                "https://d2u8k2ocievbld.cloudfront.net/memojis/female/1.png"
+                              }
+                            />
                           </div>
                         ))}
                       </AvatarGroup>
@@ -150,7 +154,8 @@ export function TeamTable({ data }) {
                         className=""
                         avatarProps={{
                           radius: "full",
-                          src: "/assets/images/user_preview.png",
+                          // src: "/assets/images/user_preview.png",
+                          src: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png",
                         }}
                         description={selectedUser.data.email}
                         name={`${selectedUser.data.firstName} ${selectedUser.data.lastName}`}
@@ -202,7 +207,7 @@ export function TeamTable({ data }) {
                           className=""
                           avatarProps={{
                             radius: "full",
-                            src: "/assets/images/user_preview.png",
+                            src: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/5.png",
                           }}
                           description={team.userInfo.email}
                           name={`${team.userInfo.firstName} ${team.userInfo.lastName}`}
@@ -237,7 +242,7 @@ export function TeamTable({ data }) {
               <User
                 avatarProps={{
                   radius: "full",
-                  src: "/assets/images/user_preview.png",
+                  src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png",
                 }}
                 description={team.userInfo.email}
                 name={`${team.userInfo.firstName} ${team.userInfo.lastName}`}

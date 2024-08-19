@@ -16,7 +16,7 @@ import { signIn } from "next-auth/react";
 
 const LoginPage = () => {
   const router = useRouter();
- 
+
   const [handlepassword, setHandlePassword] = useState(false);
 
   const {
@@ -112,13 +112,25 @@ const LoginPage = () => {
                     {errors.password.message}
                   </p>
                 )}
+                <div className="text-end font-mono">
+                  <Link
+                    className={buttonVariants({
+                      variant: "link",
+
+                      className: "text-sm text-blue-500",
+                    })}
+                    href="/forgot-password"
+                  >
+                    Forgot password?
+                  </Link>
+                </div>
               </div>
 
               <Button
                 type="submit"
                 color="primary"
                 radius="sm"
-                className="mt-4"
+                className=""
                 isDisabled={isSubmitting}
                 isLoading={isSubmitting}
               >
