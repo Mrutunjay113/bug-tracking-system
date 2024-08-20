@@ -63,7 +63,7 @@ const chartConfig = {
   },
 };
 
-export function ShadDonut() {
+export function ShadDonut({ data }) {
   const [timeRange, setTimeRange] = React.useState("30d");
   const [selectChartType, setSelectChartType] = React.useState("Status");
   const [chartData, setChartData] = React.useState([]);

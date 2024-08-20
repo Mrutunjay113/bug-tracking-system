@@ -1,69 +1,58 @@
 "use client";
-import { TrendingUp } from "lucide-react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import {
+  Bar,
+  BarChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import {
-  ChartConfig,
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { Toaster } from "sonner";
-import {
-  getBarChartData,
-  getStackedBarChartData,
-} from "@/lib/actions/charts/barchartAction";
-
-import { set } from "mongoose";
-import { useEffect } from "react";
-const chartData = [
-  { month: "January", desktop: 186, mobile: 80 },
-  { month: "February", desktop: 305, mobile: 200 },
-  { month: "March", desktop: 237, mobile: 120 },
-  { month: "April", desktop: 73, mobile: 190 },
-  { month: "May", desktop: 209, mobile: 130 },
-  { month: "June", desktop: 214, mobile: 140 },
-  { month: "July", desktop: 160, mobile: 100 },
-  { month: "August", desktop: 280, mobile: 200 },
-  { month: "September", desktop: 180, mobile: 150 },
-  { month: "October", desktop: 120, mobile: 100 },
-  { month: "November", desktop: 220, mobile: 150 },
-  { month: "December", desktop: 160, mobile: 100 },
-];
+import { color } from "framer-motion";
+import { kbd } from "@nextui-org/react";
 
 const chartConfig = {
-  desktop: {
-    label: "Desktop",
-    color: "#60a5fa",
+  low: {
+    label: "Low",
+    color: "#3B82F6",
   },
-  mobile: {
-    label: "Mobile",
-    color: "#1565C0",
+  medium: {
+    label: "Medium",
+    color: "#6EE7B7",
+  },
+  high: {
+    label: "High",
+    color: "#F87171",
   },
 };
 
-export async function Barchart() {
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await getStackedBarChartData();
-        console.log(`data`, data);
-      } catch (error) {
-        Toaster.error("Failed to fetch data");
-      }
-    };
-    fetchData();
-  }, []);
+export function Barchart({ data }) {
+  console.log(data);
+
+  // Transform data to fit the chart format
+  const transformedData = data.map((item) => ({
+    date: new Date(item.date).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+    }), // Format date
+    low: item.priorities.low || 0,
+    medium: item.priorities.medium || 0,
+    high: item.priorities.high || 0,
+  }));
 
   return (
     <div className="min-w-40 w-full min-h-[200px]">
@@ -74,28 +63,47 @@ export async function Barchart() {
         </CardHeader>
         <CardContent>
           <ChartContainer config={chartConfig}>
-            <BarChart accessibilityLayer data={chartData}>
+            <BarChart data={transformedData}>
+              <CartesianGrid horizontal={false} vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="date"
                 tickLine={false}
                 tickMargin={10}
                 axisLine={false}
-                tickFormatter={(value) => value.slice(0, 3)}
               />
-              <ChartLegend content={<ChartLegendContent />} />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <Bar
-                dataKey="desktop"
-                stackId="a"
-                fill="var(--color-desktop)"
-                radius={[0, 0, 4, 4]}
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => (value % 1 === 0 ? value : "")}
+                label={{
+                  value: "No of Issues",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
               />
-              <Bar
-                dataKey="mobile"
-                stackId="a"
-                fill="var(--color-mobile)"
-                radius={[4, 4, 0, 0]}
+              <ChartLegend
+                content={<ChartLegendContent config={chartConfig} />}
               />
+              <ChartTooltip
+                cursor={false}
+                content={
+                  //show the date and count of issues
+                  <ChartTooltipContent chartConfig={chartConfig} />
+                }
+              />
+
+              {Object.keys(chartConfig).map((key, index) => (
+                <Bar
+                  key={key}
+                  dataKey={key}
+                  stackId="a"
+                  fill={chartConfig[key].color}
+                  radius={
+                    // if length of data is 1, set radius to 10 if length > 1 set radius to last bar on that date
+                    [5, 5, 5, 5]
+                  }
+                />
+              ))}
             </BarChart>
           </ChartContainer>
         </CardContent>

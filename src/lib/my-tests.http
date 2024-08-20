@@ -1,3 +1,0 @@
-# get http://localhost:3000/api/data/issue/filter/2024-07-01
-
-get http://localhost:3000/api/data/chartData/pieData/
