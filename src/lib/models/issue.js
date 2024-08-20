@@ -74,6 +74,26 @@ const IssueSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  //show the status object in which in progress, open, closed, in review are the keys and their values are dates user pass the key and value
+  statusDates: {
+    Open: {
+      type: Date,
+      default: null,
+    },
+    InProgress: {
+      type: Date,
+      default: null,
+    },
+    Closed: {
+      type: Date,
+      default: null,
+    },
+    InReview: {
+      type: Date,
+      default: null,
+    },
+  },
+
   type: {
     type: String,
     enum: ["feature", "bug", "improvement", "other"],

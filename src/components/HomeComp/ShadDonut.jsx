@@ -1,7 +1,9 @@
 "use client";
 
 import * as React from "react";
+import { TrendingUp } from "lucide-react";
 import { Label, Pie, PieChart } from "recharts";
+
 import {
   Card,
   CardContent,
@@ -18,7 +20,6 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
-import { getDonutChartData } from "@/lib/actions/charts/DonutChartAction";
 import {
   Select,
   SelectContent,
@@ -27,119 +28,87 @@ import {
   SelectValue,
 } from "../ui/select";
 
-const chartConfig = {
-  bug: {
-    label: "bug",
-    color: "#F44336",
-  },
-  feature: {
-    label: "feature",
-    color: "#4CAF50",
-  },
-  improvement: {
-    label: "improvement",
-    color: "#3B82F6",
-  },
-  other: {
-    label: "other",
-    color: "#93C5FD",
-  },
+//create color hex code for the chart data
 
-  Open: {
-    label: "Open",
-    color: "#6EE7B7",
-  },
-  Closed: {
-    label: "Closed",
-    color: "#F87171",
-  },
-  "In Progress": {
-    label: "In Progress",
-    color: "#60A5FA",
-  },
-  "In Review": {
-    label: "Pending",
-    color: "#FBBF24",
-  },
+const chartConfig = {
+  Developer: { label: "Developer", color: "#2563EB" },
+  "UI/UX": { label: "UI/UX", color: "#0588" },
+  Open: { label: "Open", color: "#2563EB" },
+  Closed: { label: "Closed", color: "#E21D48" },
+
+  "In Progress": { label: "In Progress", color: "#FBBF24" },
+  "In Review": { label: "Pending", color: "#2A9D90" },
+  QA: { label: "QA", color: "#F472B6" },
+  Tester: { label: "Tester", color: "#A78BFA" },
+};
+
+const transformData = (data, type, range) => {
+  console.log(`data`, data);
+  const now = new Date();
+  const cutoffDate = new Date();
+  cutoffDate.setDate(now.getDate() - (range === "30d" ? 30 : 7));
+
+  const filteredData = Object.keys(data).reduce((acc, date) => {
+    if (new Date(date) >= cutoffDate) {
+      if (type === "Type") {
+        const issueTypes = data[date];
+        Object.entries(issueTypes).forEach(([issueType, count]) => {
+          acc[issueType] = (acc[issueType] || 0) + count;
+        });
+      } else if (type === "Status") {
+        Object.entries(data[date]).forEach(([key, value]) => {
+          acc[key] = (acc[key] || 0) + value;
+        });
+      }
+    }
+    return acc;
+  }, {});
+
+  console.log(`filteredData`, filteredData);
+
+  return Object.keys(filteredData).map((key) => ({
+    name: key,
+    value: filteredData[key],
+    fill: chartConfig[key] ? chartConfig[key].color : "#cccccc",
+  }));
 };
 
 export function ShadDonut({ data }) {
+  console.log(`pie`, data);
   const [timeRange, setTimeRange] = React.useState("30d");
   const [selectChartType, setSelectChartType] = React.useState("Status");
   const [chartData, setChartData] = React.useState([]);
-  const [totalIssues, setTotalIssues] = React.useState(0);
 
-  // Function to filter data based on time range
-  const filterDataByTimeRange = (data, range) => {
-    const now = new Date();
-    const cutoffDate = new Date();
-    cutoffDate.setDate(now.getDate() - (range === "30d" ? 30 : 7));
-
-    return Object.keys(data).reduce((acc, date) => {
-      if (new Date(date) >= cutoffDate) {
-        acc[date] = data[date];
-      }
-      return acc;
-    }, {});
-  };
-
-  // Function to transform data for the chart
-  const transformDataForChart = (data, type) => {
-    const transformedData = [];
-    let total = 0;
-
-    for (const date in data) {
-      for (const key in data[date]) {
-        if (key in chartConfig) {
-          transformedData.push({
-            browser: chartConfig[key]?.label || key,
-            issues: data[date][key],
-            fill: chartConfig[key]?.color || "#CCCCCC",
-          });
-          total += data[date][key];
-        }
-      }
-    }
-
-    setTotalIssues(total);
-    return transformedData;
-  };
-
-  console.log(transformDataForChart);
   React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await getDonutChartData();
-        if (result.success) {
-          const { data } = result;
+    const dataToUse =
+      selectChartType === "Status" ? data.status : data.issueType;
+    console.log("Data to Use:", dataToUse);
+    const transformedData = transformData(
+      dataToUse,
+      selectChartType,
+      timeRange
+    );
+    console.log("Transformed Data:", transformedData);
+    setChartData(transformedData);
+  }, [selectChartType, timeRange]);
 
-          const filteredData = filterDataByTimeRange(
-            data[selectChartType === "Status" ? "Status" : "issueType"],
-            timeRange
-          );
-
-          const transformedData = transformDataForChart(
-            filteredData,
-            selectChartType
-          );
-          setChartData(transformedData);
-        } else {
-          console.error("Failed to fetch data");
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [timeRange, selectChartType]);
+  const totalIssues = React.useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.value, 0);
+  }, [chartData]);
 
   return (
-    <Card className="flex flex-col w-full min-h-[200px] h-full">
+    <Card className="flex flex-col min-w-40 w-full min-h-[200px]">
       <CardHeader className="flex items-center gap-2 space-y-0 py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left text-medium">
           <CardTitle>Donut ({selectChartType})</CardTitle>
-          <CardDescription>This month</CardDescription>
+          <CardDescription className="mt-2 text-muted-foreground tracking-wide">
+            last {""}
+            {timeRange === "30d" ? (
+              <span className=" font-semibold text-slate-700">30 days</span>
+            ) : (
+              <span className=" font-semibold text-slate-700">7 days</span>
+            )}
+          </CardDescription>
         </div>
         <Select value={selectChartType} onValueChange={setSelectChartType}>
           <SelectTrigger
@@ -174,23 +143,24 @@ export function ShadDonut({ data }) {
           </SelectContent>
         </Select>
       </CardHeader>
-
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
           className="mx-auto aspect-square max-h-[250px]"
         >
           <PieChart>
+            <ChartLegend
+              content={<ChartLegendContent config={chartConfig} />}
+            />
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent hideLabel />}
             />
-            <ChartLegend content={<ChartLegendContent />} />
             <Pie
               data={chartData}
-              dataKey="issues"
-              nameKey="browser"
-              innerRadius={60}
+              dataKey="value"
+              nameKey="name"
+              innerRadius={50}
               strokeWidth={5}
             >
               <Label
@@ -215,7 +185,14 @@ export function ShadDonut({ data }) {
                           y={(viewBox.cy || 0) + 24}
                           className="fill-muted-foreground"
                         >
-                          Total Issues
+                          {
+                            // eslint-disable-next-line no-nested-ternary
+                            selectChartType === "Status"
+                              ? "Issues"
+                              : selectChartType === "Type"
+                              ? "Types"
+                              : ""
+                          }
                         </tspan>
                       </text>
                     );
@@ -226,8 +203,13 @@ export function ShadDonut({ data }) {
           </PieChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        {/* Footer content */}
+      <CardFooter className="flex-col items-start mt-5 gap-2 text-sm">
+        <div className="flex gap-2 font-medium leading-none">
+          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+        </div>
+        <div className="leading-none text-muted-foreground">
+          Showing total visitors for the last 6 months
+        </div>
       </CardFooter>
     </Card>
   );
