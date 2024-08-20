@@ -44,6 +44,8 @@ export const addCommentToIssue = async (issueId, commentData) => {
     return {
       error: error.message,
     };
+  } finally {
+    await revalidatePath(`/api/issues/${issueId}`);
   }
 };
 //get comments from issue by id and return the comments array with user who created the comment

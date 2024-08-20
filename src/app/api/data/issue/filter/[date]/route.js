@@ -52,6 +52,7 @@ export async function GET(req, { params }) {
       type: issue.type,
       status: issue.status,
       issueType: issue.issueType,
+      comments: issue?.comments?.length,
       dueDate: issue.dueDate,
       createdAt: issue.createdAt,
       updatedAt: issue.updatedAt,

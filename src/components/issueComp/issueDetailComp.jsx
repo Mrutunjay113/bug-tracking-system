@@ -1,132 +1,180 @@
 import { getIssueById } from "@/lib/actions/issue/action";
-import {
-  addCommentToIssue,
-  getCommentsByIssueId,
-} from "@/lib/actions/issue/commentaction";
-import {
-  CalendarArrowUp,
-  CalendarPlus,
-  Flag,
-  Heart,
-  User,
-  Users,
-} from "lucide-react";
-import Image from "next/image";
 import { CommentForm } from "./CommentForm";
 import Comments from "./Comments";
+import Image from "next/image";
+import {
+  CalendarArrowUp,
+  CalendarClock,
+  CalendarPlus,
+  Circle,
+  Flag,
+  Heart,
+  Loader,
+  LoaderCircle,
+  LucideSquareDashedKanban,
+  Square,
+  SquareCheckBig,
+  Users,
+} from "lucide-react";
 
 const IssueDetailComp = async ({ id }) => {
   const issueData = await getIssueById(id);
   const issue = issueData?.issues[0];
 
-  // const comment = {
-  //   text: "This is a test comment",
-  //   createdBy: "6698d025b122ebababc55cc6",
-  // };
-  // const getUserName = await getCommentsByIssueId(issue._id);
-  // console.log(getUserName);
-
-  // const result = await addCommentToIssue(issue._id, comment);
-  // console.log(result);
-
   return (
-    <div className=" md:p-8 p-2 lg:flex justify-start mx-auto overflow-auto relative  ">
-      <div className="md:w-1/2 ">
-        <div className="mb-6 pb-4 ">
-          <div className="flex items-center gap-2 ">
-            <p className="text-md text-blue-500">#{issue.issueType}</p>
-            {"|"}
-            <p className="text-sm font-semibold font-mono text-white  px-2 rounded-full bg-blue-500 w-fit">
-              {issue.type}
-            </p>
-          </div>
+    <div className="p-4 lg:p-8 mx-auto max-w-7xl flex flex-col lg:flex-row gap-8">
+      {/* Image Section */}
+      <div className="lg:w-1/2 flex-shrink-0">
+        <Image
+          width={500}
+          height={400}
+          src={
+            //issue.image ||
+            // "https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
+            "/assets/images/demon.jpg"
+          }
+          alt={issue.title}
+          className="rounded-lg  object-cover"
+        />
+      </div>
 
-          <h1 className="text-3xl font-semibold text-gray-800  font-sans">
-            {issue.title}
-          </h1>
-          <div>
-            <span className="text-sm font-semibold text-gray-700 mr-2">
-              Due Date: &nbsp;
-              <span className="text-gray-500">
+      {/* Text Content Section */}
+      <div className="lg:w-1/2 flex flex-col gap-6">
+        <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-8 border-b-2 pb-4">
+          <div className="flex-shrink-0">
+            <div className="text-blue-500 text-lg font-medium">
+              #{issue.issueType}
+            </div>
+            <div className="mt-1 px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full w-fit">
+              {issue.type}
+            </div>
+          </div>
+          <div className="flex flex-col lg:ml-8">
+            <h1 className="text-3xl font-bold text-gray-900 capitalize">
+              {issue.title}
+            </h1>
+            <div className="flex items-center mt-1">
+              <div className="w-5 h-5 mr-2 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full">
+                <CalendarClock size={18} />
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-gray-600 font-medium">Due Date:</span>{" "}
                 {new Date(issue.dueDate).toLocaleDateString("en-US", {
                   year: "numeric",
                   month: "short",
                   day: "numeric",
                 })}
-              </span>
-            </span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-4">
+        <div className="space-y-4  ">
           <div>
-            <h2 className="text-md font-semibold text-gray-800 ">
-              Description:
+            <h2 className="text-lg font-semibold text-gray-800">
+              Description:{" "}
             </h2>
-            <p className=" text-gray-700">{issue.description}</p>
+            <p className="text-gray-700 pb-3">{issue.description}</p>
           </div>
-          <div className="space-y-4">
-            <div className="flex items-center ">
-              <h3 className="text-md font-semibold text-gray-600 mr-2">
-                Priority:
-              </h3>
-              <p className="text-lg text-gray-600 capitalize">
-                {issue.priority}
-              </p>
-            </div>
-
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="flex items-center">
-              <h3 className="text-md font-semibold text-gray-600 mr-2">
-                Status:
-              </h3>
-              <p className="text-md text-gray-600">{issue.status}</p>
+              <div className="w-6 h-6 mr-2 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full">
+                <Flag />
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-gray-800 font-semibold">Priority:</span>{" "}
+                <span className="text-gray-600 font-normal">
+                  {issue.priority}
+                </span>
+              </div>
             </div>
             <div className="flex items-center">
-              <h3 className="text-md font-semibold text-gray-800 mr-2">
-                Assigned :
-              </h3>
-              <p className="text-md text-gray-600">{issue.assignedTo}</p>
+              <div className="w-6 h-6 mr-2 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full">
+                {issue.status === "Open" ? (
+                  <Circle />
+                ) : issue.status === "Closed" ? (
+                  <SquareCheckBig />
+                ) : issue.status === "In Progress" ? (
+                  <Loader />
+                ) : (
+                  <LucideSquareDashedKanban />
+                )}
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-gray-800 font-semibold">Status:</span>{" "}
+                <span className="text-gray-600 font-normal">
+                  {issue.status}
+                </span>
+              </div>
             </div>
             <div className="flex items-center">
-              <h3 className="text-md font-semibold text-gray-800 mr-2">
-                Team:
-              </h3>
-              <p className="text-md text-gray-600">{issue.team}</p>
+              <div className="w-6 h-6 mr-2 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full">
+                <Users />
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-gray-800 font-semibold">
+                  Assigned to:
+                </span>{" "}
+                <span className="text-gray-600 font-normal">
+                  {issue.assignedTo}
+                </span>
+              </div>
             </div>
             <div className="flex items-center">
-              <h3 className="text-md font-semibold text-gray-800 mr-2">
-                Created At:
-              </h3>
-              <p className="text-md text-gray-600">
-                {new Date(issue.createdAt).toLocaleDateString()} |{" "}
-                {new Date(issue.createdAt).toLocaleTimeString()}
-              </p>
+              <div className="w-6 h-6 mr-2 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full">
+                <Users />
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-gray-800 font-semibold">Team:</span> {""}
+                <span className="text-gray-600 font-normal">{issue.team}</span>
+              </div>
             </div>
             <div className="flex items-center">
-              <h3 className="text-md font-semibold text-gray-800 mr-2">
-                Updated At:
-              </h3>
-              <p className="text-md text-gray-600">
-                {new Date(issue.updatedAt).toLocaleDateString()} |{" "}
-                {new Date(issue.updatedAt).toLocaleTimeString()}
-              </p>
+              <div className="w-6 h-6 mr-2 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full">
+                <CalendarPlus />
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-gray-800 font-semibold">Created At:</span>{" "}
+                <span className="text-gray-600 font-normal">
+                  {" "}
+                  {new Date(issue.createdAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}{" "}
+                  |{" "}
+                  {new Date(issue.createdAt).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </span>{" "}
+              </div>
+            </div>
+            <div className="flex items-center">
+              <div className="w-6 h-6 mr-2 flex items-center justify-center bg-gray-200 text-gray-600 rounded-full">
+                <CalendarArrowUp />
+              </div>
+              <div className="text-sm text-gray-600">
+                <span className="text-gray-800 font-semibold">Updated At:</span>{" "}
+                <span className="text-gray-600 font-normal">
+                  {new Date(issue.updatedAt).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}{" "}
+                  |{" "}
+                  {new Date(issue.updatedAt).toLocaleTimeString("en-US", {
+                    hour: "numeric",
+                    minute: "numeric",
+                  })}
+                </span>
+              </div>
             </div>
           </div>
         </div>
 
         {/* <CommentForm issueId={id} data={issue} /> */}
         <Comments issue={issue} />
-      </div>
-
-      <div className=" md:1/2 relative mt-4  min-w-80 ">
-        <Image
-          width={500}
-          height={500}
-          // src={issue.image || "/images/placeholder.png"}
-          src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
-          alt={issue.title}
-          className="rounded-lg w-full  object-cover"
-        />
       </div>
     </div>
   );

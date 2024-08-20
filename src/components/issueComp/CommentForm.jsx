@@ -32,7 +32,7 @@ export const CommentForm = ({ issueId }) => {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
         />
-        <Button type="submit" color="primary">
+        <Button type="submit" color="primary" className="rounded-md">
           Add Comment
         </Button>
       </form>

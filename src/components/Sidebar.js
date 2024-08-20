@@ -23,9 +23,8 @@ import {
   DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { Avatar } from "@nextui-org/avatar";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { motion } from "framer-motion";
-import { getToken } from "next-auth/jwt";
 
 const SidebarItem = ({
   href,

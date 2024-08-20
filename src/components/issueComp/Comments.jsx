@@ -6,9 +6,12 @@ import { likeComment } from "@/lib/actions/issue/commentaction";
 import Like from "./Like";
 
 const Comments = ({ issue }) => {
+  console.log(`issue`, issue);
   return (
-    <div className="mt-6 border rounded-md p-4 bg-gray-100">
-      <h2 className="text-md font-semibold text-gray-800">Comments:</h2>
+    <div className="mt-6 border rounded-md p-4 bg-gray-50">
+      <h2 className="text-base font-semibold text-gray-800">
+        {issue.comments.length > 1 ? "Comments" : "Add Comment"}
+      </h2>
       {issue.comments ? (
         issue.comments.map((comment) => (
           <div
@@ -17,13 +20,23 @@ const Comments = ({ issue }) => {
           >
             <p className="font-medium tracking-wide">{comment.text}</p>
             <p className="text-muted-foreground text-sm">
-              Posted by {comment.createdBy || ""} on{" "}
-              {new Date(comment.createdAt).toLocaleDateString()} at{" "}
-              {new Date(comment.createdAt).toLocaleTimeString()}
+              Posted by {comment.createdBy || ""}
             </p>
 
-            <div className="flex items-center gap-2 mt-2">
+            <div className="flex justify-between items-center gap-2 mt-2">
               <Like commentId={comment._id} comment={comment} />
+              <span className="text-muted-foreground text-sm">
+                {new Date(comment.createdAt).toLocaleDateString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                })}{" "}
+                at{" "}
+                {new Date(comment.createdAt).toLocaleTimeString("en-US", {
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </span>
             </div>
           </div>
         ))

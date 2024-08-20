@@ -9,11 +9,14 @@ import {
   CalendarPlus,
   Clock,
   Flag,
+  MessageSquare,
+  MessageSquareDot,
   MessageSquareText,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
+import CommentIcon from "../icons/commentIcon";
 
 const IssueCard = ({ issue, index }) => {
   const {
@@ -27,6 +30,7 @@ const IssueCard = ({ issue, index }) => {
     dueDate,
     status,
     createdAt,
+    comments,
   } = issue;
 
   const classType = {
@@ -36,6 +40,11 @@ const IssueCard = ({ issue, index }) => {
     improvement: "text-yellow-500",
   };
 
+  //map the assignedTo array
+  const member = assignedTo.map((value) => {
+    return value.name;
+  });
+  console.log(`mem`, member);
   const timeandDateFormatter = (inputDate) => {
     const date = new Date(inputDate);
     const now = new Date();
@@ -89,7 +98,7 @@ const IssueCard = ({ issue, index }) => {
       whileTap={{
         scale: 0.9,
 
-        transition: { duration: 0.3, ease: "easeIn" },
+        transition: { duration: 0.3, ease: "easeOut" },
       }}
       transition={{ delay: index * 0.3, duration: 0.5, ease: "easeOut" }}
     >
@@ -113,7 +122,9 @@ const IssueCard = ({ issue, index }) => {
             </div>
           </div>
           <div className="my-4">
-            <h2 className="text-lg font-bold flex text-wrap">{title} </h2>
+            <h2 className="text-lg font-bold flex text-wrap capitalize mb-1">
+              {title}{" "}
+            </h2>
             <div className="flex items-center text-muted-foreground text-sm gap-1">
               <span className="">
                 <CalendarPlus className="w-4" />
@@ -122,12 +133,10 @@ const IssueCard = ({ issue, index }) => {
             </div>
           </div>
         </div>
-        {/* <div>
-          <p className="text-base">{description}</p>
-        </div> */}
+
         <div className="border-t mb-2" />
         <div className="text-muted-foreground flex justify-between items-center">
-          <div className="p-1 flex justify-start gap-2">
+          <div className="p-1 flex justify-start items-center gap-2">
             {issueType === "UI/UX" ? (
               <span className="">#UI/UX</span>
             ) : issueType === "Developer" ? (
@@ -138,20 +147,35 @@ const IssueCard = ({ issue, index }) => {
               <span className="">#Other</span>
             )}
             {"|"}
-            <span className={classNames("", classType[type])}>{type}</span>{" "}
+            <span className={classNames(" ", classType[type])}>
+              {type}
+            </span>{" "}
           </div>{" "}
           <div className="flex items-center gap-4">
-            <Avatar
-              src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
-              size="sm"
-              alt="my"
-            />
+            {assignedTo.map((value) => {
+              return (
+                <Avatar
+                  key={value._id}
+                  // src={value.image}
+                  src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
+                  alt={value.name}
+                  size="small"
+                  className="border-2 border-white"
+                />
+              );
+            })}
             <div
-              className={`
-              text-muted-foreground hover:text-gray-600 text-sm font-semibold
-              ${status === "Closed" ? "opacity-50" : "opacity-90"}`}
+              className={`flex items-center relative
+           text-sm font-semibold 
+              ${status === "Closed" ? "opacity-50" : "opacity-100"}`}
             >
-              <MessageSquareText />
+              {comments > 0 && <span className="mr-1">{comments}</span>}
+              {comments > 0 ? (
+                <MessageSquareText size={20} />
+              ) : (
+                <MessageSquare size={20} />
+              )}
+              {/* <CommentIcon value={comments} /> */}
             </div>
           </div>
         </div>
