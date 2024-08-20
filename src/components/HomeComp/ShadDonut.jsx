@@ -97,7 +97,7 @@ export function ShadDonut({ data }) {
   }, [chartData]);
 
   return (
-    <Card className="flex flex-col min-w-40 w-full min-h-[200px]">
+    <Card className="flex flex-col min-w-40 w-full min-h-[200px] h-full">
       <CardHeader className="flex items-center gap-2 space-y-0 py-5 sm:flex-row">
         <div className="grid flex-1 gap-1 text-center sm:text-left text-medium">
           <CardTitle>Donut ({selectChartType})</CardTitle>
@@ -146,7 +146,7 @@ export function ShadDonut({ data }) {
       <CardContent className="flex-1 pb-0">
         <ChartContainer
           config={chartConfig}
-          className="mx-auto aspect-square max-h-[250px]"
+          className="mx-auto aspect-square max-h-[280px]"
         >
           <PieChart>
             <ChartLegend
@@ -206,9 +206,6 @@ export function ShadDonut({ data }) {
       <CardFooter className="flex-col items-start mt-5 gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
         </div>
       </CardFooter>
     </Card>

@@ -78,7 +78,7 @@ const IssueSchema = new mongoose.Schema({
   statusDates: {
     Open: {
       type: Date,
-      default: null,
+      default: Date.now,
     },
     InProgress: {
       type: Date,

@@ -1,7 +1,14 @@
 "use client";
 
 import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  LabelList,
+  XAxis,
+  YAxis,
+} from "recharts";
 import { Line, LineChart } from "recharts";
 import {
   Card,
@@ -279,19 +286,34 @@ const chartData2 = [
 ];
 
 const chartConfig2 = {
-  desktop: {
-    label: "Desktop",
-    color: "#60a5fa",
+  createdAtCount: {
+    label: "Created",
+    color: "#2A9D90", // Adjust color as needed
   },
-  mobile: {
-    label: "Mobile",
-    color: "#3B82F6",
+  closedCount: {
+    label: "Closed",
+    color: "#E21D48", // Adjust color as needed
   },
 };
+export function LineChart2({ data }) {
+  const transformData = (data) => {
+    // Convert the object into an array of objects for the line chart
+    // date in ascending order for the line chart
 
-export function LineChart2() {
+    return Object.entries(data).map(([date, counts]) => ({
+      date: new Date(date).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }), // Format date
+      createdAtCount: counts.createdAtCount,
+      closedCount: counts.closedCount,
+    }));
+  };
+  // Transform data before passing to the chart
+  const transformedData = transformData(data);
+
   return (
-    <div className="min-w-40 w-full min-h-[200px]">
+    <div className="min-w-40 w-full min-h-[200px] ">
       <Card>
         <CardHeader>
           <CardTitle>Line Chart</CardTitle>
@@ -301,44 +323,49 @@ export function LineChart2() {
           <ChartContainer config={chartConfig2}>
             <LineChart
               accessibilityLayer
-              data={chartData2}
+              data={transformedData}
               margin={{
                 left: 12,
                 right: 12,
               }}
             >
+              {" "}
+              <CartesianGrid vertical={false} />
               <XAxis
-                dataKey="month"
+                dataKey="date"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => value.slice(0, 3)}
+                tickFormatter={(value) => value.slice(0, 7)} // Adjust formatting if needed
+              />
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickFormatter={(value) => (value % 1 === 0 ? value : "")}
+                label={{
+                  value: "No of Issues",
+                  angle: -90,
+                  position: "insideLeft",
+                }}
               />
               <ChartLegend content={<ChartLegendContent />} />
               <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              <Line
-                dataKey="desktop"
-                type="monotone"
-                stroke="var(--color-desktop)"
-                strokeWidth={2}
-                dot={false}
-              />
-              <Line
-                dataKey="mobile"
-                type="monotone"
-                stroke="var(--color-mobile)"
-                strokeWidth={2}
-                dot={false}
-              />
+              {Object.keys(chartConfig2).map((key) => (
+                <Line
+                  key={key}
+                  type="monotone"
+                  dataKey={key}
+                  stroke={chartConfig2[key].color}
+                  strokeWidth={2}
+                  dot={false}
+                ></Line>
+              ))}
             </LineChart>
           </ChartContainer>
         </CardContent>
         <CardFooter className="flex-col items-start mt-2 gap-2 text-sm">
           <div className="flex gap-2 font-medium leading-none">
             Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-          <div className="leading-none text-muted-foreground">
-            Showing total visitors for the last 6 months
           </div>
         </CardFooter>
       </Card>

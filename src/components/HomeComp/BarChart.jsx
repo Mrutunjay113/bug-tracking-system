@@ -66,7 +66,7 @@ export function Barchart({ data }) {
         <CardContent>
           <ChartContainer config={chartConfig}>
             <BarChart data={transformedData}>
-              <CartesianGrid horizontal={false} vertical={false} />
+              <CartesianGrid vertical={false} />
 
               <XAxis
                 dataKey="date"
@@ -113,9 +113,6 @@ export function Barchart({ data }) {
         <CardFooter className="flex-col items-start mt-2 gap-2 text-sm">
           <div className="flex gap-2 font-medium leading-none">
             Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-          <div className="leading-none text-muted-foreground">
-            Showing total visitors for the last 6 months
           </div>
         </CardFooter>
       </Card>

@@ -78,10 +78,57 @@ export async function getChartData() {
       { issueType: {}, status: {} }
     );
 
+    // Initialize the data structure for status counts
+    const lineChartData = issues.reduce((acc, issue) => {
+      const createdDate = issue.createdAt.toISOString().split("T")[0];
+
+      // Initialize date entry for createdAt if not present
+      if (!acc[createdDate]) {
+        acc[createdDate] = {
+          createdAtCount: 0,
+          closedCount: 0,
+        };
+      }
+
+      // Count issues based on createdAt
+      acc[createdDate].createdAtCount += 1;
+
+      // Count statuses based on statusDates
+      if (issue.statusDates && issue.statusDates.Closed) {
+        const closedDate = new Date(issue.statusDates.Closed)
+          .toISOString()
+          .split("T")[0];
+
+        // Initialize date entry for statusDates.Closed if not present
+        if (!acc[closedDate]) {
+          acc[closedDate] = {
+            createdAtCount: 0,
+            closedCount: 0,
+          };
+        }
+
+        // Count issues based on statusDates.Closed
+        acc[closedDate].closedCount += 1;
+      }
+
+      return acc;
+    }, {});
+
+    // Convert to array format for line chart
+    const lineChartDataArray = Object.entries(lineChartData).map(
+      ([date, counts]) => ({
+        date,
+        createdAtCount: counts.createdAtCount,
+        closedCount: counts.closedCount,
+      })
+    );
+
+    // console.log(lineChartDataArray);
     return {
       data: {
         barChartData: barChartDataArray,
         pieChartData,
+        lineChartData,
       },
     };
   } catch (error) {
@@ -89,3 +136,29 @@ export async function getChartData() {
     return { error: "Something went wrong" };
   }
 }
+
+// export async function getIssuestatusDates() {
+//   //add date to statusDates object Closed key and value
+
+//   await ConnectMongoDb();
+//   try {
+//     const currentDate = new Date();
+//     const oneMonthAgo = new Date();
+//     oneMonthAgo.setMonth(currentDate.getMonth() - 1);
+
+//     const issues = await IssueModel.findByIdAndUpdate(
+//       "669fdd67179b4cdbb0dfdffa",
+//       {
+//         $set: {
+//           "statusDates.Open": currentDate,
+//         },
+//       },
+//       { new: true }
+//     );
+
+//     return issues;
+//   } catch (error) {
+//     console.error(error);
+//     return { error: "Something went wrong" };
+//   }
+// }

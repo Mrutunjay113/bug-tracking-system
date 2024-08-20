@@ -6,7 +6,10 @@ import { getChartData } from "@/lib/actions/charts/action";
 
 const Page = async () => {
   const data = await getChartData();
-  const { barChartData, pieChartData } = data?.data;
+  const { barChartData, pieChartData, lineChartData } = data?.data;
+
+  // const isue = await getIssuestatusDates();
+  // console.log(`isue`, isue);
 
   return (
     <main className="h-lvh">
@@ -23,9 +26,9 @@ const Page = async () => {
         </div>
 
         <div className="md:w-2/6 ">
-          <LineChart2 />{" "}
+          <LineChart2 data={lineChartData} />{" "}
         </div>
-        <div className="md:w-2/6">
+        <div className="md:w-2/6 ">
           <ShadDonut data={pieChartData} />
         </div>
       </div>
