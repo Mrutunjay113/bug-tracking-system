@@ -28,6 +28,7 @@ const IssueDetailComp = async ({ id }) => {
         <Image
           width={500}
           height={400}
+          loading="lazy"
           src={
             //issue.image ||
             // "https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"

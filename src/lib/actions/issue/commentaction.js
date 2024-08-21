@@ -45,7 +45,7 @@ export const addCommentToIssue = async (issueId, commentData) => {
       error: error.message,
     };
   } finally {
-    await revalidatePath(`/api/issues/${issueId}`);
+    revalidatePath(`/dashboard/issues/${issueId}`);
   }
 };
 //get comments from issue by id and return the comments array with user who created the comment
@@ -101,5 +101,27 @@ export const likeComment = async (commentId) => {
     return { message: "Comment liked", likes: comment.likes };
   } catch (error) {
     return { error: error.message };
+  }
+};
+
+export const deleteComment = async (commentId, issueId) => {
+  await ConnectMongoDb();
+  try {
+    // Find the issue containing the comment and pull the comment with the specified commentId
+    const issue = await IssueModel.findOneAndUpdate(
+      { "comments._id": commentId }, // Find the issue that contains the comment
+      { $pull: { comments: { _id: commentId } } }, // Remove the comment with the given commentId
+      { new: true } // Return the updated issue
+    );
+
+    if (!issue) {
+      return { error: "Comment or issue not found", success: false };
+    }
+
+    return { message: "Comment deleted", success: true };
+  } catch (error) {
+    return { error: error.message, success: false };
+  } finally {
+    revalidatePath(`/dashboard/issues/${issueId}`);
   }
 };

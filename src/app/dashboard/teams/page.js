@@ -24,7 +24,7 @@ export default async function Page({ searchParams }) {
 
   return (
     <main>
-      <div className="bg-[#F6F6F6]  py-10 flex justify-between">
+      <div className="bg-[#F6F6F6] border-b border-gray-400 py-10 flex justify-between">
         <Heading
           headingTitle="Teams"
           size="lg"

@@ -22,7 +22,7 @@ const Page = async () => {
 
   return (
     <main>
-      <div className="bg-[#F6F6F6] border-b margin-5 py-10">
+      <div className="bg-[#F6F6F6] border-b border-gray-400  margin-5 py-10">
         <Heading
           headingTitle="Dashboard"
           size="lg"

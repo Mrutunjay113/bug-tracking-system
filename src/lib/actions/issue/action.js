@@ -127,9 +127,11 @@ export const getIssueById = async (id) => {
       updatedAt: issue.updatedAt,
       comments: issue.comments.map((comment) => ({
         _id: comment._id,
+        createdId: comment.createdBy,
         text: comment.comment,
         createdBy: commentUserMap[comment.createdBy] || "Unknown User", // Map user ID to user name
         createdAt: comment.createdAt,
+
         likes: comment.likes || 0,
       })),
       team: teamMap[issue.team] || null, // Get team name

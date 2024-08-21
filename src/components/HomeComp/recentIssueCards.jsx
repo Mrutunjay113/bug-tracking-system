@@ -28,7 +28,7 @@ const RecentIssueCards = ({ issue, index }) => {
       opacity: 1,
       y: 0,
       transition: {
-        delay: i * 0.2, // Stagger the animation of each card
+        delay: i * 0.3, // Stagger the animation of each card
         duration: 0.4,
         ease: "easeOut",
       },

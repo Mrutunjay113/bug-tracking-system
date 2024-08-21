@@ -28,7 +28,7 @@ export function SearchTabs() {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.4,
       },
     },
   };
@@ -78,8 +78,8 @@ export function SearchTabs() {
         setLoading(false);
         setMembersData([]);
         setResult([]);
-        setError(reponse.error);
-        toast.error(reponse.error);
+        setError(error);
+        toast.error(error);
       } finally {
         setLoading(false);
       }
