@@ -34,8 +34,8 @@ const SignUpPage = () => {
       return;
     }
     toast.success("Account created successfully");
-    Router.push(`/verify-email?email=${user.email}&token=${token}`);
-    // Router.push("/sign-in");
+    // Router.push(`/verify-email?email=${user.email}&token=${token}`);
+    Router.push("/sign-in");
   };
 
   return (
