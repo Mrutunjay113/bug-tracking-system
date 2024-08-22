@@ -314,62 +314,51 @@ export function LineChart2({ data }) {
   const transformedData = transformData(data);
 
   return (
-    <div className="min-w-40 w-full min-h-[200px] ">
-      <Card>
-        <CardHeader>
-          <CardTitle>Line Chart</CardTitle>
-          <CardDescription>This month</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig2}>
-            <LineChart
-              accessibilityLayer
-              data={transformedData}
-              margin={{
-                left: 12,
-                right: 12,
-              }}
-            >
-              {" "}
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                tickFormatter={(value) => value.slice(0, 7)} // Adjust formatting if needed
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                tickFormatter={(value) => (value % 1 === 0 ? value : "")}
-                label={{
-                  value: "No of Issues",
-                  angle: -90,
-                  position: "insideLeft",
-                }}
-              />
-              <ChartLegend content={<ChartLegendContent />} />
-              <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
-              {Object.keys(chartConfig2).map((key) => (
-                <Line
-                  key={key}
-                  type="monotone"
-                  dataKey={key}
-                  stroke={chartConfig2[key].color}
-                  strokeWidth={2}
-                  dot={false}
-                ></Line>
-              ))}
-            </LineChart>
-          </ChartContainer>
-        </CardContent>
-        <CardFooter className="flex-col items-start mt-2 gap-2 text-sm">
-          <div className="flex gap-2 font-medium leading-none">
-            Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-          </div>
-        </CardFooter>
-      </Card>
-    </div>
+    <Card className="flex flex-col min-w-40  min-h-[200px] h-full">
+      <CardHeader>
+        <CardTitle>Line Chart</CardTitle>
+        {/* <CardDescription>This month</CardDescription> */}
+      </CardHeader>
+      <CardContent>
+        <ChartContainer config={chartConfig2} className=" ">
+          <LineChart
+            accessibilityLayer
+            data={transformedData}
+            margin={{
+              left: 12,
+              right: 12,
+              top: 12,
+            }}
+          >
+            {" "}
+            <CartesianGrid vertical={false} />
+            <XAxis
+              dataKey="date"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tickFormatter={(value) => value.slice(0, 7)} // Adjust formatting if needed
+            />
+            <ChartLegend content={<ChartLegendContent />} />
+            <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
+            {Object.keys(chartConfig2).map((key) => (
+              <Line
+                key={key}
+                type="monotone"
+                dataKey={key}
+                stroke={chartConfig2[key].color}
+                strokeWidth={2}
+                dot={false}
+              ></Line>
+            ))}
+          </LineChart>
+        </ChartContainer>
+      </CardContent>
+      <CardFooter className="flex-col items-start mt-2 gap-2 text-sm">
+        <div className="flex gap-2 font-medium leading-none">
+          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+        </div>
+      </CardFooter>
+    </Card>
   );
 }

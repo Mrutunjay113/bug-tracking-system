@@ -5,12 +5,9 @@ import HomeCharts from "@/components/HomeComp/HomeCharts";
 import { getDashboardCounts } from "@/lib/actions/dashboard/DashboardCount";
 import { RecentIssueCard } from "@/components/recentIssueCard";
 import { authOptions } from "../api/auth/[...nextauth]/options";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/dist/server/api-utils";
 import CustomCalendar from "@/components/Mycalender";
 import { cookies } from "next/headers";
 import { getLineChartData } from "@/lib/actions/charts/action";
-import { LineChart2 } from "@/components/HomeComp/LineChart";
 import HomeCardCol from "@/components/HomeComp/HomeCardCol";
 
 const Page = async () => {
@@ -38,20 +35,13 @@ const Page = async () => {
           className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
       </div>
-      <div className="md:p-8 p-2 grid gap-6">
+      <div className="md:p-8 p-2 ">
         <HomeCardCol data={data} />
-        <div className="md:flex md:gap-2 md:w-[400px] ">
-          {lineChartData && <LineChart2 data={lineData} />}
-        </div>
-        <div className="md:flex md:gap-2 w-full">
-          {errors ? (
-            <div className="text-red-500">{errors}</div>
-          ) : (
-            <HomeCharts data={data} />
-          )}
+        <div className="md:flex md:gap-4 mt-10">
+          <HomeCharts data={data} lineData={lineData} />
         </div>
 
-        <div className="mt-2 md:flex md:w-fit w-full md:justify-end gap-2 md:space-y-0 space-y-2">
+        <div className="mt-5 md:flex md:w-fit w-full md:justify-end gap-4 md:space-y-0 space-y-2">
           <CustomCalendar />
           <RecentIssueCard />
         </div>

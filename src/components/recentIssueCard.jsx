@@ -12,9 +12,9 @@ export const RecentIssueCard = async () => {
   const data = response.issues;
 
   return (
-    <div className="p-3 rounded-md shadow-none border bg-white min-w-[300px]">
+    <div className="p-4 rounded-md shadow-none border bg-white min-w-[350px]">
       <h1 className="font-semibold text-blue-600">Recent Activities</h1>
-      <div className="md:max-h-[300px] md:h-full h-64 mt-2 overflow-y-scroll">
+      <div className="md:max-h-[300px] md:h-full h-64 mt-4 overflow-y-scroll">
         <div className="rounded-md flex-col space-y-2">
           {data ? (
             data.map((issue, index) => (

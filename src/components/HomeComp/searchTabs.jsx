@@ -111,11 +111,11 @@ export function SearchTabs() {
   }, [selected]);
 
   return (
-    <div className="flex w-full flex-col ">
+    <div className="flex w-[400px] flex-col ">
       <Card className="rounded-md shadow-none border bg-white">
         <CardHeader>
           <div className="relative flex w-full items-center  ">
-            <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 transform" />
             <motion.div
               className="w-full"
               initial={{ opacity: 0, x: 10 }}
@@ -128,7 +128,7 @@ export function SearchTabs() {
                   value={search}
                   id="search"
                   onChange={(e) => setSearch(e.target.value)}
-                  className=" pl-8 w-f focus-visible:ring-0"
+                  className=" pl-10 w-f focus-visible:ring-0"
                 />{" "}
                 <motion.div
                   className="absolute left-0 bottom-0 h-0.5 rounded-md bg-blue-500"

@@ -88,14 +88,14 @@ const HomeCard = ({ data }) => {
                 stiffness: 100,
                 damping: 10,
               }}
-              className="flex flex-col rounded-lg border w-full min-h-[150px] px-6 p-4 space-y-4 bg-white  "
+              className="flex flex-col rounded-lg border w-full hover:border-gray-400 min-h-[150px] px-6 p-4 space-y-4 bg-white  "
             >
               <div className="flex justify-between items-center">
-                <h2 className="text-gray-600 font-medium text-md">
+                <h2 className="text-gray-600 font-normal text-md">
                   {card.title}
                 </h2>
                 {showLastMonth && (
-                  <span className="text-xs text-gray-500 ">Last Month</span>
+                  <span className="text-tiny text-gray-500 ">Last Month</span>
                 )}
               </div>
               <div className="flex items-center justify-between">
