@@ -1,82 +1,116 @@
-import { Image } from "@nextui-org/image";
+"use client";
 import {
-  AppWindow,
   AppWindowMac,
   Bug,
   BugOff,
-  Eye,
   FileCode,
-  Flag,
   FlagTriangleRight,
-  Star,
   User,
+  Flag,
+  Loader,
+  GitPullRequestClosed,
+  GitPullRequestCreate,
+  GitMerge,
+  GitPullRequestDraft,
+  Users,
 } from "lucide-react";
-import React from "react";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
-import DonutChart from "./DonutPie";
-import DonutPie from "./DonutPie";
-import { Donut } from "./halfdonut";
+const HomeCard = ({ data }) => {
+  const {
+    totalIssue,
+    StatusOpen,
+    StatusReview,
+    StatusClose,
+    priorityIssues,
+    StatusProgress,
+    Priority,
+    membersCount,
+    teamCount,
+  } = data;
 
-const HomeCard = ({
-  title = "Total Issues",
-  CardValue = "125",
-  lastweek = "",
-  percentage = "60%",
-  chartData = [],
-  chart,
-  memberChart,
-  priorityChart,
-}) => {
+  const cards = [
+    { title: "Total Issues", CardValue: totalIssue, href: "/dashboard/issues" },
+    { title: "Issues Open", CardValue: StatusOpen },
+    { title: "Issues Closed", CardValue: StatusClose },
+    { title: "Issues In Progress", CardValue: StatusProgress },
+    {
+      title: "Total Members",
+      CardValue: membersCount.totalMembers,
+      href: "/dashboard/members",
+    },
+    {
+      title: "Total Teams",
+      CardValue: teamCount.totalTeams,
+      href: "/dashboard/teams",
+    },
+  ];
+
   const iconMap = {
-    "Total Issues": <Bug size={40} strokeWidth={1.3} />,
-    "Issues Open": <AppWindowMac size={40} strokeWidth={1.3} />,
-    "Issues Closed": <BugOff size={40} strokeWidth={1.3} />,
-    "Issues In Progress": <FileCode size={40} strokeWidth={1.3} />,
+    "Total Issues": <GitPullRequestCreate size={40} strokeWidth={1.3} />,
+    "Issues Open": <GitMerge size={40} strokeWidth={1.3} />,
+    "Issues Closed": <GitPullRequestClosed size={40} strokeWidth={1.3} />,
+    "Issues In Progress": <GitPullRequestDraft size={40} strokeWidth={1.3} />,
     "Priority Issues": <FlagTriangleRight size={40} strokeWidth={1.3} />,
+    "Total Members": <Users size={40} strokeWidth={1.3} />,
+    "Total Teams": <Users size={40} strokeWidth={1.3} />,
   };
-  const Icon = iconMap[title] || null;
-  const CustomChartType = memberChart
-    ? "memberChart"
-    : priorityChart
-    ? "priorityChart"
-    : null;
 
   return (
-    <div className="flex rounded-md w-full min-h-[192px] min-w-[200px] bg-white justify-between h-fit relative p-4 ">
-      <div className=" items-center gap-4 my-auto">
-        <div className="flex justify-between items-center">
-          <h2 className="text-sm font-normal">{title}</h2>
-        </div>
-        <div className="flex items-center">
-          <span className="text-4xl font-bold">
-            {/* {users.toLocaleString()} */}
-            {CardValue}
-          </span>
-          {/* <div className="bg-green-100 text-green-600 rounded-md px-2 py-1 text-xs">
-            {percentage}
-          </div> */}
-        </div>
-        {lastweek.length > 0 && (
-          <div className="text-gray-500 items-center flex mt-2 text-sm">
-            Last Week:
-            <span className="font-medium ml-2">
-              {/* {lastWeekUsers.toLocaleString()} */}
-              {lastweek}
-            </span>
-          </div>
-        )}
-      </div>
+    <div className="md:grid md:grid-cols-6 gap-6">
+      {cards.map((card, index) => {
+        const Icon = iconMap[card.title] || null;
+        // Reverse index for staggered effect
 
-      <div className=" my-auto relative">
-        {chart ? (
-          <div className="flex items-center justify-center">
-            <DonutPie chartData={chartData} CustomChartType={CustomChartType} />
-            {/* <Donut data={chartData} /> */}
-          </div>
-        ) : (
-          <div className="flex  justify-center mb-4">{Icon}</div>
-        )}
-      </div>
+        // Determine if "Last Month" should be added
+        const showLastMonth = [
+          "Total Issues",
+          "Issues Open",
+          "Issues Closed",
+          "Issues In Progress",
+        ].includes(card.title);
+
+        return (
+          <Link href={card?.href || "#"} key={card.title}>
+            <motion.div
+              key={card.title}
+              initial={{ opacity: 0, x: -100, y: 0 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              whileHover={{
+                scale: 1.05,
+                transition: { duration: 0.2 },
+              }}
+              transition={{
+                duration: 0.6,
+                delay: index * 0.2,
+                type: "spring",
+                stiffness: 100,
+                damping: 10,
+              }}
+              className="flex flex-col rounded-lg border w-full min-h-[150px] px-6 p-4 space-y-4 bg-white  "
+            >
+              <div className="flex justify-between items-center">
+                <h2 className="text-gray-600 font-medium text-md">
+                  {card.title}
+                </h2>
+                {showLastMonth && (
+                  <span className="text-xs text-gray-500 ">Last Month</span>
+                )}
+              </div>
+              <div className="flex items-center justify-between">
+                <div className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-gray-800">
+                  {card.CardValue}
+                </div>
+
+                <div className="flex items-center justify-center">
+                  <div className="text-gray-400">{Icon}</div>
+                </div>
+              </div>
+            </motion.div>
+          </Link>
+        );
+      })}
     </div>
   );
 };

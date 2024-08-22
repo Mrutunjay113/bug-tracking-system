@@ -5,6 +5,8 @@ import { Chart, ArcElement, Tooltip } from "chart.js";
 Chart.register(ArcElement, Tooltip);
 
 const DonutPie = ({ chartData, CustomChartType }) => {
+  console.log(chartData);
+  console.log(CustomChartType);
   const customBackgroundStyle = {
     backgroundColor:
       CustomChartType === "priorityChart"

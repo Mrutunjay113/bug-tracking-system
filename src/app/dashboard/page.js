@@ -9,6 +9,9 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/dist/server/api-utils";
 import CustomCalendar from "@/components/Mycalender";
 import { cookies } from "next/headers";
+import { getLineChartData } from "@/lib/actions/charts/action";
+import { LineChart2 } from "@/components/HomeComp/LineChart";
+import HomeCardCol from "@/components/HomeComp/HomeCardCol";
 
 const Page = async () => {
   const { success, dashboardCount, error } = await getDashboardCounts();
@@ -19,6 +22,12 @@ const Page = async () => {
   } else {
     errors = error;
   }
+  const lineChartData = await getLineChartData();
+  const lineData = lineChartData.data;
+  if (lineChartData.error) {
+    errors = lineChartData.error;
+  }
+  console.log(data);
 
   return (
     <main>
@@ -29,7 +38,11 @@ const Page = async () => {
           className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
       </div>
-      <div className="md:p-8 p-2 ">
+      <div className="md:p-8 p-2 grid gap-6">
+        <HomeCardCol data={data} />
+        <div className="md:flex md:gap-2 md:w-[400px] ">
+          {lineChartData && <LineChart2 data={lineData} />}
+        </div>
         <div className="md:flex md:gap-2 w-full">
           {errors ? (
             <div className="text-red-500">{errors}</div>
@@ -39,7 +52,6 @@ const Page = async () => {
         </div>
 
         <div className="mt-2 md:flex md:w-fit w-full md:justify-end gap-2 md:space-y-0 space-y-2">
-          {/* <SimpleCalendar /> */}
           <CustomCalendar />
           <RecentIssueCard />
         </div>

@@ -296,6 +296,7 @@ const chartConfig2 = {
   },
 };
 export function LineChart2({ data }) {
+  console.log(`line`, data);
   const transformData = (data) => {
     // Convert the object into an array of objects for the line chart
     // date in ascending order for the line chart
@@ -305,8 +306,8 @@ export function LineChart2({ data }) {
         month: "short",
         day: "numeric",
       }), // Format date
-      createdAtCount: counts.createdAtCount,
-      closedCount: counts.closedCount,
+      createdAtCount: counts?.createdAtCount,
+      closedCount: counts?.closedCount,
     }));
   };
   // Transform data before passing to the chart
