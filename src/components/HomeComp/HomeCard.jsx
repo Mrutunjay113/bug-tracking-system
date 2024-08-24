@@ -88,7 +88,7 @@ const HomeCard = ({ data }) => {
                 stiffness: 100,
                 damping: 10,
               }}
-              className="flex flex-col rounded-lg border w-full hover:border-gray-400 min-h-[150px] px-6 p-4 space-y-4 bg-white  "
+              className="md:flex md:flex-col rounded-lg border  hover:border-gray-400  md:min-h-[150px] md:px-6 p-4 space-y-4 bg-white  "
             >
               <div className="flex justify-between items-center">
                 <h2 className="text-gray-600 font-normal text-md">

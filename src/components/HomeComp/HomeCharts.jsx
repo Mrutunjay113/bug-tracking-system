@@ -51,8 +51,8 @@ export default function HomeCharts({ data, lineData }) {
   };
 
   return (
-    <div className="md:grid md:grid-cols-4 gap-6">
-      <div className="w-[400px] h-[400px]">
+    <div className="md:grid md:grid-cols-4 grid-cols-2 gap-4">
+      <div className="md:w-[400px] h-[400px]">
         <LineChart2 data={lineData} />
       </div>
 

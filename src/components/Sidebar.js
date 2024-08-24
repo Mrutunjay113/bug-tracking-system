@@ -43,14 +43,14 @@ const SidebarItem = ({
         onClick={onClick}
         className={`relative flex items-center py-2 rounded-lg pl-5 font-medium cursor-pointer group ${
           isActive
-            ? "bg-[#1f66ff] text-white"
+            ? "text-[#1f66ff] bg-[#eaebee] hover:bg-[#eaebee]"
             : "hover:bg-[#eaebee] text-gray-600"
         } ${showText ? "justify-start" : "justify-start"} `}
       >
         {icon && (
           <span
             className={`
-          ${isActive ? "text-white" : "text-gray-600"}
+          ${isActive ? "text-[#1f66ff]" : "text-gray-600"}
           `}
           >
             {icon}
@@ -60,7 +60,7 @@ const SidebarItem = ({
           initial={{ opacity: 0, width: 0 }}
           animate={{ opacity: showText ? 1 : 0, width: showText ? "auto" : 0 }}
           className={`overflow-hidden whitespace-nowrap font-semibold ${
-            showText ? "ml-4" : "ml-0"
+            showText ? "ml-4" : "ml-4"
           }`}
         >
           {text}
@@ -94,7 +94,7 @@ const Sidebar = () => {
               <Icons.logo className={`h-7 w-7`} />
             </div>
             {isExpanded && (
-              <div className={`text-md font-bold ml-2`}>Mrutunjay</div>
+              <div className={`text-md font-bold ml-2`}>Issues</div>
             )}
           </div>
         </div>

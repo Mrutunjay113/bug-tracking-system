@@ -26,7 +26,7 @@ const Page = async () => {
         </div>
 
         <div className="md:w-2/6 ">
-          <LineChart2 data={lineChartData} />{" "}
+          <LineChart2 data={lineChartData} showLabel={true} />{" "}
         </div>
         <div className="md:w-2/6 ">
           <ShadDonut data={pieChartData} />

@@ -47,7 +47,7 @@ export function Donut({ data, config, title, description }) {
   };
 
   return (
-    <Card className="flex flex-col min-w-[300px] min-h-[300px] max-h-full h-[400px] w-[400px] ">
+    <Card className="flex flex-col md:min-w-[300px] min-h-[300px] max-h-full h-[400px] md:w-[400px] ">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         {/* <CardDescription>{description}</CardDescription> */}

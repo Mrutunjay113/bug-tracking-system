@@ -295,7 +295,7 @@ const chartConfig2 = {
     color: "#E21D48", // Adjust color as needed
   },
 };
-export function LineChart2({ data }) {
+export function LineChart2({ data, showLabel }) {
   console.log(`line`, data);
   const transformData = (data) => {
     // Convert the object into an array of objects for the line chart
@@ -339,6 +339,20 @@ export function LineChart2({ data }) {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 7)} // Adjust formatting if needed
             />
+            {showLabel && (
+              <YAxis
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                tickFormatter={(value) => (value % 2 === 0 ? value : "")} // Adjust formatting if needed
+                label={{
+                  value: "Count",
+                  angle: -90,
+                  position: "insideLeft",
+                  offset: 12,
+                }}
+              />
+            )}
             <ChartLegend content={<ChartLegendContent />} />
             <ChartTooltip cursor={false} content={<ChartTooltipContent />} />
             {Object.keys(chartConfig2).map((key) => (
