@@ -258,6 +258,7 @@ const AddIssueForm = () => {
             <option value="UI/UX">UI/UX</option>
             <option value="Developer">Developer</option>
             <option value="QA">QA</option>
+            <option value="Tester">Tester</option>
           </select>
           {errors.issueType && (
             <p className="text-red-500 text-sm mt-1">

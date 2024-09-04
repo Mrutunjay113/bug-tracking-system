@@ -14,7 +14,7 @@ import { Chip } from "@nextui-org/chip";
 import { Button } from "@nextui-org/button";
 import { Input } from "../ui/input";
 import Link from "next/link";
-import { Briefcase, Code, CodeXml, Mail, Phone, Plus } from "lucide-react";
+import { Briefcase, Code, CodeXml, Eye, Mail, Phone, Plus } from "lucide-react";
 import { ScrollArea, ScrollBar } from "../ui/scroll-area";
 import {
   Dropdown,
@@ -23,6 +23,8 @@ import {
   DropdownTrigger,
 } from "@nextui-org/dropdown";
 import { Avatar, AvatarGroup } from "@nextui-org/avatar";
+import { Tooltip } from "@nextui-org/tooltip";
+import { useRouter } from "next/navigation";
 
 // Define the fields to display and their order
 const fieldsToDisplay = [
@@ -31,6 +33,7 @@ const fieldsToDisplay = [
   "teamDescription",
   "teamRole",
   "members",
+  "actions",
 ];
 
 const StatusChip = ({ status }) => {
@@ -50,9 +53,12 @@ const fieldNameMapping = {
   teamDescription: "Description",
   teamRole: "Role",
   members: "Members",
+  actions: "Actions",
 };
 
 export function TeamTable({ data }) {
+  const router = useRouter();
+
   console.log(`tdata`, data);
   const [selectedUser, setSelectedUser] = useState({
     selected: "member" ? "member" : "other" ? "other" : null,
@@ -247,6 +253,35 @@ export function TeamTable({ data }) {
                 description={team.userInfo.email}
                 name={`${team.userInfo.firstName} ${team.userInfo.lastName}`}
               />
+            </div>
+          );
+        case "actions":
+          return (
+            <div className="flex justify-start  ">
+              <Tooltip content="Details">
+                <span
+                  className="text-lg text-default-400 cursor-pointer"
+                  onClick={() => router.push(`/dashboard/teams/${team._id}`)}
+                >
+                  <Eye />
+                </span>
+              </Tooltip>
+              {/* <Tooltip content="Edit user">
+                <span
+                  className="text-lg text-default-400 cursor-pointer"
+                  onClick={() => onEdit(member)}
+                >
+                  <Edit />
+                </span>
+              </Tooltip> */}
+              {/* <Tooltip color="danger" content="Delete user">
+                <span
+                  className="text-lg text-danger cursor-pointer"
+                  onClick={() => onDelete(member)}
+                >
+                  <Trash />
+                </span>
+              </Tooltip> */}
             </div>
           );
         default:

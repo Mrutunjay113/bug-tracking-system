@@ -1,4 +1,5 @@
 "use server";
+import IssueModel from "@/lib/models/issue";
 import Member from "@/lib/models/Member";
 import TeamModel from "@/lib/models/Team";
 import User from "@/lib/models/User";
@@ -235,6 +236,23 @@ export const fetchTeamBYID = async (id) => {
         error: "No teams found",
       };
     }
+    // console.log("teams", teams);
+
+    const issues = await IssueModel.find(
+      { team: id },
+      {
+        _id: 1,
+        title: 1,
+        description: 1,
+        status: 1,
+        priority: 1,
+        assignedTo: 1,
+        statusDates: 1,
+        type: 1,
+        dueDate: 1,
+      }
+    );
+    // console.log("issues", issues);
 
     // Fetch team leader information
     const teamLeader = await User.findById(teams.teamleader, {
@@ -250,6 +268,7 @@ export const fetchTeamBYID = async (id) => {
     const formateTeam = {
       ...teams._doc,
       userInfo: teamLeader,
+      issues: JSON.parse(JSON.stringify(issues)),
     };
 
     // Count of teams will just be 1 since you're fetching by ID
