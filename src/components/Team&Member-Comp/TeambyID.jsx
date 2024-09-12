@@ -1,54 +1,66 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import MembersTeamTable from "./MemeberTeamTable";
+import { Input } from "../ui/input";
+import { Cross, Edit, SquareX, Trash } from "lucide-react";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "../ui/card";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import { updateTeamData } from "@/lib/actions/team/action";
 
 const TeambyID = ({ team }) => {
-  console.log("team", team);
   const [teamDetails, setTeamDetails] = useState({ ...team });
   const [isEditingTeam, setIsEditingTeam] = useState(false);
-  //   const [editingMemberId, setEditingMemberId] = useState(null);
   const [editingIssueId, setEditingIssueId] = useState(null);
+  const [isChanged, setIsChanged] = useState(false); // Track changes
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setTeamDetails({ ...teamDetails, [name]: value });
+    setTeamDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
   };
-
-  //   const handleMemberChange = (e, memberId) => {
-  //     const { name, value } = e.target;
-  //     setTeamDetails({
-  //       ...teamDetails,
-  //       members: teamDetails.members.map((member) =>
-  //         member._id === memberId ? { ...member, [name]: value } : member
-  //       ),
-  //     });
-  //   };
 
   const handleIssueChange = (e, issueId) => {
     const { name, value } = e.target;
-    setTeamDetails({
-      ...teamDetails,
-      issues: teamDetails.issues.map((issue) =>
+    setTeamDetails((prevDetails) => ({
+      ...prevDetails,
+      issues: prevDetails.issues.map((issue) =>
         issue._id === issueId ? { ...issue, [name]: value } : issue
       ),
-    });
+    }));
   };
 
-  const handleUpdateTeam = () => {
-    console.log("Update team:", teamDetails);
-    // API call to update the team
+  // Effect to check if team details have changed
+  useEffect(() => {
+    const isDifferent = JSON.stringify(team) !== JSON.stringify(teamDetails);
+    setIsChanged(isDifferent);
+  }, [teamDetails, team]);
+
+  const handleUpdateTeam = async () => {
+    console.log("Updated team details:", teamDetails); // Log updated values
+    // Here you would handle the API call to update the team
+    const formData = new FormData();
+    formData.append("name", teamDetails.name);
+    formData.append("description", teamDetails.description);
+    formData.append("TeamRole", teamDetails.TeamRole);
+
+    const resp = await updateTeamData(teamDetails._id, formData);
+    console.log("Response:", resp);
+    setIsChanged(false); // Reset change state after update
   };
 
   const handleDeleteTeam = () => {
     console.log("Delete team:", teamDetails._id);
     // API call to delete the team
-  };
-
-  const handleUpdateMember = (memberId) => {
-    console.log("Update member:", memberId);
-    // API call to update the member
-    setEditingMemberId(null);
   };
 
   const handleUpdateIssue = (issueId) => {
@@ -58,91 +70,110 @@ const TeambyID = ({ team }) => {
   };
 
   return (
-    <div className=" md:m-8 bg-white max-w-7xl mx-auto rounded-lg space-y-8 md:p-8 p-2 ">
+    <motion.div
+      className="md:m-8 bg-white mx-auto rounded-lg space-y-8 md:p-8 p-2"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
       {/* Team Info */}
-      <section className="border-b pb-6">
-        <div className="flex items-center space-x-4">
-          <Image
-            width={64}
-            height={64}
-            src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
-            alt="Team Leader"
-            className="w-16 h-16 rounded-full object-cover"
-          />
-          <div className="flex-1">
-            {isEditingTeam ? (
-              <>
-                <input
-                  type="text"
-                  name="name"
-                  value={teamDetails.name}
-                  onChange={handleChange}
-                  className="text-3xl font-bold text-gray-800 w-full border-b-2 border-gray-200 focus:border-indigo-500 outline-none"
-                />
-                <textarea
-                  name="description"
-                  value={teamDetails.description}
-                  onChange={handleChange}
-                  className="text-gray-600 w-full mt-2 border-b-2 border-gray-200 focus:border-indigo-500 outline-none"
-                  rows="2"
-                ></textarea>
-                <input
-                  type="text"
-                  name="TeamRole"
-                  value={teamDetails.TeamRole}
-                  onChange={handleChange}
-                  className="text-sm text-gray-500 mt-2 w-full border-b-2 border-gray-200 focus:border-indigo-500 outline-none"
-                />
-              </>
+      <section>
+        <div className="flex justify-between pb-6">
+          <div className="flex items-center space-x-4">
+            <Image
+              width={64}
+              height={64}
+              src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
+              alt="Team Leader"
+              className="w-16 h-16 rounded-full object-cover"
+            />
+            <div className="flex-1">
+              {isEditingTeam ? (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <Input
+                    type="text"
+                    name="name"
+                    placeholder="Team Name"
+                    value={teamDetails.name}
+                    onChange={handleChange}
+                    className="text-xl font-bold text-gray-800 w-full"
+                  />
+                  <Input
+                    name="description"
+                    placeholder="Description"
+                    value={teamDetails.description}
+                    onChange={handleChange}
+                    className="text-gray-600 w-full mt-3"
+                  />
+                  <Input
+                    type="text"
+                    name="TeamRole"
+                    placeholder="Role"
+                    value={teamDetails.TeamRole}
+                    onChange={handleChange}
+                    className="text-sm text-gray-500 mt-2 w-full"
+                  />
+                </motion.div>
+              ) : (
+                <>
+                  <motion.h2
+                    className="text-3xl font-bold text-gray-800"
+                    initial={{ scale: 0.9 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {teamDetails.name}
+                  </motion.h2>
+                  <motion.p
+                    className="text-muted-foreground"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                  >
+                    {teamDetails.description}
+                  </motion.p>
+                  <p className="text-sm text-gray-500 mt-2">
+                    <strong>Role:</strong> {teamDetails.TeamRole}
+                  </p>
+                  <p className="text-sm text-gray-500">
+                    <strong>Team Leader:</strong>{" "}
+                    {teamDetails.userInfo?.firstName}{" "}
+                    {teamDetails.userInfo?.lastName}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="flex justify-end space-x-4 h-fit w-fit">
+            {!isEditingTeam ? (
+              <Edit
+                onClick={() => setIsEditingTeam(!isEditingTeam)}
+                color="blue"
+                className="cursor-pointer"
+              />
             ) : (
-              <>
-                <h2 className="text-3xl font-bold text-gray-800">
-                  {teamDetails.name}
-                </h2>
-                <p className="text-gray-600">{teamDetails.description}</p>
-                <p className="text-sm text-gray-500 mt-2">
-                  <strong>Role:</strong> {teamDetails.TeamRole}
-                </p>
-                <p className="text-sm text-gray-500">
-                  <strong>Team Leader:</strong>{" "}
-                  {teamDetails.userInfo?.firstName}{" "}
-                  {teamDetails.userInfo?.lastName}
-                </p>
-              </>
+              <SquareX
+                onClick={() => setIsEditingTeam(!isEditingTeam)}
+                color="red"
+                className="cursor-pointer"
+              />
             )}
           </div>
         </div>
-        <div className="flex justify-end space-x-4 mt-4">
-          {isEditingTeam ? (
-            <button
-              onClick={handleUpdateTeam}
-              className="bg-indigo-600 text-white px-4 py-2 rounded-md hover:bg-indigo-700 transition"
-            >
-              Save Changes
-            </button>
-          ) : (
-            <button
-              onClick={() => setIsEditingTeam(true)}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-            >
-              Edit
-            </button>
-          )}
-          <button
-            onClick={handleDeleteTeam}
-            className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition"
+        {isEditingTeam && isChanged && (
+          <motion.button
+            onClick={handleUpdateTeam}
+            className="bg-indigo-600 text-white px-4 py-2 ml-20 rounded-md hover:bg-indigo-700 transition"
+            initial={{ scale: 0.95 }}
+            whileHover={{ scale: 1 }}
           >
-            Delete
-          </button>
-          {isEditingTeam && (
-            <button
-              onClick={() => setIsEditingTeam(false)}
-              className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 transition"
-            >
-              Cancel
-            </button>
-          )}
-        </div>
+            Save Changes
+          </motion.button>
+        )}
       </section>
 
       {/* Members Info */}
@@ -155,83 +186,60 @@ const TeambyID = ({ team }) => {
       <section className="pb-6">
         <h3 className="text-2xl font-semibold text-gray-800 mb-4">Issues</h3>
         {teamDetails.issues.length > 0 ? (
-          <ul className="space-y-4">
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4"
+            initial="hidden"
+            animate="visible"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: {
+                opacity: 1,
+                y: 0,
+                transition: { staggerChildren: 0.1 },
+              },
+            }}
+          >
             {teamDetails.issues.map((issue) => (
-              <li
+              <motion.div
+                whileTap={{ scale: 0.95 }}
+                whileHover={{
+                  scale: 1.02,
+                  transition: { duration: 0.2, ease: "easeOut" },
+                }}
                 key={issue._id}
-                className="p-4 bg-gray-50 rounded-lg shadow-sm"
+                variants={{
+                  hidden: { opacity: 0, y: 10 },
+                  visible: { opacity: 1, y: 0 },
+                }}
               >
-                {editingIssueId === issue._id ? (
-                  <>
-                    <input
-                      type="text"
-                      name="title"
-                      value={issue.title}
-                      onChange={(e) => handleIssueChange(e, issue._id)}
-                      className="text-lg font-medium text-gray-700 w-full border-b-2 border-gray-200 focus:border-indigo-500 outline-none"
-                    />
-                    <textarea
-                      name="description"
-                      value={issue.description}
-                      onChange={(e) => handleIssueChange(e, issue._id)}
-                      className="text-gray-600 w-full mt-2 border-b-2 border-gray-200 focus:border-indigo-500 outline-none"
-                      rows="2"
-                    ></textarea>
-                    <input
-                      type="text"
-                      name="priority"
-                      value={issue.priority}
-                      onChange={(e) => handleIssueChange(e, issue._id)}
-                      className="text-sm text-gray-500 mt-2 w-full border-b-2 border-gray-200 focus:border-indigo-500 outline-none"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <h4 className="text-lg font-medium text-gray-700">
-                      {issue.title}
-                    </h4>
-                    <p className="text-gray-600">{issue.description}</p>
-                    <p className="text-sm text-gray-500">
-                      <strong>Priority:</strong> {issue.priority}
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      <strong>Status:</strong> {issue.status}
-                    </p>
-                  </>
-                )}
-                <div className="flex space-x-2 mt-2">
-                  {editingIssueId === issue._id ? (
-                    <>
-                      <button
-                        onClick={() => handleUpdateIssue(issue._id)}
-                        className="bg-green-600 text-white px-2 py-1 rounded-md hover:bg-green-700 transition"
-                      >
-                        Save
-                      </button>
-                      <button
-                        onClick={() => setEditingIssueId(null)}
-                        className="bg-gray-400 text-white px-2 py-1 rounded-md hover:bg-gray-500 transition"
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => setEditingIssueId(issue._id)}
-                      className="bg-blue-600 text-white px-2 py-1 rounded-md hover:bg-blue-700 transition"
-                    >
-                      Edit
-                    </button>
-                  )}
-                </div>
-              </li>
+                <Link href={`/dashboard/issues/${issue._id}`}>
+                  <Card
+                    className={` ${issue.status === "Closed" && "opacity-60"}`}
+                  >
+                    <CardHeader>
+                      <CardTitle className="tracking-wide">
+                        {issue.title}
+                      </CardTitle>
+                      <CardDescription>{issue.description}</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="">
+                        <strong>Priority:</strong> {issue.priority}
+                      </div>
+                      <div className="">
+                        <strong>Status:</strong> {issue.status}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </motion.div>
             ))}
-          </ul>
+          </motion.div>
         ) : (
           <p className="text-gray-500">No issues found.</p>
         )}
       </section>
-    </div>
+    </motion.div>
   );
 };
 

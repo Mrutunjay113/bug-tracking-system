@@ -287,3 +287,33 @@ export const fetchTeamBYID = async (id) => {
     };
   }
 };
+
+//update team details using team id
+export const updateTeamData = async (id, formData) => {
+  console.log("id", id);
+  console.log("formData", formData);
+  const { name, description, TeamRole } = Object.fromEntries(formData);
+
+  try {
+    await ConnectMongoDb();
+    const team = await TeamModel.findByIdAndUpdate(
+      id,
+      {
+        name,
+        description,
+        TeamRole,
+      },
+      { new: true }
+    );
+    if (!team) {
+      return {
+        success: false,
+        error: "No team found",
+      };
+    }
+    return { success: true, team: JSON.parse(JSON.stringify(team)) };
+  } catch (error) {
+    console.error("Error updating team:", error);
+    return { success: false, error: error.message };
+  }
+};

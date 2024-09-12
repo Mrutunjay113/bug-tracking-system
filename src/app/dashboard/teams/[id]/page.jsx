@@ -7,10 +7,10 @@ export default async function Page({ params }) {
   const getTeam = await fetchTeamBYID(id);
   console.log(`getTeam`, getTeam);
   return (
-    <main className="">
+    <main className="w-full">
       <div className="bg-[#F6F6F6]margin-5 border-b mb-4 border-gray-400 py-10">
         <Heading
-          headingTitle="All Issues"
+          headingTitle="Team Details"
           size="lg"
           className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
