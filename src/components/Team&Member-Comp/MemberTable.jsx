@@ -12,6 +12,9 @@ import { User } from "@nextui-org/user";
 import classNames from "classnames";
 import { Chip } from "@nextui-org/chip";
 import { ScrollArea, ScrollBar } from "../../components/ui/scroll-area";
+import { Eye } from "lucide-react";
+import { Tooltip } from "@nextui-org/tooltip";
+import { useRouter } from "next/navigation";
 
 const fieldsToDisplay = [
   "profileImg",
@@ -19,6 +22,7 @@ const fieldsToDisplay = [
   "team",
   "designation",
   "availabilityStatus",
+  "action",
 ];
 
 const fieldNameMapping = {
@@ -27,9 +31,12 @@ const fieldNameMapping = {
   team: "Team",
   designation: "Role",
   availabilityStatus: "Status",
+  action: "Action",
 };
 
 export function MemberTable({ data }) {
+  const router = useRouter();
+
   console.log(`data`, data);
 
   const statusColorMap = useMemo(
@@ -77,6 +84,39 @@ export function MemberTable({ data }) {
               <p className="text-xs text-gray-400">{description}</p>
             </div>
           );
+
+        case "action":
+          return (
+            <div className="flex justify-start items-center text-center">
+              <Tooltip content="Details">
+                <span
+                  className="text-lg text-default-400 cursor-pointer"
+                  onClick={() =>
+                    router.push(`/dashboard/members/${member._id}`)
+                  }
+                >
+                  <Eye />
+                </span>
+              </Tooltip>
+              {/* <Tooltip content="Edit user">
+                <span
+                  className="text-lg text-default-400 cursor-pointer"
+                  onClick={() => onEdit(member)}
+                >
+                  <Edit />
+                </span>
+              </Tooltip> */}
+              {/* <Tooltip color="danger" content="Delete user">
+                <span
+                  className="text-lg text-danger cursor-pointer"
+                  onClick={() => onDelete(member)}
+                >
+                  <Trash />
+                </span>
+              </Tooltip> */}
+            </div>
+          );
+
         default:
           return cellValue;
       }
@@ -92,9 +132,7 @@ export function MemberTable({ data }) {
             <Table radius="sm" aria-label="Member table" className="w-full">
               <TableHeader>
                 {fieldsToDisplay.map((key) => (
-                  <TableColumn className="text-sm" key={key}>
-                    {fieldNameMapping[key]}
-                  </TableColumn>
+                  <TableColumn key={key}>{fieldNameMapping[key]}</TableColumn>
                 ))}
               </TableHeader>
               <TableBody>

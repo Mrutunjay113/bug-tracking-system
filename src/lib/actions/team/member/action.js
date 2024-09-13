@@ -2,6 +2,7 @@
 
 import IssueModel from "@/lib/models/issue";
 import Member from "@/lib/models/Member";
+import TeamModel from "@/lib/models/Team";
 // import Member from "@/lib/models/Member";
 import ConnectMongoDb from "@/lib/mongoConnect";
 // import { cloudinary } from "@/lib/utils";
@@ -146,5 +147,24 @@ export const fetchMembers = async (q, page = 1) => {
     };
   } catch (err) {
     console.log(err);
+  }
+};
+
+//get member by id
+export const getMemberById = async (id) => {
+  try {
+    await ConnectMongoDb();
+    const member = await Member.findById(id);
+    const team = await TeamModel.findById(member.team);
+    return {
+      success: true,
+      data: {
+        member: JSON.parse(JSON.stringify(member)),
+        team: JSON.parse(JSON.stringify(team)),
+      },
+    };
+  } catch (error) {
+    console.error("Error getting member by id:", error);
+    return { success: false, error: error.message };
   }
 };
