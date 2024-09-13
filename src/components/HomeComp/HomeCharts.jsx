@@ -3,8 +3,17 @@ import { Donut } from "./halfdonut";
 import { Card, CardHeader, CardBody } from "@nextui-org/react";
 import { SearchTabs } from "./searchTabs";
 import { LineChart2 } from "./LineChart";
+import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 export default function HomeCharts({ data, lineData }) {
+  const [selectChartType, setSelectChartType] = useState("task");
   const taskStatusConfig = {
     Open: {
       label: "Open",
@@ -55,21 +64,43 @@ export default function HomeCharts({ data, lineData }) {
       <div className="md:w-[400px] h-[400px]">
         <LineChart2 data={lineData} />
       </div>
+      <div className="bg-white w-fit h-fit border rounded-md">
+        <div className="flex items-center gap-4 justify-center mt-2">
+          <h1 className="text-gray-700 font-medium">Select Chart Type</h1>
+          <Select value={selectChartType} onValueChange={setSelectChartType}>
+            <SelectTrigger
+              className="w-[120px] rounded-lg"
+              aria-label="Select a value"
+            >
+              <SelectValue placeholder="Select Type" />
+            </SelectTrigger>
+            <SelectContent className="rounded-xl">
+              <SelectItem value="task" className="rounded-lg">
+                Task
+              </SelectItem>
+              <SelectItem value="priority" className="rounded-lg">
+                Priority
+              </SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
 
-      <Donut
-        data={taskStatusData}
-        config={taskStatusConfig}
-        title="Task Progress"
-        description="This month"
-      />
-
-      <Donut
-        data={priorityData}
-        config={priorityConfig}
-        title="Priority Levels"
-        description="This month"
-      />
-
+        {selectChartType === "task" ? (
+          <Donut
+            data={taskStatusData}
+            config={taskStatusConfig}
+            title="Task Progress"
+            description="This month"
+          />
+        ) : (
+          <Donut
+            data={priorityData}
+            config={priorityConfig}
+            title="Priority Levels"
+            description="This month"
+          />
+        )}
+      </div>
       <SearchTabs />
     </div>
   );

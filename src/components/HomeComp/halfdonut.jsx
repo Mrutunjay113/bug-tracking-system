@@ -21,6 +21,7 @@ import {
 } from "@/components/ui/chart";
 
 export function Donut({ data, config, title, description }) {
+  console.log(`data`, data);
   const chartData = useMemo(() => {
     return Object.entries(data)
       .map(([key, value]) => {
@@ -47,7 +48,7 @@ export function Donut({ data, config, title, description }) {
   };
 
   return (
-    <Card className="flex flex-col md:min-w-[300px] min-h-[300px] max-h-full h-[400px] md:w-[400px] ">
+    <Card className="flex flex-col md:min-w-[300px] min-h-[300px] max-h-full h-[400px] md:w-[400px] border-none">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
         {/* <CardDescription>{description}</CardDescription> */}
@@ -132,7 +133,13 @@ export function Donut({ data, config, title, description }) {
             </span>
             tasks closed this month
           </div>
-        ) : null}
+        ) : (
+          <div className="flex text-base items-center gap-2 font-medium">
+            <TrendingUp size={20} />
+            <span className="text-red-700">0 </span>
+            tasks closed this month
+          </div>
+        )}
       </CardFooter>
     </Card>
   );
