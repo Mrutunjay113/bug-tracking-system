@@ -23,8 +23,7 @@ const MemberSchema = new mongoose.Schema({
   },
   team: {
     type: mongoose.Schema.Types.ObjectId || null,
-    ref: "Team",
-    default: null,
+    ref: "Teams",
   },
   designation: {
     type: String,

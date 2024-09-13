@@ -11,8 +11,8 @@ const Page = async ({ searchParams }) => {
   //   secret: process.env.NEXTAUTH_SECRET,
   // });
   // console.log(`decoded`, decoded);
-  const response = await sendVerificationEmail(toEmail, token);
-  console.log(`response`, response);
+  // const response = await sendVerificationEmail(toEmail, token);
+  // console.log(`response`, response);
 
   return (
     <div className="container relative flex pt-20 flex-col items-center justify-center lg:px-0">
