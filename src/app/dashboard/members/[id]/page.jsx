@@ -15,6 +15,7 @@ import {
   BriefcaseBusiness,
   CalendarClock,
   CalendarDays,
+  ExternalLink,
   Hotel,
   List,
   Mail,
@@ -135,15 +136,14 @@ const MemberDetails = ({ member, team }) => {
               projects.map((project) => (
                 <HoverCard key={project._id} className="w-full">
                   <HoverCardTrigger asChild target="">
-                    <Link
+                    <span
                       className={buttonVariants({
                         variant: "link",
                         className: "gap-1.5",
                       })}
-                      href={`/dashboard/issues/${project._id}`}
                     >
-                      <span>#{project.title}</span>
-                    </Link>
+                      #{project.title}
+                    </span>
                   </HoverCardTrigger>
                   <HoverCardContent
                     className={`w-full min-w-[200px] ${
@@ -153,7 +153,7 @@ const MemberDetails = ({ member, team }) => {
                     <div className="flex justify-between space-x-4 w-full">
                       <div className="space-y-1 w-full" key={project._id}>
                         <div
-                          className={`border-b pb-1 text-2xl  font-semibold tracking-tight  capitalize ${
+                          className={`border-b pb-1 text-xl  font-semibold tracking-tight  capitalize ${
                             project.status === "Closed"
                               ? "border-slate-300"
                               : ""
@@ -208,7 +208,20 @@ const MemberDetails = ({ member, team }) => {
                           </span>
                         </div>
                       </div>
-                    </div>
+                    </div>{" "}
+                    <Link
+                      className={buttonVariants({
+                        variant: "link",
+                        className:
+                          "gap-1.5 w-full bg-slate-100 hover:bg-slate-200 mt-2",
+                      })}
+                      href={`/dashboard/issues/${project._id}`}
+                    >
+                      View Project{" "}
+                      <span className="">
+                        <ExternalLink className="h-4 w-4" />
+                      </span>
+                    </Link>
                   </HoverCardContent>
                 </HoverCard>
               ))}
