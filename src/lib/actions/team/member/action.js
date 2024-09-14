@@ -155,11 +155,30 @@ export const getMemberById = async (id) => {
   try {
     await ConnectMongoDb();
     const member = await Member.findById(id);
+    const tasks = member?.tasks?.map((task) => task);
+    const issue = await IssueModel.find(
+      { _id: { $in: tasks } },
+      {
+        title: 1,
+        description: 1,
+        priority: 1,
+        status: 1,
+        type: 1,
+        dueDate: 1,
+        issueType: 1,
+        createdAt: 1,
+        statusDates: 1,
+      }
+    );
+
     const team = await TeamModel.findById(member.team);
     return {
       success: true,
       data: {
-        member: JSON.parse(JSON.stringify(member)),
+        member: {
+          ...JSON.parse(JSON.stringify(member)),
+          projects: issue,
+        },
         team: JSON.parse(JSON.stringify(team)),
       },
     };
