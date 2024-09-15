@@ -17,10 +17,7 @@ import {
   Users,
 } from "lucide-react";
 
-const IssueDetailComp = async ({ id }) => {
-  const issueData = await getIssueById(id);
-  const issue = issueData?.issues[0];
-
+const IssueDetailComp = async ({ issue }) => {
   return (
     <div className="p-4 lg:p-8 mx-auto max-w-7xl flex flex-col lg:flex-row gap-8">
       {/* Image Section */}
@@ -41,16 +38,8 @@ const IssueDetailComp = async ({ id }) => {
 
       {/* Text Content Section */}
       <div className="lg:w-1/2 flex flex-col gap-6">
-        <div className="flex flex-col lg:flex-row items-start gap-4 lg:gap-8 border-b-2 pb-4">
-          <div className="flex-shrink-0">
-            <div className="text-blue-500 text-lg font-medium">
-              #{issue.issueType}
-            </div>
-            <div className="mt-1 px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full w-fit">
-              {issue.type}
-            </div>
-          </div>
-          <div className="flex flex-col lg:ml-8">
+        <div className="flex flex-col lg:flex-row items-start gap-4 justify-between lg:gap-8 border-b-2 pb-4">
+          <div className="flex flex-col ">
             <h1 className="text-3xl font-bold text-gray-900 capitalize">
               {issue.title}
             </h1>
@@ -66,6 +55,14 @@ const IssueDetailComp = async ({ id }) => {
                   day: "numeric",
                 })}
               </div>
+            </div>
+          </div>{" "}
+          <div className="flex-shrink-0">
+            <div className="text-blue-500 text-lg font-medium">
+              #{issue.issueType}
+            </div>
+            <div className="mt-1 px-3 py-1 text-sm font-semibold text-white bg-blue-500 rounded-full w-fit">
+              {issue.type}
             </div>
           </div>
         </div>
