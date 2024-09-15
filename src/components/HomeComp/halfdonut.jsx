@@ -48,10 +48,10 @@ export function Donut({ data, config, title, description }) {
   };
 
   return (
-    <Card className="flex flex-col md:min-w-[300px] min-h-[300px] max-h-full h-[400px] md:w-[400px] border-none">
+    <Card className="flex flex-col md:min-w-[300px] min-h-[300px] max-h-full h-[350px] md:w-[400px] border-none">
       <CardHeader className="items-center pb-0">
         <CardTitle>{title}</CardTitle>
-        {/* <CardDescription>{description}</CardDescription> */}
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="md:flex-1 pb-0">
         <ChartContainer
@@ -123,24 +123,6 @@ export function Donut({ data, config, title, description }) {
           </PieChart>
         </ChartContainer>
       </CardContent>
-
-      <CardFooter className="flex justify-start ">
-        {data?.Closed > 0 ? (
-          <div className="flex text-base items-center gap-2 font-medium">
-            <TrendingUp size={20} color="blue" />
-            <span className="text-blue-700">
-              {((data.Closed / totalTask) * 100).toFixed(0)}%{" "}
-            </span>
-            tasks closed this month
-          </div>
-        ) : (
-          <div className="flex text-base items-center gap-2 font-medium">
-            <TrendingUp size={20} />
-            <span className="text-red-700">0 </span>
-            tasks closed this month
-          </div>
-        )}
-      </CardFooter>
     </Card>
   );
 }
