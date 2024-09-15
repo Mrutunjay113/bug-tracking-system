@@ -9,6 +9,7 @@ import ConnectMongoDb from "@/lib/mongoConnect";
 // import { cloudinaryConfig } from "@/lib/utils";
 
 import { v2 as cloudinary } from "cloudinary";
+import { revalidatePath } from "next/cache";
 
 cloudinary.config({
   cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
@@ -185,5 +186,28 @@ export const getMemberById = async (id) => {
   } catch (error) {
     console.error("Error getting member by id:", error);
     return { success: false, error: error.message };
+  }
+};
+//delete member by id
+export const deleteMemberById = async (data) => {
+  console.log(`data`, data);
+  const { _id, team } = data;
+  try {
+    await ConnectMongoDb();
+    const member = await Member.findByIdAndDelete(_id);
+    if (!member) {
+      return {
+        success: false,
+        error: "Member not found",
+      };
+    }
+    return {
+      success: true,
+    };
+  } catch (error) {
+    console.error("Error deleting member by id:", error);
+    return { success: false, error: error.message };
+  } finally {
+    revalidatePath(`/dashboard/teams/${team}`);
   }
 };

@@ -19,6 +19,9 @@ module.exports = {
       },
     },
     extend: {
+      backgroundImage: {
+        card_bg: "url('/assets/images/demon.jpg')",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

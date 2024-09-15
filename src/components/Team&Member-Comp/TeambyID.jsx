@@ -14,6 +14,11 @@ import {
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { updateTeamData } from "@/lib/actions/team/action";
+import { toast } from "sonner";
+import { Button } from "@nextui-org/button";
+import CustomButton from "../CustomButton";
+import { Separator } from "../ui/separator";
+import { deleteMemberById } from "@/lib/actions/team/member/action";
 
 const TeambyID = ({ team }) => {
   const [teamDetails, setTeamDetails] = useState({ ...team });
@@ -52,15 +57,27 @@ const TeambyID = ({ team }) => {
     formData.append("name", teamDetails.name);
     formData.append("description", teamDetails.description);
     formData.append("TeamRole", teamDetails.TeamRole);
-
-    const resp = await updateTeamData(teamDetails._id, formData);
-    console.log("Response:", resp);
-    setIsChanged(false); // Reset change state after update
+    try {
+      const resp = await updateTeamData(teamDetails._id, formData);
+      console.log("Response:", resp);
+      setIsChanged(false); // Reset change state after update
+      setIsEditingTeam(false); // Exit edit mode
+      toast.success("Team updated successfully!");
+    } catch (error) {
+      console.error("Error updating team:", error);
+    }
   };
 
-  const handleDeleteTeam = () => {
-    console.log("Delete team:", teamDetails._id);
-    // API call to delete the team
+  const handleDeleteTeam = async (data) => {
+    try {
+      // API call to delete the team
+      const resp = await deleteMemberById(data);
+      console.log("Response:", resp);
+
+      toast.success("Member deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting Member :", error);
+    }
   };
 
   const handleUpdateIssue = (issueId) => {
@@ -78,6 +95,7 @@ const TeambyID = ({ team }) => {
     >
       {/* Team Info */}
       <section>
+        <h3 className="text-2xl font-semibold text-gray-800 mb-8">Team Info</h3>
         <div className="flex justify-between pb-6">
           <div className="flex items-center space-x-4">
             <Image
@@ -148,41 +166,37 @@ const TeambyID = ({ team }) => {
               )}
             </div>
           </div>
-          <div className="flex justify-end space-x-4 h-fit w-fit">
-            {!isEditingTeam ? (
-              <Edit
-                onClick={() => setIsEditingTeam(!isEditingTeam)}
-                color="blue"
-                className="cursor-pointer"
-              />
+
+          <div
+            className="flex text-muted-foreground mr-10 cursor-pointer hover:text-gray-800"
+            onClick={() => setIsEditingTeam(!isEditingTeam)}
+          >
+            {isEditingTeam ? (
+              <SquareX className="w-5 h-5 " />
             ) : (
-              <SquareX
-                onClick={() => setIsEditingTeam(!isEditingTeam)}
-                color="red"
-                className="cursor-pointer"
-              />
+              <Edit className="w-5 h-5 " />
             )}
           </div>
         </div>
         {isEditingTeam && isChanged && (
-          <motion.button
+          <Button
             onClick={handleUpdateTeam}
-            className="bg-indigo-600 text-white px-4 py-2 ml-20 rounded-md hover:bg-indigo-700 transition"
-            initial={{ scale: 0.95 }}
-            whileHover={{ scale: 1 }}
+            color="primary"
+            className="ml-20  transition rounded-md "
           >
             Save Changes
-          </motion.button>
+          </Button>
         )}
       </section>
-
+      <Separator className="bg-slate-400" />
       {/* Members Info */}
-      <section className="border-b pb-6">
+      <section className="pb-6">
         <h3 className="text-2xl font-semibold text-gray-800 mb-4">Members</h3>
-        <MembersTeamTable members={team?.members} />
+        <MembersTeamTable members={team?.members} onDelete={handleDeleteTeam} />
       </section>
 
       {/* Issues Info */}
+      <Separator className="bg-slate-400" />
       <section className="pb-6">
         <h3 className="text-2xl font-semibold text-gray-800 mb-4">Issues</h3>
         {teamDetails.issues.length > 0 ? (
@@ -223,11 +237,19 @@ const TeambyID = ({ team }) => {
                       <CardDescription>{issue.description}</CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="">
-                        <strong>Priority:</strong> {issue.priority}
+                      <div className="flex items-center gap-2">
+                        {" "}
+                        <div className="text-md font-medium tracking-tight">
+                          Priority:
+                        </div>
+                        {issue.priority}
                       </div>
-                      <div className="">
-                        <strong>Status:</strong> {issue.status}
+                      <div className="flex items-center gap-2">
+                        {" "}
+                        <div className="text-md font-medium tracking-tight">
+                          Status:
+                        </div>
+                        {issue.status}
                       </div>
                     </CardContent>
                   </Card>

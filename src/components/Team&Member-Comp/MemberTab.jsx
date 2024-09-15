@@ -32,7 +32,7 @@ import {
   Users,
 } from "lucide-react";
 import { Tabs, Tab } from "@nextui-org/tabs";
-import { Button, buttonVariants } from "../ui/button";
+import { buttonVariants } from "../ui/button";
 import {
   HoverCard,
   HoverCardContent,
@@ -40,6 +40,7 @@ import {
 } from "../ui/hover-card";
 import Link from "next/link";
 import { Chip } from "@nextui-org/chip";
+import { Button } from "@nextui-org/button";
 const MemberTab = ({ member, team }) => {
   const {
     userID,
@@ -147,7 +148,7 @@ const MemberTab = ({ member, team }) => {
                 <Button variant="outline" onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
-                <Button className=" bg-[#1A2334]  hover:bg-[#44464b]">
+                <Button color="primary" className=" ">
                   Save Changes
                 </Button>
               </CardFooter>
@@ -321,9 +322,7 @@ const MemberTab = ({ member, team }) => {
                 <Button variant="outline" onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
-                <Button className=" bg-[#1A2334]  hover:bg-[#44464b]">
-                  Save Changes
-                </Button>
+                <Button className=" ">Save Changes</Button>
               </CardFooter>
             )}
           </Card>

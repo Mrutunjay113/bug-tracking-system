@@ -61,7 +61,7 @@ const MembersTeamTable = ({ members, onEdit, onDelete }) => {
           );
         case "actions":
           return (
-            <div className="flex justify-center ">
+            <div className="flex justify-center gap-2 ">
               <Tooltip content="Details">
                 <span
                   className="text-lg text-default-400 cursor-pointer"
@@ -69,7 +69,7 @@ const MembersTeamTable = ({ members, onEdit, onDelete }) => {
                     router.push(`/dashboard/members/${member._id}`)
                   }
                 >
-                  <Eye />
+                  <Eye size={20} />
                 </span>
               </Tooltip>
               {/* <Tooltip content="Edit user">
@@ -80,14 +80,14 @@ const MembersTeamTable = ({ members, onEdit, onDelete }) => {
                   <Edit />
                 </span>
               </Tooltip> */}
-              {/* <Tooltip color="danger" content="Delete user">
+              <Tooltip color="danger" content="Delete user">
                 <span
                   className="text-lg text-danger cursor-pointer"
                   onClick={() => onDelete(member)}
                 >
-                  <Trash />
+                  <Trash size={20} />
                 </span>
-              </Tooltip> */}
+              </Tooltip>
             </div>
           );
         default:
