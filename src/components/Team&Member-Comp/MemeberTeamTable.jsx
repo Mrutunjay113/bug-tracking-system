@@ -94,7 +94,7 @@ const MembersTeamTable = ({ members, onEdit, onDelete }) => {
           return cellValue;
       }
     },
-    [onEdit, onDelete]
+    [router]
   );
 
   return (
