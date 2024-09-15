@@ -80,14 +80,14 @@ const MembersTeamTable = ({ members, onEdit, onDelete }) => {
                   <Edit />
                 </span>
               </Tooltip> */}
-              <Tooltip color="danger" content="Delete user">
+              {/* <Tooltip color="danger" content="Delete user">
                 <span
-                  className="text-lg text-danger cursor-pointer"
-                  onClick={() => onDelete(member)}
+                  className="text-lg text-danger cursor-pointer opacity-50"
+                  // onClick={() => onDelete(member)}
                 >
                   <Trash size={20} />
                 </span>
-              </Tooltip>
+              </Tooltip> */}
             </div>
           );
         default:
