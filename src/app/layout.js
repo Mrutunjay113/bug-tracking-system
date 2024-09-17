@@ -2,6 +2,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,10 @@ export default function RootLayout({ children }) {
         className={cn("relative h-full font-sans antialiased", inter.className)}
       >
         <main className="relative flex flex-col  h-screen">
-          <div className="flex-grow flex-1 ">{children}</div>
+          <div className="flex-grow flex-1 ">
+            {children}
+            <SpeedInsights />
+          </div>
         </main>
         <Toaster position="bottom-right" richColors />
       </body>
