@@ -17,12 +17,14 @@ const UserSelect = ({
       selectionMode={selectionMode}
       selectedKeys={selectedKeys}
       placeholder={placeholder}
+      labelPlacement="outside"
+      aria-label="User select"
       onSelectionChange={onSelectionChange}
-      className="w-full bg-white"
+      className="w-full bg-white rounded-lg"
       variant="bordered"
       classNames={{
-        label: "group-data-[filled=true]:-translate-y-5 text-default-900",
-        trigger: "min-h-16 border border-default-400 rounded-md",
+        label: "font-semibold text-default-500 tranlsate-y-2 pb-2",
+        trigger: "min-h-12 border border-default-400 rounded-md",
         listboxWrapper: "max-h-[400px] ",
       }}
       listboxProps={{

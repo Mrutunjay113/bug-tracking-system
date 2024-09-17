@@ -67,7 +67,7 @@ const IssueSchema = new mongoose.Schema({
   },
   issueType: {
     type: String,
-    enum: ["UI/UX", "Developer", "QA", "Tester"],
+    enum: ["UI/UX", "Developer", "Tester"],
     required: true,
   },
   createdAt: {
