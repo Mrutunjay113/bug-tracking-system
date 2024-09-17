@@ -92,14 +92,14 @@ const MemberTab = ({ member, team }) => {
           title={
             <div className="flex items-center space-x-2">
               <User className="w-5 h-5" />
-              <span>Personal Information</span>
+              <span className="">Personal Information</span>
             </div>
           }
         >
           <Card className="p-4">
             <CardHeader>
               <CardTitle className="flex items-center justify-between ">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-[var(--accent-1)] ">
                   <span className="text-muted-foreground">
                     <Contact />
                   </span>
@@ -145,7 +145,7 @@ const MemberTab = ({ member, team }) => {
             </CardContent>
             {isEditing && (
               <CardFooter className="flex gap-4 justify-end">
-                <Button variant="outline" onClick={() => setIsEditing(false)}>
+                <Button color="secondary" onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
                 <Button color="primary" className=" ">
@@ -160,7 +160,7 @@ const MemberTab = ({ member, team }) => {
         <Tab
           key="skills-availability"
           title={
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 ">
               <BookOpen className="w-5 h-5" />
               <span>Skills & Availability</span>
             </div>
@@ -170,7 +170,7 @@ const MemberTab = ({ member, team }) => {
             {" "}
             <CardHeader>
               <CardTitle className="flex items-center justify-between ">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-[var(--accent-1)]">
                   <span className="text-muted-foreground">
                     <Contact />
                   </span>
@@ -319,10 +319,10 @@ const MemberTab = ({ member, team }) => {
             </CardContent>{" "}
             {isEditing && (
               <CardFooter className="flex gap-4 justify-end">
-                <Button variant="outline" onClick={() => setIsEditing(false)}>
+                <Button color="secondary" onClick={() => setIsEditing(false)}>
                   Cancel
                 </Button>
-                <Button className=" ">Save Changes</Button>
+                <Button color="primary">Save Changes</Button>
               </CardFooter>
             )}
           </Card>
@@ -332,7 +332,7 @@ const MemberTab = ({ member, team }) => {
         <Tab
           key="team-info"
           title={
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 ">
               <BriefcaseBusiness className="w-5 h-5" />
               <span>Team Information</span>
             </div>
@@ -341,7 +341,7 @@ const MemberTab = ({ member, team }) => {
           <Card className="p-4">
             <CardHeader>
               <CardTitle className="flex items-center justify-between ">
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 text-[var(--accent-1)]">
                   <span className="text-muted-foreground">
                     <Contact />
                   </span>

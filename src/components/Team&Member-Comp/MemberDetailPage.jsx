@@ -51,7 +51,7 @@ const MemberDetails = ({ member, team }) => {
 
   return (
     <div className="p-6 bg-white border rounded-lg max-w-5xl mx-auto">
-      <div className="-ml-6 -mt-6 -mr-6 py-4 pl-6 items-center  rounded-t-lg mb-4 bg-gray-300">
+      <div className="-ml-6 -mt-6 -mr-6 py-4 pl-6 items-center  rounded-t-lg mb-4 bg-[var(--primary-2)]">
         <div className="flex justify-between items-start">
           <div className="flex items-center">
             <Avatar
@@ -62,8 +62,8 @@ const MemberDetails = ({ member, team }) => {
               radius="rounded-full"
             />
             <div className="">
-              <h2 className="text-3xl font-bold mb-1 tracking-wide font-mono">{`${firstName} ${lastName}`}</h2>
-              <p className="text-lg text-muted-foreground font-semibold tracking-wide">
+              <h2 className="text-3xl font-bold mb-1 tracking-wide text-white font-mono">{`${firstName} ${lastName}`}</h2>
+              <p className="text-lg text-muted-foreground font-semibold text-slate-200 tracking-wide">
                 #{designation}
               </p>{" "}
             </div>
