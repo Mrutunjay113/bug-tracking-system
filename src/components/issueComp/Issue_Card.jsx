@@ -8,15 +8,25 @@ import {
   CalendarClock,
   CalendarPlus,
   Clock,
+  Edit,
+  Eye,
   Flag,
   MessageSquare,
   MessageSquareDot,
   MessageSquareText,
+  Trash,
+  Trash2,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 import { motion } from "framer-motion";
 import CommentIcon from "../icons/commentIcon";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "../ui/context-menu";
 
 const IssueCard = ({ issue, index }) => {
   const {
@@ -83,6 +93,22 @@ const IssueCard = ({ issue, index }) => {
     medium: "text-yellow-600",
     high: "text-red-600",
   };
+  const menuItems = [
+    {
+      icon: <Eye className="h-5 w-5 mr-2 text-gray-500" />,
+      text: "View",
+      link: true,
+    },
+    {
+      icon: <Edit className="h-5 w-5 mr-2 text-gray-500" />,
+      text: "Edit",
+    },
+
+    {
+      icon: <Trash2 className="h-5 w-5 mr-2 text-gray-500" />,
+      text: "Delete",
+    },
+  ];
 
   return (
     <motion.div
@@ -102,84 +128,114 @@ const IssueCard = ({ issue, index }) => {
       }}
       transition={{ delay: index * 0.3, duration: 0.5, ease: "easeOut" }}
     >
-      <Link href={`/dashboard/issues/${issue._id}`} className="">
-        <div className="relative">
-          <div className="flex justify-between items-center">
-            <div
-              className={`flex items-center font-semibold text-sm uppercase rounded-full text-gray-700 ${classPriority[priority]}`}
-            >
-              {priority}
+      <ContextMenu>
+        <ContextMenuTrigger>
+          {" "}
+          <Link href={`/dashboard/issues/${issue._id}`} className="">
+            <div className="relative">
+              <div className="flex justify-between items-center">
+                <div
+                  className={`flex items-center font-semibold text-sm uppercase rounded-full text-gray-700 ${classPriority[priority]}`}
+                >
+                  {priority}
+                </div>
+                <div className="flex text-muted-foreground gap-2 text-sm items-center">
+                  <span>
+                    <CalendarClock className="w-4" />
+                  </span>
+                  {new Date(dueDate).toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </div>
+              </div>
+              <div className="my-4">
+                <h2 className="text-lg font-bold flex text-wrap capitalize mb-1">
+                  {title}{" "}
+                </h2>
+                <div className="flex items-center text-muted-foreground text-sm gap-1">
+                  <span className="">
+                    <CalendarPlus className="w-4" />
+                  </span>
+                  {timeandDateFormatter(createdAt)}
+                </div>
+              </div>
             </div>
-            <div className="flex text-muted-foreground gap-2 text-sm items-center">
-              <span>
-                <CalendarClock className="w-4" />
-              </span>
-              {new Date(dueDate).toLocaleDateString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-              })}
-            </div>
-          </div>
-          <div className="my-4">
-            <h2 className="text-lg font-bold flex text-wrap capitalize mb-1">
-              {title}{" "}
-            </h2>
-            <div className="flex items-center text-muted-foreground text-sm gap-1">
-              <span className="">
-                <CalendarPlus className="w-4" />
-              </span>
-              {timeandDateFormatter(createdAt)}
-            </div>
-          </div>
-        </div>
 
-        <div className="border-t mb-2" />
-        <div className="text-muted-foreground flex justify-between items-center">
-          <div className="p-1 flex justify-start items-center gap-2">
-            {issueType === "UI/UX" ? (
-              <span className="">#UI/UX</span>
-            ) : issueType === "Developer" ? (
-              <span className="">#Dev</span>
-            ) : issueType === "QA" ? (
-              <span className="">#QA</span>
-            ) : (
-              <span className="">#Other</span>
-            )}
-            {"|"}
-            <span className={classNames(" ", classType[type])}>
-              {type}
-            </span>{" "}
-          </div>{" "}
-          <div className="flex items-center gap-4">
-            {assignedTo.map((value) => {
-              return (
-                <Avatar
-                  key={value._id}
-                  // src={value.image}
-                  src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
-                  alt={value.name}
-                  size="small"
-                  className="border-2 border-white"
-                />
-              );
-            })}
-            <div
-              className={`flex items-center relative
+            <div className="border-t mb-2" />
+            <div className="text-muted-foreground flex justify-between items-center">
+              <div className="p-1 flex justify-start items-center gap-2">
+                {issueType === "UI/UX" ? (
+                  <span className="">#UI/UX</span>
+                ) : issueType === "Developer" ? (
+                  <span className="">#Dev</span>
+                ) : issueType === "QA" ? (
+                  <span className="">#QA</span>
+                ) : (
+                  <span className="">#Other</span>
+                )}
+                {"|"}
+                <span className={classNames(" ", classType[type])}>
+                  {type}
+                </span>{" "}
+              </div>{" "}
+              <div className="flex items-center gap-4">
+                {assignedTo.map((value) => {
+                  return (
+                    <Avatar
+                      key={value._id}
+                      // src={value.image}
+                      src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
+                      alt={value.name}
+                      size="small"
+                      className="border-2 border-white"
+                    />
+                  );
+                })}
+                <div
+                  className={`flex items-center relative
            text-sm font-semibold 
               ${status === "Closed" ? "opacity-50" : "opacity-100"}`}
-            >
-              {comments > 0 && <span className="mr-1">{comments}</span>}
-              {comments > 0 ? (
-                <MessageSquareText size={20} />
-              ) : (
-                <MessageSquare size={20} />
-              )}
-              {/* <CommentIcon value={comments} /> */}
+                >
+                  {comments > 0 && <span className="mr-1">{comments}</span>}
+                  {comments > 0 ? (
+                    <MessageSquareText size={20} />
+                  ) : (
+                    <MessageSquare size={20} />
+                  )}
+                  {/* <CommentIcon value={comments} /> */}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </Link>
+          </Link>
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          {menuItems.map((item, index) => (
+            <ContextMenuItem
+              key={index}
+              icon={item.icon}
+              className="cursor-pointer"
+            >
+              {item.link ? (
+                <Link
+                  href={`/dashboard/issues/${issue._id}
+                `}
+                  className="flex items-center"
+                >
+                  {item.icon}
+                  {item.text}
+                </Link>
+              ) : (
+                <div className="flex items-center">
+                  {item.icon}
+                  {item.text}
+                </div>
+              )}
+            </ContextMenuItem>
+          ))}
+        </ContextMenuContent>
+      </ContextMenu>
     </motion.div>
   );
 };
