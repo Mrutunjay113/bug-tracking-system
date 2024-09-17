@@ -167,17 +167,19 @@ const Page = () => {
               </p>
             )}
           </div>
+          <div>
+            <Label htmlFor="teamlead">Select Team Members</Label>
+            <UserSelect
+              // label="Assign to"
+              selectionMode="single"
+              placeholder="Select member"
+              selectedKeys={selectedUsers}
+              onSelectionChange={handleSelectionChange}
+              // data={users}
 
-          <UserSelect
-            label="Assign to"
-            selectionMode="multiple"
-            placeholder="Select user"
-            selectedKeys={selectedUsers}
-            onSelectionChange={handleSelectionChange}
-            // data={users}
-
-            data={teamMembers}
-          />
+              data={teamMembers}
+            />
+          </div>
           <Button
             type="submit"
             color="primary"
