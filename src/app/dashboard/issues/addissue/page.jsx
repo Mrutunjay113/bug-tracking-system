@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import UserSelect from "@/components/UserSelectInput";
+import { ISSUE_TYPES, PRIORITYS, TYPE } from "@/lib/data";
 
 const AddIssueForm = () => {
   const router = useRouter();
@@ -41,24 +42,6 @@ const AddIssueForm = () => {
   const [members, setMembers] = useState([]);
   const [showImgs, setShowImgs] = useState(false);
   const [selectedUsers, setSelectedUsers] = useState(new Set());
-
-  const Priority = [
-    { label: "Low", value: "low" },
-    { label: "Medium", value: "medium" },
-    { label: "High", value: "high" },
-  ];
-  const Type = [
-    { label: "Bug", value: "bug" },
-    { label: "Feature", value: "feature" },
-    { label: "Improvement", value: "improvement" },
-    { label: "Other", value: "other" },
-  ];
-
-  const IssueTypes = [
-    { label: "UI/UX", value: "UI/UX" },
-    { label: "Developer", value: "Developer" },
-    { label: "Tester", value: "Tester" },
-  ];
 
   const fetchTeams = async (TeamRole) => {
     try {
@@ -256,7 +239,7 @@ const AddIssueForm = () => {
                 <SelectValue placeholder="Select type" />
               </SelectTrigger>
               <SelectContent>
-                {Type.map((item) => (
+                {TYPE.map((item) => (
                   <SelectItem key={item.value} value={item.value}>
                     {item.label}
                   </SelectItem>
@@ -282,7 +265,7 @@ const AddIssueForm = () => {
                 <SelectValue placeholder="Select Priority" />
               </SelectTrigger>
               <SelectContent>
-                {Priority.map((item) => (
+                {PRIORITYS.map((item) => (
                   <SelectItem key={item.value} value={item.value}>
                     {item.label}
                   </SelectItem>
@@ -309,7 +292,7 @@ const AddIssueForm = () => {
                 <SelectValue placeholder="Select Issue Type" />
               </SelectTrigger>
               <SelectContent>
-                {IssueTypes.map((item) => (
+                {ISSUE_TYPES.map((item) => (
                   <SelectItem key={item.value} value={item.value}>
                     {item.label}
                   </SelectItem>

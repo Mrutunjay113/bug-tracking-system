@@ -9,6 +9,14 @@ import Image from "next/image";
 import { getTeamRole } from "@/lib/actions/team/action";
 import { toast } from "sonner";
 import { createMember } from "@/lib/actions/team/member/action";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { AVAILABILITY_STATUS, TEAM_TYPES } from "@/lib/data";
 
 const AddMember = () => {
   const {
@@ -45,9 +53,9 @@ const AddMember = () => {
     }
     // Log FormData entries
   };
-  const ondesignationChange = async (event) => {
-    const desgination = event.target.value;
-    const reponse = await fetchTeams(desgination);
+  const ondesignationChange = async (value) => {
+    setValue("designation", value);
+    await fetchTeams(value);
   };
 
   const fetchTeams = async (TeamRole) => {
@@ -163,7 +171,7 @@ const AddMember = () => {
         </div>
         <div>
           <Label htmlFor="designation">Designation</Label>
-          <select
+          {/* <select
             id="designation"
             {...register("designation", {
               required: "Designation is required",
@@ -177,7 +185,26 @@ const AddMember = () => {
             <option value="UI/UX">UI/UX Designer</option>
             <option value="Developer">Developer</option>
             <option value="Tester">Tester</option>
-          </select>
+          </select>{" "} */}
+          <Select
+            onValueChange={(value) => {
+              ondesignationChange(value);
+            }}
+            {...register("designation", {
+              required: "designation is required",
+            })}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select designation" />
+            </SelectTrigger>
+            <SelectContent>
+              {TEAM_TYPES.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           {errors.designation && (
             <p className="text-red-500">{errors.designation.message}</p>
           )}
@@ -216,18 +243,26 @@ const AddMember = () => {
 
         <div>
           <Label htmlFor="availabilityStatus">Availability Status</Label>
-          <select
-            id="availabilityStatus"
+          <Select
+            onValueChange={(value) => {
+              setValue("availabilityStatus", value);
+            }}
             {...register("availabilityStatus", {
-              required: "Availability status is required",
+              required: "availability is required",
             })}
-            className="p-2 border border-gray-300 rounded-md w-full"
           >
-            <option value="">Select Availability Status</option>
-            <option value="Available">Available</option>
-            <option value="Busy">Busy</option>
-            <option value="OnLeave">On Leave</option>
-          </select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Status" />
+            </SelectTrigger>
+            <SelectContent>
+              {AVAILABILITY_STATUS.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
           {errors.availabilityStatus && (
             <p className="text-red-500">{errors.availabilityStatus.message}</p>
           )}
