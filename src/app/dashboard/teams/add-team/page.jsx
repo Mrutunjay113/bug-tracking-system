@@ -2,9 +2,17 @@
 import Heading from "@/components/Heading";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import UserSelect from "@/components/UserSelectInput";
 import { createTeam, getTeamLeader } from "@/lib/actions/team/action";
 import { getMembersByDesignation } from "@/lib/actions/team/member/action";
+import { ISSUE_TYPES } from "@/lib/data";
 import { Button } from "@nextui-org/button";
 import React from "react";
 import { useForm } from "react-hook-form";
@@ -56,31 +64,15 @@ const Page = () => {
     console.log(`members`, members);
   };
 
-  const handleTeamTypeChange = async (e) => {
-    console.log(e.target.value);
-    if (e.target.value) {
-      fetchTeamLeader(e.target.value);
-      fetchMembers(e.target.value);
+  const handleTeamTypeChange = async (value) => {
+    console.log(value);
+    if (value) {
+      fetchTeamLeader(value);
+      fetchMembers(value);
+      setValue("teamtype", value);
     }
   };
 
-  const users = [
-    {
-      _id: "669a4b15d779bfa5bc026ad2",
-      firstName: "Mrutunjay",
-      lastName: "Yadav",
-      email: "my@gmail.com",
-      profileImg: "https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png",
-    },
-    {
-      _id: "669b63a028f2523827b0b78e",
-      firstName: "John",
-      lastName: "Doe",
-      email: "john.doe@example.com",
-      profileImg: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/3.png",
-    },
-    // Add more users as needed
-  ];
   const [selectedUsers, setSelectedUsers] = React.useState(new Set());
 
   const handleSelectionChange = (keys) => {
@@ -90,9 +82,15 @@ const Page = () => {
   };
 
   return (
-    <main className="max-w-2xl mx-auto  md:p-8 p-2">
-      <Heading headingTitle="Add Team" size="lg" className="mb-4" />
-      <div>
+    <main className="">
+      <div className="bg-[#F6F6F6] border-b border-gray-400  margin-5 py-10">
+        <Heading
+          headingTitle="Add Issue"
+          size="lg"
+          className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
+        />
+      </div>
+      <div className="max-w-2xl mx-auto  md:py-8 p-2">
         <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
           <div>
             <Label htmlFor="name">Name</Label>
@@ -124,18 +122,21 @@ const Page = () => {
           </div>
           <div>
             <Label htmlFor="teamtype">Team type</Label>
-            <select
-              {...register("teamtype", { required: "Team type is required" })}
-              id="teamtype"
-              className="w-full p-2 border border-gray-300 rounded-md text-sm"
-              onChange={handleTeamTypeChange}
+            <Select
+              onValueChange={(value) => handleTeamTypeChange(value)}
+              {...register("teamtype", { required: "teamtype is required" })}
             >
-              <option value="">Select Team Type</option>
-              <option value="Developer">Development</option>
-              <option value="UI/UX">UI/UX</option>
-              <option value="Tester">Testing</option>
-              <option value="QA">QA</option>
-            </select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Team Type" />
+              </SelectTrigger>
+              <SelectContent>
+                {ISSUE_TYPES.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
             {errors.teamtype && (
               <p className="text-red-500 text-sm mt-1">
@@ -145,22 +146,27 @@ const Page = () => {
           </div>
           <div>
             <Label htmlFor="teamlead">Team Lead</Label>
-            <select
-              {...register("teamlead", { required: "Team lead is required" })}
-              id="teamlead"
-              className="w-full p-2 border text-sm border-gray-300 rounded-md "
+            <Select
+              // onValueChange={(value) => {
+              //   setValue("issueType", value);
+              // }}
+              onValueChange={(value) => {
+                setValue("teamlead", value);
+              }}
+              {...register("teamlead", { required: "teamlead is required" })}
             >
-              <option value="">Select Team Lead</option>
-              {teamLeaders?.map((teamLead) => (
-                <option
-                  key={teamLead._id}
-                  className="text-black"
-                  value={teamLead._id}
-                >
-                  {`${teamLead.firstName} ${teamLead.lastName}`}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select Team Leader" />
+              </SelectTrigger>
+              <SelectContent>
+                {teamLeaders?.map((item) => (
+                  <SelectItem key={item._id} value={item._id}>
+                    {item.firstName} {item.lastName}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+
             {errors.teamlead && (
               <p className="text-red-500 text-sm mt-1">
                 {errors.teamlead.message}
@@ -180,16 +186,19 @@ const Page = () => {
               data={teamMembers}
             />
           </div>
-          <Button
-            type="submit"
-            color="primary"
-            radius="sm"
-            className="w-full"
-            isDisabled={isSubmitting}
-            isLoading={isSubmitting}
-          >
-            {isSubmitting ? "" : "Add"}
-          </Button>
+          <div className="pt-3">
+            {" "}
+            <Button
+              type="submit"
+              color="primary"
+              radius="sm"
+              className="w-full"
+              isDisabled={isSubmitting}
+              isLoading={isSubmitting}
+            >
+              {isSubmitting ? "" : "Add"}
+            </Button>
+          </div>
         </form>
       </div>
     </main>
