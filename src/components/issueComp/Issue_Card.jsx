@@ -18,7 +18,7 @@ import {
   Trash2,
 } from "lucide-react";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import CommentIcon from "../icons/commentIcon";
 import {
@@ -27,6 +27,9 @@ import {
   ContextMenuItem,
   ContextMenuTrigger,
 } from "../ui/context-menu";
+
+import IssueModal from "./IssueModal";
+import { useDisclosure } from "@nextui-org/react";
 
 const IssueCard = ({ issue, index }) => {
   const {
@@ -42,6 +45,13 @@ const IssueCard = ({ issue, index }) => {
     createdAt,
     comments,
   } = issue;
+  const { isOpen, onOpen, onOpenChange } = useDisclosure(); // Add useDisclosure for modal
+
+  // Function to handle changes in issue details
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setIssueDetails((prev) => ({ ...prev, [name]: value }));
+  };
 
   const classType = {
     bug: "text-red-500",
@@ -216,11 +226,15 @@ const IssueCard = ({ issue, index }) => {
               key={index}
               icon={item.icon}
               className="cursor-pointer"
+              onClick={() => {
+                if (item.text === "Edit") {
+                  onOpenChange(true); // Open modal on edit click
+                }
+              }}
             >
               {item.link ? (
                 <Link
-                  href={`/dashboard/issues/${issue._id}
-                `}
+                  href={`/dashboard/issues/${issue._id}`}
                   className="flex items-center"
                 >
                   {item.icon}
@@ -235,7 +249,8 @@ const IssueCard = ({ issue, index }) => {
             </ContextMenuItem>
           ))}
         </ContextMenuContent>
-      </ContextMenu>
+      </ContextMenu>{" "}
+      <IssueModal issue={issue} isOpen={isOpen} onOpenChange={onOpenChange} />
     </motion.div>
   );
 };
