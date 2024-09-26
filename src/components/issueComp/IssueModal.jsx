@@ -101,6 +101,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                   </select>
                 </div>
                 <div>
+                  
                   <Label htmlFor="issueType">Issue Type</Label>
                   <select
                     name="issueType"
