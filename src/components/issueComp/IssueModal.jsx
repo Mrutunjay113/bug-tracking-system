@@ -26,6 +26,8 @@ import { Label } from "../ui/label";
 import { ISSUE_TYPES, PRIORITYS } from "@/lib/data";
 import { PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
+import { DatePickerWithPresets } from "../DatePicker";
+import { DatePickerDemo } from "../newDate";
 
 export default function IssueModal({ onOpenChange, isOpen, issue }) {
   const [formData, setFormData] = useState(issue);
@@ -38,6 +40,10 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
     // Implement save functionality here
     console.log("Updated Issue:", formData);
     onOpenChange(false); // Close modal after saving
+  };
+  const handleDateChange = (date) => {
+    console.log("Date:", date);
+    // setFormData((prev) => ({ ...prev, dueDate: date }));
   };
 
   return (
@@ -53,7 +59,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                 {" "}
                 Edit Issue
               </ModalHeader>
-              <ModalBody className="flex flex-col gap-1">
+              <ModalBody className="flex flex-col gap-4">
                 <div>
                   <Label htmlFor="title">Title</Label>
                   <Input
@@ -80,6 +86,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                     value={formData.dueDate}
                     onChange={handleChange}
                   />
+                  {/* <DatePickerWithPresets handleDateChange={handleDateChange} /> */}
                 </div>
                 <div className="">
                   <Label htmlFor="priority">Priority</Label>
@@ -101,7 +108,6 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                   </select>
                 </div>
                 <div>
-                  
                   <Label htmlFor="issueType">Issue Type</Label>
                   <select
                     name="issueType"
@@ -124,8 +130,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
 
               <ModalFooter>
                 <Button
-                  color="danger"
-                  variant="flat"
+                  color="secondary"
                   onPress={onClose}
                   onClick={() => {
                     setFormData(issue);
