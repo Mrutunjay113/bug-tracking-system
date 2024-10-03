@@ -115,7 +115,7 @@ const IssueCard = ({ issue, index }) => {
     },
 
     {
-      icon: <Trash2 className="h-5 w-5 mr-2 text-gray-500" />,
+      icon: <Trash2 className="h-5 w-5 mr-2 text-gray-500 " />,
       text: "Delete",
     },
   ];
@@ -225,7 +225,9 @@ const IssueCard = ({ issue, index }) => {
             <ContextMenuItem
               key={index}
               icon={item.icon}
-              className="cursor-pointer"
+              className={`cursor-pointer ${
+                item.text === "Delete" && "opacity-50 cursor-not-allowed"
+              }`}
               onClick={() => {
                 if (item.text === "Edit") {
                   onOpenChange(true); // Open modal on edit click
@@ -235,13 +237,13 @@ const IssueCard = ({ issue, index }) => {
               {item.link ? (
                 <Link
                   href={`/dashboard/issues/${issue._id}`}
-                  className="flex items-center"
+                  className="flex items-center "
                 >
                   {item.icon}
                   {item.text}
                 </Link>
               ) : (
-                <div className="flex items-center">
+                <div className={"flex items-center "}>
                   {item.icon}
                   {item.text}
                 </div>
