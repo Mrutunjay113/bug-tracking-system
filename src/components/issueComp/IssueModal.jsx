@@ -28,22 +28,52 @@ import { PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { DatePickerWithPresets } from "../DatePicker";
 import { DatePickerDemo } from "../newDate";
+import { updateIssue } from "@/lib/actions/issue/updateActions";
+import { toast } from "sonner";
 
 export default function IssueModal({ onOpenChange, isOpen, issue }) {
   const [formData, setFormData] = useState(issue);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    //convert date to dd-mm-yyyy format
+    // if (name === "dueDate") {
+    //   const date = new Date(value);
+    //   const formattedDate = `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
+    //   setFormData((prevFormData) => ({
+    //     ...prevFormData,
+    //     [name]: formattedDate,
+    //   }));
+    //   return;
+
+    if (Object.keys(formData).includes(name)) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
-  const handleSave = () => {
-    // Implement save functionality here
-    console.log("Updated Issue:", formData);
+
+  const handleSave = async () => {
+    const updatedData = {
+      _id: formData._id,
+      title: formData.title,
+      description: formData.description,
+      //convert date to dd-mm-yyyy format
+
+      dueDate: formData.dueDate,
+      priority: formData.priority,
+      issueType: formData.issueType,
+    };
+
+    const updatedIssue = await updateIssue(updatedData);
+    console.log("Updated Issue:", updatedIssue);
+    if (updatedIssue.success) {
+      toast.success("Issue updated successfully");
+    } else {
+      toast.error("Failed to update issue");
+    }
     onOpenChange(false); // Close modal after saving
-  };
-  const handleDateChange = (date) => {
-    console.log("Date:", date);
-    // setFormData((prev) => ({ ...prev, dueDate: date }));
   };
 
   return (
@@ -82,6 +112,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                   <Label htmlFor="dueDate">Due Date</Label>{" "}
                   <Input
                     label="Due Date"
+                    type="date"
                     name="dueDate"
                     value={formData.dueDate}
                     onChange={handleChange}
@@ -94,7 +125,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                     name="priority"
                     value={formData.priority}
                     onChange={handleChange}
-                    className="block w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full  px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                   >
                     {PRIORITYS.map((item) => (
                       <option
@@ -113,7 +144,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                     name="issueType"
                     value={formData.issueType}
                     onChange={handleChange}
-                    className="block w-full mt-1 px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                    className="block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                   >
                     {ISSUE_TYPES.map((item) => (
                       <option
@@ -138,7 +169,7 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                 >
                   Close
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" onPress={handleSave}>
                   Save
                 </Button>
               </ModalFooter>
