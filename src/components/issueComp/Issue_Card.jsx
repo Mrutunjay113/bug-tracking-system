@@ -252,7 +252,12 @@ const IssueCard = ({ issue, index }) => {
           ))}
         </ContextMenuContent>
       </ContextMenu>{" "}
-      <IssueModal issue={issue} isOpen={isOpen} onOpenChange={onOpenChange} />
+      <IssueModal
+        issue={issue}
+        key={issue._id}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+      />
     </motion.div>
   );
 };

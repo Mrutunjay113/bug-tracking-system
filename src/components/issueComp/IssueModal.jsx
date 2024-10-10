@@ -23,7 +23,7 @@ import {
 import { Input } from "../ui/input";
 import { CalendarIcon, LockIcon, MailIcon } from "lucide-react";
 import { Label } from "../ui/label";
-import { ISSUE_TYPES, PRIORITYS } from "@/lib/data";
+import { ISSUE_TYPES, PRIORITYS, STATUSES } from "@/lib/data";
 import { PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Calendar } from "../ui/calendar";
 import { DatePickerWithPresets } from "../DatePicker";
@@ -64,7 +64,9 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
       dueDate: formData.dueDate,
       priority: formData.priority,
       issueType: formData.issueType,
+      status: formData.status,
     };
+    console.log("Updated Data:", updatedData);
 
     const updatedIssue = await updateIssue(updatedData);
     console.log("Updated Issue:", updatedIssue);
@@ -139,18 +141,20 @@ export default function IssueModal({ onOpenChange, isOpen, issue }) {
                   </select>
                 </div>
                 <div>
-                  <Label htmlFor="issueType">Issue Type</Label>
+                  <Label htmlFor="status">Issue Status</Label>
                   <select
-                    name="issueType"
-                    value={formData.issueType}
+                    name="status"
+                    value={formData.status}
                     onChange={handleChange}
                     className="block w-full px-4 py-2 bg-gray-50 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
                   >
-                    {ISSUE_TYPES.map((item) => (
+                    {STATUSES.map((item) => (
                       <option
                         key={item.value}
                         value={item.value}
-                        className="py-2 px-4 bg-white hover:bg-gray-100"
+                        className={`py-2 px-4  hover:bg-gray-100 
+                         
+                          `}
                       >
                         {item.label}
                       </option>

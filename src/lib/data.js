@@ -5,9 +5,10 @@ export const PRIORITYS = [
 ];
 
 export const STATUSES = [
-  { value: "open", label: "Open" },
-  { value: "in-progress", label: "In Progress" },
-  { value: "closed", label: "Closed" },
+  { value: "Open", label: "Open" },
+  { value: "In Progress", label: "In Progress" },
+  { value: "Closed", label: "Closed" },
+  { value: "In Review", label: "In Review" },
 ];
 
 export const ISSUE_TYPES = [
