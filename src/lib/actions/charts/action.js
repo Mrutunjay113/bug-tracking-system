@@ -2,6 +2,7 @@
 
 import IssueModel from "@/lib/models/issue";
 import ConnectMongoDb from "@/lib/mongoConnect";
+import { format, startOfToday, subDays } from "date-fns";
 
 // Create a server action that fetches the data from the database and returns it to the client.
 export async function getChartData() {
@@ -207,3 +208,59 @@ export async function getLineChartData() {
 //     return { error: "Something went wrong" };
 //   }
 // }
+
+export const getIssuesStatusData = async () => {
+  try {
+    // Connect to MongoDB
+    await ConnectMongoDb();
+
+    // Get the start and end dates (last 90 days)
+    const today = startOfToday();
+    const startDate = subDays(today, 90);
+
+    // Find issues that have statusDates within the 90-day range
+    const issues = await IssueModel.find({
+      $or: [
+        { "statusDates.Open": { $gte: startDate } },
+        { "statusDates.Closed": { $gte: startDate } },
+      ],
+    });
+
+    // Create a map to store the count for each status by date
+    const statusCountByDate = {};
+
+    // Iterate over each issue and count statuses by date
+    issues.forEach((issue) => {
+      ["Open", "Closed"].forEach((status) => {
+        const statusDate = issue.statusDates[status];
+        if (statusDate) {
+          const formattedDate = format(new Date(statusDate), "yyyy-MM-dd");
+
+          // Initialize the date entry if it doesn't exist
+          if (!statusCountByDate[formattedDate]) {
+            statusCountByDate[formattedDate] = {
+              date: formattedDate,
+              Open: 0, // Initialize Open count
+              Closed: 0, // Initialize Closed count
+            };
+          }
+
+          // Increment the count for the relevant status
+          statusCountByDate[formattedDate][status] += 1;
+        }
+      });
+    });
+
+    // Convert the map to an array of objects
+    const statusCounts = Object.values(statusCountByDate);
+
+    // Return the response
+    return {
+      success: true,
+      data: statusCounts,
+    };
+  } catch (error) {
+    console.error(error);
+    return { success: false, error: error.message };
+  }
+};

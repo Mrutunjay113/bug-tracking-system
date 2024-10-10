@@ -42,20 +42,22 @@ const chartConfig = {
   },
 };
 
-export function Barchart({ data }) {
-  console.log(data);
+export function Barchart({ data, full }) {
+  console.log(`ff`, full);
+  // console.log(data);
 
   // Transform data to fit the chart format
-  const transformedData = data.map((item) => ({
-    date: new Date(item.date).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-    }), // Format date
-    low: item.priorities.low || 0,
-    medium: item.priorities.medium || 0,
-    high: item.priorities.high || 0,
-  }));
-
+  const transformedData = data
+    .map((item) => ({
+      date: new Date(item.date).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+      }), // Format date
+      low: item.priorities.low || 0,
+      medium: item.priorities.medium || 0,
+      high: item.priorities.high || 0,
+    }))
+    .sort((a, b) => new Date(b.date) - new Date(a.date)); // Sort by date
   return (
     <div className="min-w-40 w-full min-h-[200px]">
       <Card>

@@ -72,7 +72,7 @@ const transformData = (data, type, range) => {
 };
 
 export function ShadDonut({ data }) {
-  console.log(`pie`, data);
+  // console.log(`pie`, data);
   const [timeRange, setTimeRange] = React.useState("30d");
   const [selectChartType, setSelectChartType] = React.useState("Status");
   const [chartData, setChartData] = React.useState([]);

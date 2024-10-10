@@ -2,11 +2,12 @@ import Heading from "@/components/Heading";
 import { Barchart } from "@/components/HomeComp/BarChart";
 import { LineChart2, LineChartComp } from "@/components/HomeComp/LineChart";
 import { ShadDonut } from "@/components/HomeComp/ShadDonut";
-import { getChartData } from "@/lib/actions/charts/action";
+import { getChartData, getIssuesStatusData } from "@/lib/actions/charts/action";
 
 const Page = async () => {
   const data = await getChartData();
   const { barChartData, pieChartData, lineChartData } = data?.data;
+  const issueData = await getIssuesStatusData();
 
   // const isue = await getIssuestatusDates();
   // console.log(`isue`, isue);
@@ -22,7 +23,7 @@ const Page = async () => {
       </div>
       <div className="md:flex py-5 md:space-y-0 space-y-4 gap-4 w-full md:p-8 p-2">
         <div className="md:w-2/6 ">
-          <Barchart data={barChartData} />
+          <Barchart data={barChartData} full={data} />
         </div>
 
         <div className="md:w-2/6 ">
@@ -33,7 +34,7 @@ const Page = async () => {
         </div>
       </div>
       <div className="w-full md:p-8 p-2">
-        <LineChartComp />
+        <LineChartComp data={issueData.data} />
       </div>
     </main>
   );
