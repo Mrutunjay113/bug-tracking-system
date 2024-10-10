@@ -85,7 +85,7 @@ const Page = () => {
     <main className="">
       <div className="bg-[#F6F6F6] border-b border-gray-400  margin-5 py-10">
         <Heading
-          headingTitle="Add Issue"
+          headingTitle="Add Team"
           size="lg"
           className="text-gray-800  uppercase tracking-wide md:ml-10 ml-4"
         />
