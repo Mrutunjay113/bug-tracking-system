@@ -64,8 +64,6 @@ const transformData = (data, type, range) => {
     return acc;
   }, {});
 
-  console.log(`filteredData`, filteredData);
-
   return Object.keys(filteredData).map((key) => ({
     name: key,
     value: filteredData[key],
@@ -148,59 +146,65 @@ export function ShadDonut({ data }) {
           config={chartConfig}
           className="mx-auto aspect-square max-h-[280px]"
         >
-          <PieChart>
-            <ChartLegend
-              content={<ChartLegendContent config={chartConfig} />}
-            />
-            <ChartTooltip
-              cursor={false}
-              content={<ChartTooltipContent hideLabel />}
-            />
-            <Pie
-              data={chartData}
-              dataKey="value"
-              nameKey="name"
-              innerRadius={50}
-              strokeWidth={5}
-            >
-              <Label
-                content={({ viewBox }) => {
-                  if (viewBox && "cx" in viewBox && "cy" in viewBox) {
-                    return (
-                      <text
-                        x={viewBox.cx}
-                        y={viewBox.cy}
-                        textAnchor="middle"
-                        dominantBaseline="middle"
-                      >
-                        <tspan
+          {chartData.length > 0 ? (
+            <PieChart>
+              <ChartLegend
+                content={<ChartLegendContent config={chartConfig} />}
+              />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Pie
+                data={chartData}
+                dataKey="value"
+                nameKey="name"
+                innerRadius={50}
+                strokeWidth={5}
+              >
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && "cx" in viewBox && "cy" in viewBox) {
+                      return (
+                        <text
                           x={viewBox.cx}
                           y={viewBox.cy}
-                          className="fill-foreground text-3xl font-bold"
+                          textAnchor="middle"
+                          dominantBaseline="middle"
                         >
-                          {totalIssues.toLocaleString()}
-                        </tspan>
-                        <tspan
-                          x={viewBox.cx}
-                          y={(viewBox.cy || 0) + 24}
-                          className="fill-muted-foreground"
-                        >
-                          {
-                            // eslint-disable-next-line no-nested-ternary
-                            selectChartType === "Status"
-                              ? "Issues"
-                              : selectChartType === "Type"
-                              ? "Types"
-                              : ""
-                          }
-                        </tspan>
-                      </text>
-                    );
-                  }
-                }}
-              />
-            </Pie>
-          </PieChart>
+                          <tspan
+                            x={viewBox.cx}
+                            y={viewBox.cy}
+                            className="fill-foreground text-3xl font-bold"
+                          >
+                            {totalIssues.toLocaleString()}
+                          </tspan>
+                          <tspan
+                            x={viewBox.cx}
+                            y={(viewBox.cy || 0) + 24}
+                            className="fill-muted-foreground"
+                          >
+                            {
+                              // eslint-disable-next-line no-nested-ternary
+                              selectChartType === "Status"
+                                ? "Issues"
+                                : selectChartType === "Type"
+                                ? "Types"
+                                : ""
+                            }
+                          </tspan>
+                        </text>
+                      );
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
+          ) : (
+            <div className="flex justify-center text-2xl font-semibold  text-red-700 items-center h-full">
+              No Data
+            </div>
+          )}
         </ChartContainer>
       </CardContent>
       <CardFooter className="flex-col items-start mt-5 gap-2 text-sm">
