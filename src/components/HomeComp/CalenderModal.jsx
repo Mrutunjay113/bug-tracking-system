@@ -39,8 +39,8 @@ const IssueDetailModal = ({ isOpen, onClose, issue }) => {
           <h3 className="text-sm font-medium text-gray-700">Team Leader:</h3>
           <div className="flex items-center mt-2">
             <img
-              // src={issue.teamLeader.image}
-              src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
+              src={issue.teamLeader.image}
+              // src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
               alt={issue.team.teamLeader.firstName}
               className="w-10 h-10 rounded-full border border-gray-300"
             />
@@ -56,8 +56,8 @@ const IssueDetailModal = ({ isOpen, onClose, issue }) => {
             {issue.team.members.map((member, index) => (
               <div key={index} className="flex items-center">
                 <img
-                  // src={member.image}
-                  src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
+                  src={member.image}
+                  // src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
                   alt={member.firstName}
                   className="w-10 h-10 rounded-full border border-gray-300"
                 />

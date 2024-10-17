@@ -72,6 +72,8 @@ const SidebarItem = ({
 };
 
 const Sidebar = () => {
+  const { data: session } = useSession();
+  console.log(`ss`, session);
   const [isExpanded, setIsExpanded] = useState(false);
   const pathname = usePathname();
 
@@ -119,13 +121,13 @@ const Sidebar = () => {
               isActive={pathname === "/dashboard/issues"}
               showText={isExpanded}
             />
-            <SidebarItem
+            {/* <SidebarItem
               href="/dashboard/inbox"
               icon={<Bell className="h-6 w-6" />}
               text="Inbox"
               isActive={pathname === "/dashboard/inbox"}
               showText={isExpanded}
-            />
+            /> */}
             <SidebarItem
               href="/dashboard/analytics"
               icon={<BarChartBig className="h-6 w-6" />}
@@ -152,7 +154,9 @@ const Sidebar = () => {
         <nav className="flex justify-between items-center text-center h-10 mb-4 pt-4 border-t border-black">
           {isExpanded && (
             <div className="flex items-center ml-5">
-              <p className="text-lg font-semibold">Mrutunjay</p>
+              <p className="text-lg font-semibold">
+                {session?.user?.firstName}
+              </p>
             </div>
           )}
           <div className="flex items-center space-x-4 mx-auto">
@@ -176,7 +180,7 @@ const Sidebar = () => {
                   variant="light"
                 >
                   <p className="font-semibold">Signed in as</p>
-                  <p className="font-semibold">{"zoey@example.com"}</p>
+                  <p className="font-semibold">{session?.user?.email}</p>
                 </DropdownItem>
                 <DropdownItem
                   key="profile"

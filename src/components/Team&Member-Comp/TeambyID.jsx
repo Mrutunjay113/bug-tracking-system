@@ -21,6 +21,7 @@ import { Separator } from "../ui/separator";
 import { deleteMemberById } from "@/lib/actions/team/member/action";
 
 const TeambyID = ({ team }) => {
+  console.log("Team:", team);
   const [teamDetails, setTeamDetails] = useState({ ...team });
   const [isEditingTeam, setIsEditingTeam] = useState(false);
   const [editingIssueId, setEditingIssueId] = useState(null);
@@ -101,7 +102,8 @@ const TeambyID = ({ team }) => {
             <Image
               width={64}
               height={64}
-              src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
+              // src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
+              src={teamDetails.userInfo?.image}
               alt="Team Leader"
               className="w-16 h-16 rounded-full object-cover"
             />

@@ -55,8 +55,8 @@ const MemberDetails = ({ member, team }) => {
         <div className="flex justify-between items-start">
           <div className="flex items-center">
             <Avatar
-              // src={profileImg}
-              src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
+              src={profileImg}
+              // src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png"
               alt={`${firstName} ${lastName}`}
               className="w-16 h-16 mr-4 border-2 border-white"
               radius="rounded-full"

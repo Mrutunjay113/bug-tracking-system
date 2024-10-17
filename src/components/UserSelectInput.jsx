@@ -59,8 +59,8 @@ const UserSelect = ({
                     alt={`${item.data.firstName} ${item.data.lastName}`}
                     className="flex-shrink-0"
                     size="sm"
-                    // src={item.data.profileImg}
-                    src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png"
+                    src={item.data.profileImg}
+                    // src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png"
                   />
                 </div>
               ))}
@@ -77,8 +77,8 @@ const UserSelect = ({
                 alt={`${item.data.firstName} ${item.data.lastName}`}
                 className="flex-shrink-0"
                 size="sm"
-                // src={item.data.profileImg}
-                src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
+                src={item.data.profileImg}
+                // src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
               />
               <div className="flex flex-col">
                 <span>
@@ -105,8 +105,8 @@ const UserSelect = ({
               alt={`${user.firstName} ${user.lastName}`}
               className="flex-shrink-0"
               size="sm"
-              //   src={user.profileImg}
-              src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png"
+                src={user.profileImg}
+              // src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/3.png"
             />
             <div className="flex flex-col">
               <span className="text-small">

@@ -34,8 +34,9 @@ const MembersTeamTable = ({ members, onEdit, onDelete }) => {
             <User
               avatarProps={{
                 radius: "full",
-                //  src: member.profileImg
-                src: "https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png",
+                src:
+                  member.profileImg ||
+                  "https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png",
               }}
               description={member.email}
               name={`${member.firstName} ${member.lastName}`}

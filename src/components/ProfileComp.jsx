@@ -107,8 +107,8 @@ const Profile = ({ user }) => {
           <div className="relative w-32 h-32">
             <Image
               fill
-              // src={profilePicture || "/images/profile.png"}
-              src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png"
+              src={profilePicture || "/images/profile.png"}
+              // src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/11.png"
               alt="Profile Preview"
               className="w-full h-full object-cover rounded-full border border-gray-300"
             />

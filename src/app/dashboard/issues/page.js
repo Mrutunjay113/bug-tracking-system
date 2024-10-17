@@ -1,7 +1,7 @@
 // pages/issues.js (or any issues page component)
 
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
+
 import Card from "@/components/Card";
 import { toast } from "sonner";
 import IssueColumn from "@/components/issueComp/IssueColumn";
@@ -9,12 +9,12 @@ import Heading from "@/components/Heading";
 import { Suspense } from "react";
 
 const IssuesPage = async () => {
-  const token =
-    cookies().get("__Secure-next-auth.session-token")?.value ||
-    cookies().get("next-auth.session-token")?.value;
-  if (!token) {
-    redirect("/signin");
-  }
+  // const token =
+  //   cookies().get("__Secure-next-auth.session-token")?.value ||
+  //   cookies().get("next-auth.session-token")?.value;
+  // if (!token) {
+  //   redirect("/signin");
+  // }
   const date = "2024-07-01"; // Replace with your desired date filter
 
   const res = await fetch(`${process.env.URL}/api/data/issue/filter/${date}`);

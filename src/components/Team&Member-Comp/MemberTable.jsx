@@ -60,7 +60,7 @@ export function MemberTable({ data }) {
               avatarProps={{
                 radius: "full",
                 src:
-                  // member.profileImg ||
+                  member.profileImg ||
                   "https://d2u8k2ocievbld.cloudfront.net/memojis/male/4.png",
               }}
               description={member.email}

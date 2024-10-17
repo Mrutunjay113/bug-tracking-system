@@ -27,7 +27,7 @@ const IssueDetailComp = async ({ issue }) => {
           height={400}
           loading="lazy"
           src={
-            //issue.image ||
+            issue.image ||
             // "https://d2u8k2ocievbld.cloudfront.net/memojis/male/2.png"
             "/assets/images/demon.jpg"
           }

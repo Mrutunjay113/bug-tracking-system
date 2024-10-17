@@ -232,7 +232,8 @@ export function SearchTabs() {
                                   alt={`${member.firstName} ${member.lastName}`}
                                   className="flex-shrink-0"
                                   size="sm"
-                                  src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/3.png"
+                                  // src="https://d2u8k2ocievbld.cloudfront.net/memojis/male/3.png"
+                                  src={member.profileImg}
                                 />
                                 <div className="flex flex-col  w-full">
                                   <span className="text-sm">

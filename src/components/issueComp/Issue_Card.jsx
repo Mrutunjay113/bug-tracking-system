@@ -195,8 +195,8 @@ const IssueCard = ({ issue, index }) => {
                   return (
                     <Avatar
                       key={value._id}
-                      // src={value.image}
-                      src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
+                      src={value.image}
+                      // src="https://d2u8k2ocievbld.cloudfront.net/memojis/female/4.png"
                       alt={value.name}
                       size="small"
                       className="border-2 border-white"
