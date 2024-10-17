@@ -301,11 +301,11 @@ export function LineChart2({ data, showLabel }) {
           </LineChart>
         </ChartContainer>
       </CardContent>
-      <CardFooter className="flex-col items-start mt-2 gap-2 text-sm">
+      {/* <CardFooter className="flex-col items-start mt-2 gap-2 text-sm">
         <div className="flex gap-2 font-medium leading-none">
           Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
         </div>
-      </CardFooter>
+      </CardFooter> */}
     </Card>
   );
 }
