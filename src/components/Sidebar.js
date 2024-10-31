@@ -9,6 +9,8 @@ import {
   SquareGanttChart,
   Users,
   UserRound,
+  Gamepad,
+  Quote,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -121,13 +123,7 @@ const Sidebar = () => {
               isActive={pathname === "/dashboard/issues"}
               showText={isExpanded}
             />
-            {/* <SidebarItem
-              href="/dashboard/inbox"
-              icon={<Bell className="h-6 w-6" />}
-              text="Inbox"
-              isActive={pathname === "/dashboard/inbox"}
-              showText={isExpanded}
-            /> */}
+
             <SidebarItem
               href="/dashboard/analytics"
               icon={<BarChartBig className="h-6 w-6" />}
@@ -147,6 +143,14 @@ const Sidebar = () => {
               icon={<Users className="h-6 w-6" />}
               text="Members"
               isActive={pathname === "/dashboard/members"}
+              showText={isExpanded}
+            />
+
+            <SidebarItem
+              href="/dashboard/memes"
+              icon={<Quote className="h-6 w-6" />}
+              text="Memes & Quotes"
+              isActive={pathname === "/dashboard/funmems"}
               showText={isExpanded}
             />
           </motion.div>
